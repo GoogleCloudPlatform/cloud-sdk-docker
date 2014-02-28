@@ -1,7 +1,8 @@
 cloud-sdk-docker-image
 ======================
 
-Source for [google/cloud-sdk](https://index.docker.io/u/google/cloud-sdk/): a [docker](https://docker.io) image with all the components and dependencies of the [Google Cloud SDK](https://developers.google.com/cloud/sdk/) installed.
+Source for [`google/cloud-sdk`](https://index.docker.io/u/google/cloud-sdk/):
+a [docker](https://docker.io) image with all the components and dependencies of the [Google Cloud SDK](https://developers.google.com/cloud/sdk/).
 
 ## Usage
 
