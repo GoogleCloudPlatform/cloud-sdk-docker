@@ -7,7 +7,7 @@ Docker image with all the components of the Google Cloud SDK
 
 ```
 $ docker pull google/cloud-sdk
-$ mkdir ~/.gcloud # to store you credentials
+$ mkdir ~/.gcloud # to store your credentials
 $ docker run -t -i -v ~/.gcloud:/.config/gcloud google/cloud-sdk /google-cloud-sdk/bin/gcloud auth login
 Go to the following link in your browser: ...
 Enter verification code: ...
