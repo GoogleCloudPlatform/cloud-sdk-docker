@@ -6,11 +6,13 @@ Source for [google/cloud-sdk](https://index.docker.io/u/google/cloud-sdk/): a [d
 ## Usage
 
 ```
+# get the cloud sdk image
 $ docker pull google/cloud-sdk
-$ mkdir ~/.gcloud # to store your credentials
-$ docker run -t -i -v ~/.gcloud:/.config/gcloud google/cloud-sdk /google-cloud-sdk/bin/gcloud auth login
+# auth & save the credentials in gcloud-config volumes
+$ docker run -t -i -name gcloud-config google/cloud-sdk gcloud auth login
 Go to the following link in your browser: ...
 Enter verification code: ...
 Enter your Google Cloud project ID (or leave blank to not set): ...
-$ docker run -t -i -v ~/.gcloud:/.config/gcloud google/cloud-sdk /google-cloud-sdk/bin/gcutil addinstance my-compute-instance --permit_root_ssh
+# re-use the credentials from gcloud-config volumes & run sdk command
+$ docker run -t -i --volumes-from gcloud-config google/cloud-sdk gcutil listinstances
 ```

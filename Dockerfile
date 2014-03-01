@@ -7,4 +7,6 @@ RUN unzip google-cloud-sdk.zip
 RUN google-cloud-sdk/install.sh --usage-reporting=true --path-update=true --bash-completion=true --rc-path=/.bashrc --disable-installation-options
 RUN yes | google-cloud-sdk/bin/gcloud components update pkg-go pkg-python pkg-java
 RUN mkdir /.ssh
-CMD /bin/bash
+ENV PATH /google-cloud-sdk/bin:$PATH
+VOLUME ["/.config"]
+CMD bash
