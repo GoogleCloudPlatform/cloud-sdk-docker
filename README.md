@@ -11,6 +11,7 @@ A [Docker](https://docker.io) image bundling all the components and dependencies
 - App Engine SDK for Java
 - App Engine SDK for Python and PHP
 - Big Query Command Line Tool 
+- Cloud DNS Admin Command Line Interface
 - Cloud SQL Admin Command Line Interface
 - Cloud Storage Command Line Tool 
 - Compute Engine Command Line Tool
