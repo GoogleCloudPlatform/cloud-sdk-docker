@@ -1,11 +1,13 @@
 cloud-sdk-docker-image
 ======================
 
-Sources for [`google/cloud-sdk`](https://index.docker.io/u/google/cloud-sdk/) docker image.
+Sources for [`google/cloud-sdk`](https://index.docker.io/u/google/cloud-sdk/)
+docker image.
 
 ## Description
 
-A [Docker](https://docker.io) image bundling all the components and dependencies of the [Google Cloud SDK](https://developers.google.com/cloud/sdk/):
+A [Docker](https://docker.io) image bundling all components and dependencies
+of the [Google Cloud SDK](https://developers.google.com/cloud/sdk/):
 
 - App Engine SDK for Go
 - App Engine SDK for Java
@@ -18,12 +20,35 @@ A [Docker](https://docker.io) image bundling all the components and dependencies
 
 ## Usage
 
+Follow these instructions if you are running docker *outside* of Google
+Compute Engine:
+
     # get the cloud sdk image
     $ docker pull google/cloud-sdk
+
     # auth & save the credentials in gcloud-config volumes
-    $ docker run -t -i -name gcloud-config google/cloud-sdk gcloud auth login
+    $ docker run -t -i --name gcloud-config google/cloud-sdk gcloud auth login
     Go to the following link in your browser: ...
     Enter verification code: ...
-    Enter your Google Cloud project ID (or leave blank to not set): ...
+    You are now logged in as [...]
+    Your current project is [None]. You can change this setting by running:
+       $ gcloud config set project <project>
+    gcloud config set project ...
+
     # re-use the credentials from gcloud-config volumes & run sdk commands
     $ docker run -t -i --volumes-from gcloud-config google/cloud-sdk gcutil listinstances
+    $ docker run -t -i --volumes-from gcloud-config google/cloud-sdk gsutil ls
+    $ docker run -t -i --volumes-from gcloud-config google/cloud-sdk gcloud components list
+    $ docker run -t -i --volumes-from gcloud-config google/cloud-sdk gcloud version
+
+If you are using this image from *within* Google Compute Engine with an enabled
+Service Account, there is no need to auth or use a config volume:
+
+    # get the cloud sdk image
+    $ docker pull google/cloud-sdk
+
+    # re-use the credentials from gcloud-config volumes & run sdk commands
+    $ docker run -t -i google/cloud-sdk gcutil listinstances
+    $ docker run -t -i google/cloud-sdk gsutil ls
+    $ docker run -t -i google/cloud-sdk gcloud components list
+    $ docker run -t -i google/cloud-sdk gcloud version
