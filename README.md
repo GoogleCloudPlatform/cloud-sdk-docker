@@ -42,12 +42,13 @@ Compute Engine:
     $ docker run -t -i --volumes-from gcloud-config google/cloud-sdk gcloud version
 
 If you are using this image from *within* Google Compute Engine with an enabled
-Service Account, there is no need to auth or use a config volume:
+Service Account and your instance was created with the necessary scopes, there
+is no need to auth or use a config volume:
 
     # get the cloud sdk image
     $ docker pull google/cloud-sdk
 
-    # re-use the credentials from gcloud-config volumes & run sdk commands
+    # just start using the sdk commands
     $ docker run -t -i google/cloud-sdk gcutil listinstances
     $ docker run -t -i google/cloud-sdk gsutil ls
     $ docker run -t -i google/cloud-sdk gcloud components list
