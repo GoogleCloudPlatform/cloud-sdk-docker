@@ -1,7 +1,7 @@
 cloud-sdk-docker
 ================
 
-[`google/cloud-sdk`](https://index.docker.io/u/google/cloud-sdk/) is a [Docker](https://docker.io) image bundling all components and dependencies
+[`google/cloud-sdk`](https://index.docker.io/u/google/cloud-sdk/) is a [Docker](https://docker.io) image bundling all the components and dependencies
 of the [Google Cloud SDK](https://developers.google.com/cloud/sdk/):
 
 - App Engine SDK for Go
@@ -36,9 +36,7 @@ Compute Engine:
     $ docker run -t -i --volumes-from gcloud-config google/cloud-sdk gcloud components list
     $ docker run -t -i --volumes-from gcloud-config google/cloud-sdk gcloud version
 
-If you are using this image from *within* Google Compute Engine with an enabled
-Service Account and your instance was created with the necessary scopes, there
-is no need to auth or use a config volume:
+If you are using this image from *within* Google Compute Engine. If you enable a Service Account with the necessary scopes, there is no need to auth or use a config volume:
 
     # get the cloud sdk image
     $ docker pull google/cloud-sdk
