@@ -1,5 +1,5 @@
-cloud-sdk-docker-image
-======================
+cloud-sdk-docker
+================
 
 Sources for [`google/cloud-sdk`](https://index.docker.io/u/google/cloud-sdk/)
 docker image.
