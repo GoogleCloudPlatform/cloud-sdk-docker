@@ -1,12 +1,9 @@
 cloud-sdk-docker
 ================
 
-Sources for [`google/cloud-sdk`](https://index.docker.io/u/google/cloud-sdk/)
-docker image.
-
 ## Description
 
-A [Docker](https://docker.io) image bundling all components and dependencies
+[`google/cloud-sdk`](https://index.docker.io/u/google/cloud-sdk/) is a [Docker](https://docker.io) image bundling all components and dependencies
 of the [Google Cloud SDK](https://developers.google.com/cloud/sdk/):
 
 - App Engine SDK for Go
