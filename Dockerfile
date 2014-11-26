@@ -7,5 +7,6 @@ RUN google-cloud-sdk/install.sh --usage-reporting=true --path-update=true --bash
 RUN yes | google-cloud-sdk/bin/gcloud components update pkg-go pkg-python pkg-java
 RUN mkdir /.ssh
 ENV PATH /google-cloud-sdk/bin:$PATH
+ENV HOME /
 VOLUME ["/.config"]
 CMD bash
