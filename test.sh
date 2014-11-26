@@ -8,6 +8,7 @@ PROJECT=${PROJECT:?missing, usage: PROJECT=GCLOUD-PROJECT test.sh}
 
 docker build -t ${GCLOUD_SDK} .
 docker rm ${GCLOUD_CONFIG} || true
-docker run -t -i --name ${GCLOUD_CONFIG} ${GCLOUD_SDK} gcloud auth login
-docker run --rm -ti --volumes-from ${GCLOUD_CONFIG} ${GCLOUD_SDK} gcutil listinstances
+docker run ${GCLOUD_SDK} gcloud components list | grep preview | grep Installed
+docker run -ti --name ${GCLOUD_CONFIG} ${GCLOUD_SDK} gcloud auth login
+docker run --rm --volumes-from ${GCLOUD_CONFIG} ${GCLOUD_SDK} gcutil listinstances
 
