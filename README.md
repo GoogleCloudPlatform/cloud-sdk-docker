@@ -30,6 +30,20 @@ Compute Engine:
        $ gcloud config set project <project>
     gcloud config set project ...
 
+    # If you would like to use service account instead please look here:
+    docker run --volume /.config/gcloud/ \
+      --tty \
+      --interactive \
+      --name gcloud-config \
+      busybox true
+    docker run --tty \
+      --interactive \
+      --rm \
+      --volumes-from gcloud-config \
+      --volume $(pwd)/<your-private-key>.p12:/tmp/your-key.p12 \
+      google/cloud-sdk \
+      gcloud auth activate-service-account <your-service-account-email> --key-file /tmp/your-key.p12 --project <your-project-id>
+
     # re-use the credentials from gcloud-config volumes & run sdk commands
     $ docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gcutil listinstances
     $ docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gsutil ls
