@@ -9,4 +9,4 @@ RUN mkdir /.ssh
 ENV PATH /google-cloud-sdk/bin:$PATH
 ENV HOME /
 VOLUME ["/.config"]
-CMD bash
+CMD ["/bin/bash"]
