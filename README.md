@@ -7,11 +7,12 @@ of the [Google Cloud SDK](https://cloud.google.com/sdk/):
 - [App Engine SDK for Go](https://cloud.google.com/appengine/docs/go/)
 - [App Engine SDK for Java](https://cloud.google.com/appengine/docs/java/)
 - [App Engine SDK for Python](https://cloud.google.com/appengine/docs/python/) and [PHP](https://cloud.google.com/appengine/docs/php/)
-- [Big Query Command Line Tool ](https://cloud.google.com/bigquery/bq-command-line-tool)
+- [Big Query Command Line Tool](https://cloud.google.com/bigquery/bq-command-line-tool)
 - [Cloud DNS Admin Command Line Interface](https://cloud.google.com/dns/migrating-bind-zone-command-line)
 - [Cloud SQL Admin Command Line Interface](https://cloud.google.com/sql/docs/admin-api/)
 - [Cloud Storage Command Line Tool](https://cloud.google.com/storage/docs/gsutil)
 - [Compute Engine Command Line Tool](https://cloud.google.com/compute/docs/gcloud-compute/)
+- [Preview Command Line Tools](https://cloud.google.com/sdk/gcloud/reference/preview/)
 
 ## Usage
 
