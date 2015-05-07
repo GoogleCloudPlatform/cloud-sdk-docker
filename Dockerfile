@@ -6,6 +6,7 @@ ENV CLOUDSDK_PYTHON_SITEPACKAGES 1
 RUN google-cloud-sdk/install.sh --usage-reporting=true --path-update=true --bash-completion=true --rc-path=/.bashrc --disable-installation-options
 RUN google-cloud-sdk/bin/gcloud --quiet components update pkg-go pkg-python pkg-java preview alpha beta app
 RUN google-cloud-sdk/bin/gcloud --quiet config set component_manager/disable_update_check true
+RUN wget https://get.docker.com/builds/Linux/x86_64/docker-latest -O /usr/bin/docker && chmod +x /usr/bin/docker
 RUN mkdir /.ssh
 ENV PATH /google-cloud-sdk/bin:$PATH
 ENV HOME /
