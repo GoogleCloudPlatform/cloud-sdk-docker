@@ -35,7 +35,7 @@ Compute Engine:
     $ docker run -t -i --name gcloud-config google/cloud-sdk gcloud auth activate-service-account <your-service-account-email> --key-file /tmp/your-key.p12 --project <your-project-id>
 
     # re-use the credentials from gcloud-config volumes & run sdk commands
-    $ docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gcutil listinstances
+    $ docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gcloud compute instances list
     $ docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gsutil ls
     $ docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gcloud components list
     $ docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gcloud version
@@ -46,7 +46,7 @@ If you are using this image from *within* [Google Compute Engine](https://cloud.
     $ docker pull google/cloud-sdk
 
     # just start using the sdk commands
-    $ docker run --rm -ti google/cloud-sdk gcutil listinstances
+    $ docker run --rm -ti google/cloud-sdk gcloud compute instances list
     $ docker run --rm -ti google/cloud-sdk gsutil ls
     $ docker run --rm -ti google/cloud-sdk gcloud components list
     $ docker run --rm -ti google/cloud-sdk gcloud version
