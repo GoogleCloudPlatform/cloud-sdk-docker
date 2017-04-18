@@ -1,6 +1,13 @@
 cloud-sdk-docker
 ================
 
+
+**  >>>> NOTE <<<< **
+> The base soruce image for the Cloud SDK Container will be rebased to Alpine Linux on or after 5/15/17.
+> For more information, please see:
+* [https://github.com/GoogleCloudPlatform/cloud-sdk-docker/issues/58](https://github.com/GoogleCloudPlatform/cloud-sdk-docker/issues/58)
+---
+
 [`google/cloud-sdk`](https://index.docker.io/u/google/cloud-sdk/) is a [Docker](https://docker.io) image bundling all the components and dependencies of the [Google Cloud SDK](https://cloud.google.com/sdk/) including alpha and beta components.
 
 ## Usage
