@@ -26,7 +26,7 @@ Follow these instructions if you are running docker *outside* of Google Compute 
     # Re-use the credentials from gcloud-config volumes & run sdk commands:
     $ docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gcloud info
     $ docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gcloud components list
-    $ docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gcloud list instances
+    $ docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gcloud compute instances list
     $ docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gsutil ls
 
 If you are using this image from *within* [Google Compute
