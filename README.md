@@ -10,7 +10,6 @@ This article describes some more ways customers can use it by demonstrating seve
     - [Ubuntu](#ubuntu)
     - [CentOS](#centos)
     - [Alpine](#alpine)
-    - [Alpine Package](#alpine-package)
 * [Usecases](#usecases)
     - [Containerize local development environment](#containerize-local-development-environment)
     - [Run gcloud cli without installing SDK locally](#run-gcloud-cli-without-installing-sdk-locally)
@@ -37,26 +36,66 @@ docker run -ti google/cloud-sdk:latest
 
 or via tagged version of the SDK:
 
-```
+```bash
+docker run -ti google/cloud-sdk:153.0.0
 docker run -ti google/cloud-sdk:152.0.0
 docker run -ti google/cloud-sdk:151.0.1
 ```
 
->> NOTE, with any of these images, you can also install the optional components too:
-* google-cloud-sdk-app-engine-python
-* google-cloud-sdk-app-engine-java 
-* google-cloud-sdk-datalab 
-* google-cloud-sdk-datastore-emulator 
-* google-cloud-sdk-pubsub-emulator  
-* google-cloud-sdk-bigtable-emulator kubectl
+>> **NOTE:** with any of these images, you can also install the optional components and add that to your baseline container
+```
+$ docker run -ti google/cloud-sdk:latest gcloud components list
+
+Your current Cloud SDK version is: 153.0.0
+The latest available version is: 153.0.0
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                  Components                                                 │
+├───────────────┬──────────────────────────────────────────────────────┬──────────────────────────┬───────────┤
+│     Status    │                         Name                         │            ID            │    Size   │
+├───────────────┼──────────────────────────────────────────────────────┼──────────────────────────┼───────────┤
+│ Not Installed │ App Engine Go Extensions                             │ app-engine-go            │  47.9 MiB │
+│ Not Installed │ Bigtable Command Line Tool                           │ cbt                      │   3.9 MiB │
+│ Not Installed │ Cloud Datalab Command Line Tool                      │ datalab                  │   < 1 MiB │
+│ Not Installed │ Cloud Datastore Emulator                             │ cloud-datastore-emulator │  15.4 MiB │
+│ Not Installed │ Cloud Datastore Emulator (Legacy)                    │ gcd-emulator             │  38.1 MiB │
+│ Not Installed │ Cloud Pub/Sub Emulator                               │ pubsub-emulator          │  21.0 MiB │
+│ Not Installed │ Emulator Reverse Proxy                               │ emulator-reverse-proxy   │  14.5 MiB │
+│ Not Installed │ Google Container Registry's Docker credential helper │ docker-credential-gcr    │   3.4 MiB │
+│ Not Installed │ gcloud Alpha Commands                                │ alpha                    │   < 1 MiB │
+│ Not Installed │ gcloud Beta Commands                                 │ beta                     │   < 1 MiB │
+│ Not Installed │ gcloud app Java Extensions                           │ app-engine-java          │ 128.6 MiB │
+│ Not Installed │ gcloud app Python Extensions                         │ app-engine-python        │   6.1 MiB │
+│ Not Installed │ kubectl                                              │ kubectl                  │  14.9 MiB │
+│ Installed     │ BigQuery Command Line Tool                           │ bq                       │   < 1 MiB │
+│ Installed     │ Cloud SDK Core Libraries                             │ core                     │   5.9 MiB │
+│ Installed     │ Cloud Storage Command Line Tool                      │ gsutil                   │   2.9 MiB │
+│ Installed     │ Default set of gcloud commands                       │ gcloud                   │           │
+└───────────────┴──────────────────────────────────────────────────────┴──────────────────────────┴───────────┘
+```
+
+For example, for python GAE support, you would need to extend the base image:
+
+```dockerfile
+FROM google/cloud-sdk
+RUN gcloud components install app-engine-python
+```
+
+Then build and run that:
+```
+docker build -t cloud-sdk-docker-gae .
+docker run -t cloud-sdk-docker-gae
+```
 
 
 ### Upgrading SDK versions
 
 Alpine has the SDK version and its sha256 hash embedded into the Dockerfile.  The alpine image triggers a build rule in
-DockerHub to automatically create :latest and :_sdk_release_ images 
+DockerHub to automatically create :latest and :_sdkversion_ images 
 
-To build a new release, first create a tag for that release
+* [https://hub.docker.com/r/google/cloud-sdk/tags/](https://hub.docker.com/r/google/cloud-sdk/tags/)
+
+To build your own versioned image, first create a tag for that release
 
 edit [alpine/Dockerfile](alpine/Dockerfile) and specify the version and sha256 hash.  You can find the hash on the cloud SDK install page
 here:  
@@ -64,29 +103,28 @@ here:
 * [https://cloud.google.com/sdk/downloads#versioned](https://cloud.google.com/sdk/downloads#versioned)
 
 ```bash
-ARG CLOUD_SDK_VERSION=151.0.1
-ARG SHA256SUM=26b84898bc7834664f02b713fd73c7787e62827d2d486f58314cdf1f6f6c56bb
+ARG CLOUD_SDK_VERSION=153.0.0
+ARG SHA256SUM=ade29e765f7847bf6081affb6eada69b45138d4abb443b1484e891312990e958
 ```
 
 then simply push
 ```bash
-export TAG_VER=152.0.0
+export TAG_VER=153.0.0
 git add -A
-git commit -m 'Updating version $TAG_VER'
+git commit -m "Updating version $TAG_VER"
 git push
 git tag $TAG_VER
 git push --tags
 ```
 
-A github [pre-commit](hooks/pre-commit) hook is also provided which will build the alpine image with the SDK provided.  Just copy this file into 
+A github [pre-commit](hooks/pre-commit) hook is also provided which will build the alpine image with the SDK provided.  It requires docker on your build
+machine so if you have that installed, just copy this file into 
 ```
 cp hooks/pre-commit .git/hooks/pre-commit
 ```
+Then on git commit, the script will build the image specified and then compare its output to the value of '$TAG_VER'.  If the build does not succeed and gcloud 
+is not initialized with that version, the commit will fail.
 
-The following images shows the dockerhub integration done with GitHub that autobuilds the images.
-* [DockerHub Tags](images/tags.png)
-* [DockerHub Build Rules](images/build_rules.png)
-* [gitHub Integrations](images/github_integration.png)
 
 ### Ubuntu
 
@@ -159,50 +197,6 @@ The SHA256 checksum is listed on the SDK [documentation page](https://cloud.goog
 docker build --build-arg CLOUD_SDK_VERSION=151.0.1 --build-arg SHA256SUM=26b84898bc7834664f02b713fd73c7787e62827d2d486f58314cdf1f6f6c56bb -t alpine_151 --no-cache .
 ```
 
-#### Alpine Package
-
-The following describes building and running the Cloud SDK as an Alpine package.  In other words, its a package you can use Alpine's installer to 
-setup instead of sourcing from a base image and then installing Cloud SDK as docker commands.
-
-For more information see:
-
-* [https://wiki.alpinelinux.org/wiki/Creating_an_Alpine_package](https://wiki.alpinelinux.org/wiki/Creating_an_Alpine_package)
-* [https://pkgs.alpinelinux.org/packages](https://pkgs.alpinelinux.org/packages)
-
-
-At the time of writing (3/16), the package is not in the official alpine community repository. 
-
-> _Note:_  the package below is pinned to SDK 147.0.0.   You can either update gcloud post-install or regenerate a new package.
-
-*APKBUILD*
-
-```bash
-pkgname=google-cloud-sdk
-pkgver=147.0.0
-pkgrel=0
-pkgdesc="Google Cloud SDK"
-url="https://cloud.google.com/sdk"
-arch="x86_64"
-license="GPL"
-depends="python libc6-compat"
-makedepends="$depends"
-install=""
-source="https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-$pkgver-linux-x86_64.tar.gz"
-builddir="$srcdir/$pkgname"
-
-package() {
-        mkdir -p "$pkgdir"/ || return 1
-        mkdir -p "$pkgdir"/usr/bin || return 1
-        cp -R "$builddir" "$pkgdir"/ || return 1
-        ln -s /google-cloud-sdk/bin/gcloud "$pkgdir"/usr/bin/gcloud || return 1
-}
-
-sha1sums="16292eee83078233dd6e3ca83760314b1f95168b  google-cloud-sdk-147.0.0-linux-x86_64.tar.gz"
-md5sums="eed7bc81905ce18cf821d844430d7750  google-cloud-sdk-147.0.0-linux-x86_64.tar.gz"
-sha256sums="d517d9971daeaa4e3d13e34a112f684320da96ce5082e20ad745035ca16375ce  google-cloud-sdk-147.0.0-linux-x86_64.tar.gz"
-sha512sums="7e9077e8aa9c91b011fea9329f43a465be63d95718183d0ec72b67a4eaacbd21693fb4c2dfd1f7526167a1fe6dcaa43f6b8afc62ab1aae60a71ae240c8972f9a  google-cloud-sdk-147.0.0-linux-x86_64.tar.gz"
-```
-
 #### Google Appengine base
 
 The original base image in this repository was based off of 
@@ -211,6 +205,7 @@ The original base image in this repository was based off of
 
 The full Dockerfile for this base can be found [here](google_appengine_base/Dockerfile) for archival.
 
+---
 
 ## Usecases
 
@@ -219,12 +214,23 @@ The full Dockerfile for this base can be found [here](google_appengine_base/Dock
 You're an App Engine developer and you want to keep your workstation in  as much of a consistent state as possible.  That means you would rather not install the Cloud SDK or run dev_appserver.py directly from your laptop.   What you would rather do is spin up any components for your local development without having Cloud SDK installed on the laptop.   
 
 What you'd like to do is run Cloud SDK and dev_appserver.py in a container.
-To do that, you need to run dev_appserver.py from the Cloud SDK docker image but map your deployable sources to that container.   
+To do that, you need to run dev_appserver.py from the Cloud SDK docker image but map your deployable sources to that container.
+
+You will also need to run an image that extends the base cloud-sdk docker image and adds appengine support:
+```dockerfile
+FROM google/cloud-sdk
+RUN gcloud components install app-engine-python
+```
+
+Then build:
+```
+docker build -t cloud-sdk-gae-python .
+```
 
 For example with python, I'm mapping my current source directory to the container (under /apps) and instructing it to run the dev_appserver.py
 
 ```
-docker run -p 8080:8080 -p 8000:8000 -v path_to_your_app.yaml:/apps google/cloud-sdk dev_appserver.py --host=0.0.0.0 --admin_host=0.0.0.0 /apps/app.yaml
+docker run -p 8080:8080 -p 8000:8000 -v path_to_your_app.yaml:/apps cloud-sdk-gae-python dev_appserver.py --host=0.0.0.0 --admin_host=0.0.0.0 /apps/app.yaml
 INFO     2016-10-28 19:39:31,206 devappserver2.py:769] Skipping SDK update check.
 WARNING  2016-10-28 19:39:31,269 simple_search_stub.py:1146] Could not read search indexes from /tmp/appengine.None.root/search_indexes
 INFO     2016-10-28 19:39:31,272 api_server.py:205] Starting API server at: http://localhost:44119
@@ -234,22 +240,23 @@ INFO     2016-10-28 19:39:31,276 dispatcher.py:197] Starting module "default" ru
 You can also configure your container image if you’d like to use Maven
 You can also do this with maven but you will need to install the dependencies into the extended image itself as shown in the following Dockerfile that sets up your execution environment for maven:
 
-```
+```dockerfile
 FROM google/cloud-sdk
 RUN apt-get install -y maven default-jdk
+RUN gcloud components install app-engine-java
 WORKDIR /apps
 ```
 
 Build your containerized runtime environment:
 
 ```
-docker build -t cloudsdk-java .
+docker build -t cloud-sdk-gae-java .
 ```
 
 Then just launch with your app:
 
 ```
-docker run -p 8080:8080 -v path_to_your_pom.xml:/apps cloudsdk-java mvn appengine:run
+docker run -p 8080:8080 -v path_to_your_pom.xml:/apps cloud-sdk-gae-java mvn appengine:run
 ```
 
 (Note: you'll need to specify the host/port for the dev_appserver in the pom.xml <configuration/> section for the appengine-maven-plugin)
@@ -284,7 +291,7 @@ docker run -t -v $HOME/certs:/data -i --name gcloud-config cloudsdk_ubuntu  gclo
 Activated service account credentials for: [svc-2-429@mineral-minutia-820.iam.gserviceaccount.com]
 ```
 
-> Warning:  the volume gcloud-config now has your credentials/JSON key file embedded in it; carefully control access to it!
+> :warning: **WARNING:** the volume _gcloud-config_ now has your credentials/JSON key file embedded in it; carefully control access to it!
 
 Then run a new container but specify the volume.  You'll see that the configured credentials already exist
 
@@ -308,6 +315,12 @@ gae-default-20161011t124615-9sc2  us-central1-c  custom (1 vCPU, 1.00 GiB)      
 ```
 
 You can continue to do this with other restricted service accounts in volumes.  This will allow you to easily control which service accounts and its capabilities you use by having it already defined in a redistributable the container image (vs. using gcloud's --configuration= parameter in each command).
+
+If you wanted to run a specific version of the SDK using your current credential set, you can directly map your active volume:
+
+```
+docker run --rm -it -v $HOME/.config/:/.config/ googl/cloud-sdk:151.0.0 gcloud config list
+```
 
 ### Run emulators in containers
 
@@ -368,7 +381,7 @@ done
 
 If you want to run that script using credentials initialized and attached to a volume in a container, simply run the gcloud-sdk container, reference the volume with credentials and map your script to the running container. In this example, I initialized gcloud-config with a given service account and then mapped svc.sh script from my local workstation to the gcloud-sdk image.  The entrypoint for the image is the script itself
 
-```
+```bash
 docker run --rm -ti -v path_to_your_script:/scripts/ --volumes-from gcloud-config google/cloud-sdk /scripts/svc.sh
 ProjectId:  your_project
     -> Robot 1071284184436-dvq7199h093skqu4885eoj03p56dcob2@developer.gserviceaccount.com
