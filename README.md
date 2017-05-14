@@ -219,6 +219,7 @@ To do that, you need to run dev_appserver.py from the Cloud SDK docker image but
 You will also need to run an image that extends the base cloud-sdk docker image and adds appengine support:
 ```dockerfile
 FROM google/cloud-sdk
+RUN apk --update add python
 RUN gcloud components install app-engine-python
 ```
 
@@ -242,7 +243,7 @@ You can also do this with maven but you will need to install the dependencies in
 
 ```dockerfile
 FROM google/cloud-sdk
-RUN apt-get install -y maven default-jdk
+RUN apk --update add openjdk7-jre maven
 RUN gcloud components install app-engine-java
 WORKDIR /apps
 ```
@@ -301,7 +302,7 @@ Your active configuration is: [default]
 [component_manager]
 disable_update_check = true
 [core]
-account = your_service_account@yoru_project.iam.gserviceaccount.com
+account = your_service_account@your_project.iam.gserviceaccount.com
 disable_usage_reporting = False
 project = your_project
 ```
@@ -326,8 +327,24 @@ docker run --rm -it -v $HOME/.config/:/.config/ googl/cloud-sdk:151.0.0 gcloud c
 
 Running emulators in a container provides an easy, predictable configuration for an emulator.  You can always reuse a given configuration without needing to initialize the SDK with credentials.  For example, the following starts up the pubsub emulator from a baseline SDK:
 
+
+As before, first extend the default sdk image and install the emulators:
+
+Dockerfile
+```dockerfile
+FROM google/cloud-sdk
+RUN apk --update add openjdk7-jre
+RUN gcloud components install beta pubsub-emulator
 ```
-docker run --rm -ti -p 8283:8283 google/cloud-sdk gcloud beta emulators pubsub start --host-port 0.0.0.0:8283
+
+Then create the baseline image to use for emulators:
+
+```
+docker build -t cloud-sdk-emulator .
+```
+
+```
+docker run --rm -ti -p 8283:8283 cloud-sdk-emulator gcloud beta emulators pubsub start --host-port 0.0.0.0:8283
 Executing: /google-cloud-sdk/platform/pubsub-emulator/bin/cloud-pubsub-emulator --host=0.0.0.0 --port=8283
 [pubsub] This is the Google Pub/Sub fake.
 [pubsub] Oct 25, 2016 4:29:31 AM com.google.cloud.pubsub.testing.v1.Main main
@@ -336,10 +353,9 @@ Executing: /google-cloud-sdk/platform/pubsub-emulator/bin/cloud-pubsub-emulator 
 
 You can even extend and link some code you run in an container to connect with this emulator.  In this mode, you run your emulator in one container, acquire the container's internal address, then separately run your application in another container but link to the emulator via docker networking.  There are several ways to do this securely too with docker custom networks.   
 
-First run the emulator:
 
 ```
-docker run -tid --name pubsubemulator google/cloud-sdk gcloud beta emulators pubsub start --host-port 0.0.0.0:8283
+docker run -tid --name pubsubemulator cloud-sdk-emulator gcloud beta emulators pubsub start --host-port 0.0.0.0:8283
 ```
 
 We need to pass in the internal IP address for the emulator into your application container.  The following command returns the internal IP address which we will use later.
