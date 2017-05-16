@@ -2,6 +2,11 @@
 
 # pre-commit hook for git which builds the docker image for a given cloud-sdk version.
 # Copy into .git/hooks/  folder
+# edit alpine/Dockerfile and  set CLOUD_SDK_VERSION, SHA256SUM
+# then export TAG_VER=153.0.0
+# git commit -m "Updating version $TAG_VER"
+# this will trigger this validation script
+# from there you can tag and push
 
 HASH=$(git rev-parse HEAD)
 GCLOUD_SDK=cloud-sdk:$HASH
