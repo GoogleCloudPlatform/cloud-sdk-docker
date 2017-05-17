@@ -11,26 +11,29 @@ Image includes default command line tools:
 
 ## Supported tags and respective Dockerfile links
 
-* 155.0.0, latest (Dockerfile)
+- [155.0.0, latest] (Dockerfile)
 
 ## Usage
 
 To use the prebuilt **Alpine** based image, pull and run from
 
-* [https://hub.docker.com/r/google/cloud-sdk/](https://hub.docker.com/r/google/cloud-sdk/)
-
-The docker images do not have an ENTRYPOINT so you can call gcloud directly as shown below:
+```
+docker pull google/cloud-sdk:latest
+```
 
 ```bash
-docker run -ti  google/cloud-sdk:latest gcloud version --format='value("Google Cloud SDK")'
-155.0.0
+docker run -ti  google/cloud-sdk:latest gcloud version
+Google Cloud SDK 155.0.0
+bq 2.0.24
+core 2017.05.10
+gcloud 
+gsutil 4.26
 ```
 
 or via tagged version of the SDK:
 
 ```bash
-docker run -ti google/cloud-sdk:153.0.0 gcloud version --format='value("Google Cloud SDK")'
-153.0.0
+docker run -ti google/cloud-sdk:153.0.0 gcloud version
 ```
 
 ### Installing additional components

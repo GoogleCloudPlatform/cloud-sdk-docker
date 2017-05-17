@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 # pre-commit hook for git which builds the docker image for a given cloud-sdk version.
 # Copy into .git/hooks/  folder
