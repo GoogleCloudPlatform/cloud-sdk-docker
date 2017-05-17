@@ -1,7 +1,6 @@
 FROM alpine
-RUN apk --no-cache add curl python bash
+RUN apk --no-cache add curl python
 ENV HOME /
-#RUN curl https://sdk.cloud.google.com | bash
 
 ARG CLOUD_SDK_VERSION=155.0.0
 ARG SHA256SUM=4b64fba9d98b9e48cc7a37ed3b321e50f92e87f9c2b358d183f966dae05216a2

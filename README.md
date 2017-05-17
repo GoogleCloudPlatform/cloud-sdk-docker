@@ -2,48 +2,56 @@
 # Google Cloud SDK Docker
 
 
-Baseline image for the [Google Cloud SDK](https://cloud.google.com/sdk/).
+This is Docker image for the [Google Cloud SDK](https://cloud.google.com/sdk/).
 
-Imaage includes default command line tools:
+Image includes default command line tools:
 *  gcloud:  Default set of gcloud commands
 *  gsutil:  Cloud Storage Command Line Tool
 *  bq: BigQuery Command Line Tool
 
+## Supported tags and respective Dockerfile links
 
-## Dockerfile
+* 155.0.0, latest (Dockerfile)
 
-To use the prebuilt **Alpine** based image, see
+## Usage
+
+To use the prebuilt **Alpine** based image, pull and run from
 
 * [https://hub.docker.com/r/google/cloud-sdk/](https://hub.docker.com/r/google/cloud-sdk/)
 
+The docker images do not have an ENTRYPOINT so you can call gcloud directly as shown below:
 
 ```bash
-docker run -ti google/cloud-sdk:latest
+docker run -ti  google/cloud-sdk:latest gcloud version --format='value("Google Cloud SDK")'
+155.0.0
 ```
 
 or via tagged version of the SDK:
 
 ```bash
-docker run -ti google/cloud-sdk:153.0.0
+docker run -ti google/cloud-sdk:153.0.0 gcloud version --format='value("Google Cloud SDK")'
+153.0.0
 ```
 
->> **NOTE:** you may need to install the optional components:
-```
+### Installing additional components
 
-For example, for python GAE support, you would need to extend the base image:
+If you need to run additional gcloud components, you need to extend the base image:
 
+For example, for appengine-python:
 ```dockerfile
 FROM google/cloud-sdk
 RUN gcloud components install app-engine-python
 ```
 
-or for java
+or for app-engine-java
 ```
 FROM google/cloud-sdk
 RUN apk --update add openjdk7-jre
 RUN gcloud components install app-engine-java
 WORKDIR /apps
 ```
+
+### Volume mounts
 
 For a volume mount using credentials:
 ```
@@ -56,7 +64,7 @@ NAME        ZONE           MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP 
 instance-1  us-central1-a  n1-standard-1               10.240.0.2   8.34.219.29      RUNNING
 ```
 
-#### Google Appengine base
+### Google Appengine base
 
 The original image in this repository was based off of 
 
