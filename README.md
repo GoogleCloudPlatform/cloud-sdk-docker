@@ -21,6 +21,7 @@ To use the prebuilt **Alpine** based image, pull and run from
 docker pull google/cloud-sdk:latest
 ```
 
+verify the install
 ```bash
 docker run -ti  google/cloud-sdk:latest gcloud version
 Google Cloud SDK 155.0.0
@@ -34,6 +35,18 @@ or via tagged version of the SDK:
 
 ```bash
 docker run -ti google/cloud-sdk:153.0.0 gcloud version
+```
+
+To authenticate:
+```
+docker run -ti --name gcloud-config google/cloud-sdk gcloud auth login
+```
+
+Then try listing compute instances:
+```
+docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gcloud compute instances list --project your_project
+NAME        ZONE           MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP      STATUS
+instance-1  us-central1-a  n1-standard-1               10.240.0.2   8.34.219.29      RUNNING
 ```
 
 ### Installing additional components
@@ -54,20 +67,7 @@ RUN gcloud components install app-engine-java
 WORKDIR /apps
 ```
 
-### Volume mounts
-
-For a volume mount using credentials:
-```
-docker run -t -i --name gcloud-config google/cloud-sdk gcloud auth login
-```
-then
-```
-docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gcloud compute instances list --project your_project
-NAME        ZONE           MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP      STATUS
-instance-1  us-central1-a  n1-standard-1               10.240.0.2   8.34.219.29      RUNNING
-```
-
-### Google Appengine base
+### Google App Engine base
 
 The original image in this repository was based off of 
 
