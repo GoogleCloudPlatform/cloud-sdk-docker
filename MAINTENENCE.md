@@ -27,5 +27,13 @@ You can also pass in the ARG value of the sdk version and checksum as overrides:
 docker build --build-arg CLOUD_SDK_VERSION=151.0.1 --build-arg SHA256SUM=26b84898bc7834664f02b713fd73c7787e62827d2d486f58314cdf1f6f6c56bb -t alpine_151 --no-cache .
 ```
 
+---
+
+Archived versions of the SDK can be found under in GCS bucket: 
+```
+gsutil ls gs://cloud-sdk-release
+```
+* [https://storage.cloud.google.com/cloud-sdk-release](https://storage.cloud.google.com/cloud-sdk-release)
+
 
 

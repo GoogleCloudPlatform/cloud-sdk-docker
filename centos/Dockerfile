@@ -1,4 +1,4 @@
-FROM centos
+FROM centos:centos7
 RUN  echo $'[google-cloud-sdk]\n\
 name=Google Cloud SDK\n\
 baseurl=https://packages.cloud.google.com/yum/repos/cloud-sdk-el7-x86_64\n\

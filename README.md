@@ -15,7 +15,8 @@ Image includes default command line tools:
 
 ## Usage
 
-To use the prebuilt **Alpine** based image, pull and run from
+To use this image, pull from [Docker Hub](https://hub.docker.com/r/google/cloud-sdk/), run the following command:
+
 
 ```
 docker pull google/cloud-sdk:latest
@@ -31,18 +32,19 @@ gcloud
 gsutil 4.26
 ```
 
-or via tagged version of the SDK:
+or specify a version number:
 
 ```bash
-docker run -ti google/cloud-sdk:153.0.0 gcloud version
+docker run -ti google/cloud-sdk:155.0.0 gcloud version
 ```
 
-To authenticate:
+Then authenticate by running:
+
 ```
 docker run -ti --name gcloud-config google/cloud-sdk gcloud auth login
 ```
 
-Then try listing compute instances:
+Try listing compute instances:
 ```
 docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gcloud compute instances list --project your_project
 NAME        ZONE           MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP      STATUS
