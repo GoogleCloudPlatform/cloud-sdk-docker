@@ -45,7 +45,7 @@ docker run -ti --name gcloud-config google/cloud-sdk gcloud auth login
 ```
 
 Once authentication succeeds, credentials are preserved in the volume of _gcloud-config_ container. 
-To listing compute instances using these credentials, configure the volume as:
+To list compute instances using these credentials, use the configured:
 ```
 docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gcloud compute instances list --project your_project
 NAME        ZONE           MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP      STATUS
