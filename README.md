@@ -44,12 +44,15 @@ Then authenticate by running:
 docker run -ti --name gcloud-config google/cloud-sdk gcloud auth login
 ```
 
-Try listing compute instances:
+Once authentication succeeds, credentials are preserved in the volume of _gcloud-config_ container. 
+To listing compute instances using these credentials, configure the volume as:
 ```
 docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gcloud compute instances list --project your_project
 NAME        ZONE           MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP      STATUS
 instance-1  us-central1-a  n1-standard-1               10.240.0.2   8.34.219.29      RUNNING
 ```
+
+> Warning:  the volume gcloud-config now has your credentials/JSON key file embedded in it; carefully control access to it.
 
 ### Installing additional components
 
