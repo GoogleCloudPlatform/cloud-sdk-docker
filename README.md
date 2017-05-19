@@ -45,14 +45,14 @@ docker run -ti --name gcloud-config google/cloud-sdk gcloud auth login
 ```
 
 Once authentication succeeds, credentials are preserved in the volume of _gcloud-config_ container. 
-To list compute instances using these credentials, use the configured:
+To list compute instances using these credentials, use the configured volume:
 ```
 docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gcloud compute instances list --project your_project
 NAME        ZONE           MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP      STATUS
 instance-1  us-central1-a  n1-standard-1               10.240.0.2   8.34.219.29      RUNNING
 ```
 
-> Warning:  the volume gcloud-config now has your credentials/JSON key file embedded in it; carefully control access to it.
+> :warning: **Warning**:  the volume gcloud-config now has your credentials/JSON key file embedded in it; carefully control access to it.
 
 ### Installing additional components
 
@@ -65,11 +65,10 @@ RUN gcloud components install app-engine-python
 ```
 
 or for app-engine-java
-```
+```dockerfile
 FROM google/cloud-sdk
 RUN apk --update add openjdk7-jre
 RUN gcloud components install app-engine-java
-WORKDIR /apps
 ```
 
 ### Google App Engine base
