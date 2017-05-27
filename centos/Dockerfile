@@ -11,7 +11,7 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg\n\
     yum install -y google-cloud-sdk which gcc python-devel python-setuptools && \
     easy_install -U pip && \
     pip install -U crcmod && \
-    yum remove gcc python-devel python-setuptools && \
+    yum remove -y gcc python-devel python-setuptools && \
     gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true
 VOLUME ["/root/.config"]
