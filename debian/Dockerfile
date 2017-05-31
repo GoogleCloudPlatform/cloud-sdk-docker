@@ -1,5 +1,5 @@
 FROM debian:jessie
-RUN apt-get update && apt-get install -qqy curl python2.7 gcc python-dev python-setuptools apt-transport-https lsb-release  && \
+RUN apt-get update && apt-get install -qqy curl gcc python-dev python-setuptools apt-transport-https lsb-release  && \
     easy_install -U pip && \
     pip install -U crcmod && \
     export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
