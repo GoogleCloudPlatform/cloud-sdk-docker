@@ -9,5 +9,6 @@ RUN apt-get update && apt-get install -qqy curl gcc python-dev python-setuptools
     apt-get -y remove gcc python-dev python-setuptools && \
     rm -rf /var/lib/apt/lists/* && \    
     gcloud config set core/disable_usage_reporting true && \
-    gcloud config set component_manager/disable_update_check true
+    gcloud config set component_manager/disable_update_check true && \
+    gcloud config set metrics/environment github_docker_image
 VOLUME ["/root/.config"]

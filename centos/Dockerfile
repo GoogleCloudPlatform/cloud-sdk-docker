@@ -13,5 +13,6 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg\n\
     pip install -U crcmod && \
     yum remove -y gcc python-devel python-setuptools && \
     gcloud config set core/disable_usage_reporting true && \
-    gcloud config set component_manager/disable_update_check true
+    gcloud config set component_manager/disable_update_check true && \
+    gcloud config set metrics/environment github_docker_image
 VOLUME ["/root/.config"]
