@@ -1,43 +1,80 @@
-cloud-sdk-docker
-================
 
-> :warning: **IMPORTANT NOTE:** The base image for the `cloud-sdk` image will be changed to Alpine Linux on or after 5/15/17.
-> For more information, please see: [#58](https://github.com/GoogleCloudPlatform/cloud-sdk-docker/issues/58)
----
+# Google Cloud SDK Docker
 
-[`google/cloud-sdk`](https://index.docker.io/u/google/cloud-sdk/) is a
-[Docker](https://docker.io) image bundling all the components and dependencies
-of the [Google Cloud SDK](https://cloud.google.com/sdk/) including alpha and
-beta components.
+
+This is Docker image for the [Google Cloud SDK](https://cloud.google.com/sdk/).
+
+Image includes default command line tools:
+*  gcloud:  Default set of gcloud commands
+*  gsutil:  Cloud Storage Command Line Tool
+*  bq: BigQuery Command Line Tool
+
+## Supported tags and respective Dockerfile links
+
+- [155.0.0, latest] (Dockerfile)
 
 ## Usage
 
-Follow these instructions if you are running docker *outside* of Google Compute Engine:
+To use this image, pull from [Docker Hub](https://hub.docker.com/r/google/cloud-sdk/), run the following command:
 
-    # Get the cloud sdk image:
-    $ docker pull google/cloud-sdk
 
-    # Auth & save the credentials in gcloud-config volumes:
-    $ docker run -t -i --name gcloud-config google/cloud-sdk gcloud init
+```
+docker pull google/cloud-sdk:latest
+```
 
-    # If you would like to use service account instead please look here:
-    $ docker run -t -i --name gcloud-config google/cloud-sdk gcloud auth activate-service-account <your-service-account-email> --key-file /tmp/your-key.p12 --project <your-project-id>
+verify the install
+```bash
+docker run -ti  google/cloud-sdk:latest gcloud version
+Google Cloud SDK 155.0.0
+bq 2.0.24
+core 2017.05.10
+gcloud 
+gsutil 4.26
+```
 
-    # Re-use the credentials from gcloud-config volumes & run sdk commands:
-    $ docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gcloud info
-    $ docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gcloud components list
-    $ docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gcloud compute instances list
-    $ docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gsutil ls
+or specify a version number:
 
-If you are using this image from *within* [Google Compute
-Engine](https://cloud.google.com/compute/). If you enable a Service Account with
-the necessary scopes, there is no need to auth or use a config volume:
+```bash
+docker run -ti google/cloud-sdk:155.0.0 gcloud version
+```
 
-    # Get the cloud sdk image:
-    $ docker pull google/cloud-sdk
+Then authenticate by running:
 
-    # Just start using the sdk commands:
-    $ docker run --rm -ti google/cloud-sdk gcloud info
-    $ docker run --rm -ti google/cloud-sdk gcloud components list
-    $ docker run --rm -ti google/cloud-sdk gcutil listinstances
-    $ docker run --rm -ti google/cloud-sdk gsutil ls
+```
+docker run -ti --name gcloud-config google/cloud-sdk gcloud auth login
+```
+
+Once authentication succeeds, credentials are preserved in the volume of _gcloud-config_ container. 
+To list compute instances using these credentials, use the configured volume:
+```
+docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gcloud compute instances list --project your_project
+NAME        ZONE           MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP      STATUS
+instance-1  us-central1-a  n1-standard-1               10.240.0.2   8.34.219.29      RUNNING
+```
+
+> :warning: **Warning**:  the volume gcloud-config now has your credentials/JSON key file embedded in it; carefully control access to it.
+
+### Installing additional components
+
+If you need to run additional gcloud components, you need to extend the base image:
+
+For example, for appengine-python:
+```dockerfile
+FROM google/cloud-sdk
+RUN gcloud components install app-engine-python
+```
+
+or for app-engine-java
+```dockerfile
+FROM google/cloud-sdk
+RUN apk --update add openjdk7-jre
+RUN gcloud components install app-engine-java
+```
+
+### Google App Engine base
+
+The original image in this repository was based off of 
+
+> FROM gcr.io/google_appengine/base
+
+The full Dockerfile for that can be found [here](google_appengine_base/Dockerfile) for archival.

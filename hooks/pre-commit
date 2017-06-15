@@ -1,0 +1,34 @@
+#!/bin/bash -e
+
+# pre-commit hook for git which builds the docker image for a given cloud-sdk version.
+# Copy into .git/hooks/  folder
+# edit alpine/Dockerfile and  set CLOUD_SDK_VERSION, SHA256SUM
+# then export TAG_VER=153.0.0
+# git commit -m "Updating version $TAG_VER"
+# this will trigger this validation script
+# from there you can tag and push
+
+HASH=$(git rev-parse HEAD)
+GCLOUD_SDK=cloud-sdk:$HASH
+DOCKERFILE=alpine/Dockerfile
+
+if [[ -z "${TAG_VER}" ]]; then
+  echo "Please set TAG_VER with the version of the sdk to update"
+  exit 1
+fi
+
+docker build -t ${GCLOUD_SDK} -f ${DOCKERFILE} .
+
+read VER <<< $(docker run --rm ${GCLOUD_SDK} gcloud version --format='value("Google Cloud SDK")')
+
+echo "Version from Docker $VER"
+
+docker rmi -f ${GCLOUD_SDK}
+
+if [ "$VER" == "$TAG_VER" ]
+then
+  echo "Versions match; committing "
+  exit 0
+fi 
+echo "Versions mismatch; aborting "
+exit 1
