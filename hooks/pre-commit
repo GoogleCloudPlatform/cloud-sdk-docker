@@ -10,7 +10,7 @@
 
 HASH=$(git rev-parse HEAD)
 GCLOUD_SDK=cloud-sdk:$HASH
-DOCKERFILE=alpine/Dockerfile
+DOCKERFILE=Dockerfile
 
 if [[ -z "${TAG_VER}" ]]; then
   echo "Please set TAG_VER with the version of the sdk to update"
