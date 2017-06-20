@@ -4,14 +4,16 @@
 
 This is Docker image for the [Google Cloud SDK](https://cloud.google.com/sdk/).
 
-Image includes default command line tools:
+Image is debian-based and includes default command line tools and all [components](https://cloud.google.com/sdk/downloads#apt-get) for the SDK.
 *  gcloud:  Default set of gcloud commands
 *  gsutil:  Cloud Storage Command Line Tool
 *  bq: BigQuery Command Line Tool
 
 ## Supported tags and respective Dockerfile links
 
-- [155.0.0, latest] (Dockerfile)
+- [159.0.0, latest] (Dockerfile)
+- [159.0.0-slim, latest-slim] (Dockerfile)
+- [latest-legacy] (Dockerfile)
 
 ## Usage
 
@@ -25,11 +27,7 @@ docker pull google/cloud-sdk:latest
 verify the install
 ```bash
 docker run -ti  google/cloud-sdk:latest gcloud version
-Google Cloud SDK 155.0.0
-bq 2.0.24
-core 2017.05.10
-gcloud 
-gsutil 4.26
+Google Cloud SDK 159.0.0
 ```
 
 or specify a version number:
@@ -56,20 +54,16 @@ instance-1  us-central1-a  n1-standard-1               10.240.0.2   8.34.219.29 
 
 ### Installing additional components
 
-If you need to run additional gcloud components, you need to extend the base image:
+By default, all gcloud components are installed on the default image: 
 
-For example, for appengine-python:
-```dockerfile
-FROM google/cloud-sdk
-RUN gcloud components install app-engine-python
+- [https://cloud.google.com/sdk/downloads#apt-get](https://cloud.google.com/sdk/downloads#apt-get)
+
+The debian-slim image (google/cloud-sdk-docker:alpine:159.0.0-slim), contains no additional components but you are welcome to extend the image or supply --build-args during the build state:
+
+```
+ docker build --build-arg INSTALL_COMPONENTS="google-cloud-sdk-datastore-emulator" -t my-cloud-sdk-docker:159.0.0-slim .
 ```
 
-or for app-engine-java
-```dockerfile
-FROM google/cloud-sdk
-RUN apk --update add openjdk7-jre
-RUN gcloud components install app-engine-java
-```
 
 ### Google App Engine base
 
@@ -77,4 +71,4 @@ The original image in this repository was based off of
 
 > FROM gcr.io/google_appengine/base
 
-The full Dockerfile for that can be found [here](google_appengine_base/Dockerfile) for archival.
+The full Dockerfile for that can be found [here](google_appengine_base/Dockerfile) for archival as well as in image tag google/cloud-sdk-docker:latest-legacy
