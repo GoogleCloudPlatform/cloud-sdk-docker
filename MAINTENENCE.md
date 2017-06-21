@@ -1,17 +1,32 @@
 
 
-The Alpine image contains the SHA256 checksum for that version as listed on the SDK [documentation page](https://cloud.google.com/sdk/downloads#versioned).
+
+To publish a new release, update the README with the version to deploy under "Supported tags and respective Dockerfile links"
+
+then
 
 ```bash
-export TAG_VER=153.0.0
-git add -A
-git commit -m "Updating version $TAG_VER"
+export TAG_VER=159.0.0
+git commit -m "Update SDK to 159.0.0"
+
 git push
-git tag $TAG_VER
-git push --tags
+
+git tag -a $TAG_VER
+git push origin $TAG_VER
+
 ```
 
-A github [pre-commit](hooks/pre-commit) hook is also provided which will build the alpine image with the SDK provided. 
+To recreate a tagged version in github and dockerhub, first delete the local and remote tags:
+
+```
+git tag -d 159.0.0
+
+git push origin :159.0.0
+```
+
+After that, you can tag and re-push your current version.  This will trigger a rebuild in dockerhub
+
+A github [pre-commit](hooks/pre-commit) hook is also provided which will build the default image with the SDK provided. 
 
 It requires docker on your build machine so if you have that installed, just copy this file into 
 ```
@@ -21,7 +36,7 @@ Then on git commit, the script will build the image specified and then compare i
 
 If the build does not succeed or gcloud is not initialized with that version, the commit will fail.
 
-You can also pass in the ARG value of the sdk version and checksum as overrides:
+You can also pass in the ARG value of the sdk version and checksum as overrides for aplpine/Dockerfile:
 
 ```bash
 docker build --build-arg CLOUD_SDK_VERSION=151.0.1 --build-arg SHA256SUM=26b84898bc7834664f02b713fd73c7787e62827d2d486f58314cdf1f6f6c56bb -t alpine_151 --no-cache .
@@ -36,4 +51,4 @@ gsutil ls gs://cloud-sdk-release
 * [https://storage.cloud.google.com/cloud-sdk-release](https://storage.cloud.google.com/cloud-sdk-release)
 
 
-
+The Alpine image contains the SHA256 checksum for that version as listed on the SDK [documentation page](https://cloud.google.com/sdk/downloads#versioned).
