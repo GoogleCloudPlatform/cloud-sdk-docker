@@ -55,11 +55,11 @@ instance-1  us-central1-a  n1-standard-1               10.240.0.2   8.34.219.29 
 
 By default, all gcloud components are installed on the default image:  [https://cloud.google.com/sdk/downloads#apt-get](https://cloud.google.com/sdk/downloads#apt-get)
 
-The :slim image (google/cloud-sdk-docker:alpine:159.0.0-slim), contains no additional components but you are welcome to extend the image or supply --build-args during the build state:
+The :slim image (google/cloud-sdk-docker:slim), contains no additional components but you are welcome to extend the image or supply --build-args during the build state:
 
 ```
 cd debian_slim/
-docker build --build-arg INSTALL_COMPONENTS="google-cloud-sdk-datastore-emulator" -t my-cloud-sdk-docker:159.0.0-slim .
+docker build --build-arg INSTALL_COMPONENTS="google-cloud-sdk-datastore-emulator" -t my-cloud-sdk-docker:slim .
 ```
 
 
