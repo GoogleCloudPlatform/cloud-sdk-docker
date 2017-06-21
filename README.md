@@ -11,9 +11,8 @@ Image is debian-based and includes default command line tools and all [component
 
 ## Supported tags and respective Dockerfile links
 
-- [159.0.0, latest] (Dockerfile)
-- [159.0.0-slim, latest-slim] (Dockerfile)
-- [latest-legacy] (Dockerfile)
+> * ```google/cloud-sdk:latest```, ```google/cloud-sdk:VERSION```: (large image with additional components pre-installed, Debian-based)
+> * ```google/cloud-sdk:slim```,  ```google/cloud-sdk:VERSION-slim```: (smaller image with no components pre-installed, Debian-based)
 
 ## Usage
 
