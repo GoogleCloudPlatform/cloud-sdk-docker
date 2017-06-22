@@ -11,8 +11,9 @@ Image is debian-based and includes default command line tools and all [component
 
 ## Supported tags and respective Dockerfile links
 
-> * ```google/cloud-sdk:latest```, ```google/cloud-sdk:VERSION```: (large image with additional components pre-installed, Debian-based)
-> * ```google/cloud-sdk:slim```,  ```google/cloud-sdk:VERSION-slim```: (smaller image with no components pre-installed, Debian-based)
+* ```google/cloud-sdk:latest```, ```google/cloud-sdk:VERSION```: (large image with additional components pre-installed, Debian-based)
+* ```google/cloud-sdk:slim```,  ```google/cloud-sdk:VERSION-slim```: (smaller image with no components pre-installed, Debian-based)
+* ```google/cloud-sdk:alpine```,  ```google/cloud-sdk:VERSION-alpine```: (smaller image with no components pre-installed, Alpine-based)
 
 ## Usage
 
@@ -55,13 +56,31 @@ instance-1  us-central1-a  n1-standard-1               10.240.0.2   8.34.219.29 
 
 By default, all gcloud components are installed on the default image:  [https://cloud.google.com/sdk/downloads#apt-get](https://cloud.google.com/sdk/downloads#apt-get)
 
-The :slim image (google/cloud-sdk-docker:slim), contains no additional components but you are welcome to extend the image or supply --build-args during the build state:
+The google/cloud-sdk:slim and google/cloud-sdk:alpine images do not contain additional components pre-installed. 
+You can extend these images by following the instructions below:
+
+
+*Debian*
 
 ```
 cd debian_slim/
-docker build --build-arg INSTALL_COMPONENTS="google-cloud-sdk-datastore-emulator" -t my-cloud-sdk-docker:slim .
+docker build --build-arg CLOUD_SDK_VERSION=159.0.0 --build-arg INSTALL_COMPONENTS="google-cloud-sdk-datastore-emulator" -t my-cloud-sdk-docker:slim .
 ```
 
+*Alpine*
+
+To install additional components for those images, you need to extend the default.  For example, to generate an image that includes kubectl and app-engine-java:
+
+```Dockerfile
+FROM google/cloud-sdk:alpine
+RUN apk --update add openjdk7-jre
+RUN gcloud components install app-engine-java kubectl
+```
+then with that Dockerfile
+
+```
+docker build  -t my-cloud-sdk-docker:alpine .
+```
 
 ### Google App Engine base
 
