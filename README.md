@@ -11,8 +11,8 @@ Image is debian-based and includes default command line tools and all [component
 
 ## Supported tags and respective Dockerfile links
 
-> * ```google/cloud-sdk:latest```, ```google/cloud-sdk:VERSION```: (large image with additional components pre-installed, Debian-based)
-> * ```google/cloud-sdk:slim```,  ```google/cloud-sdk:VERSION-slim```: (smaller image with no components pre-installed, Debian-based)
+* ```:latest```, ```:VERSION```: (large image with additional components pre-installed, Debian-based)
+* ```:slim```,  ```:VERSION-slim```: (smaller image with no components pre-installed, Debian-based)
 
 ## Usage
 
@@ -55,11 +55,13 @@ instance-1  us-central1-a  n1-standard-1               10.240.0.2   8.34.219.29 
 
 By default, all gcloud components are installed on the default image:  [https://cloud.google.com/sdk/downloads#apt-get](https://cloud.google.com/sdk/downloads#apt-get)
 
-The :slim image (google/cloud-sdk-docker:slim), contains no additional components but you are welcome to extend the image or supply --build-args during the build state:
+You can override any sdk version provided by specifying the CLOUD_SDK_VERSION in as a build-arg.
+
+The :slim image (google/cloud-sdk:slim), contains no additional components but you are welcome to extend the image or supply --build-args during the build state:
 
 ```
 cd debian_slim/
-docker build --build-arg INSTALL_COMPONENTS="google-cloud-sdk-datastore-emulator" -t my-cloud-sdk-docker:slim .
+docker build --build-arg CLOUD_SDK_VERSION=159.0.0 --build-arg INSTALL_COMPONENTS="google-cloud-sdk-datastore-emulator" -t my-cloud-sdk-docker:slim .
 ```
 
 

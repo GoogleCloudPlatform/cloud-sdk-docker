@@ -1,17 +1,25 @@
 
 
 
-To publish a new release, update the README with the version to deploy under "Supported tags and respective Dockerfile links"
+To publish a new release, update the README with the version to deploy under "Supported tags and respective Dockerfile links".
+
+Then edit the following files and update the SDK version:
+
+* Dockerfile
+* debian_slim/Dockerfile
+* alpine/Dockerfile
 
 then
 
+finally,
 ```bash
 export TAG_VER=159.0.0
-git commit -m "Update SDK to 159.0.0"
+git add -A
+git commit -m "Update SDK to $TAG_VER"
 
 git push
 
-git tag -a $TAG_VER
+git tag -a $TAG_VER -m "Push $TAG_VER"
 git push origin $TAG_VER
 
 ```
@@ -39,7 +47,7 @@ If the build does not succeed or gcloud is not initialized with that version, th
 You can also pass in the ARG value of the sdk version and checksum as overrides for aplpine/Dockerfile:
 
 ```bash
-docker build --build-arg CLOUD_SDK_VERSION=151.0.1 --build-arg SHA256SUM=26b84898bc7834664f02b713fd73c7787e62827d2d486f58314cdf1f6f6c56bb -t alpine_151 --no-cache .
+docker build --build-arg CLOUD_SDK_VERSION=151.0.1 -t alpine_151 --no-cache .
 ```
 
 ---
