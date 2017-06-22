@@ -1,5 +1,5 @@
 FROM debian:jessie
-ARG CLOUD_SDK_VERSION=160.0.0
+ENV CLOUD_SDK_VERSION 160.0.0
 RUN apt-get update && apt-get install -qqy curl gcc python-dev python-setuptools apt-transport-https lsb-release openssh-client && \
     easy_install -U pip && \
     pip install -U crcmod   && \

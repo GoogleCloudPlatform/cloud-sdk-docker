@@ -1,62 +1,35 @@
+# Releasing new versions
 
+Update the `ENV CLOUD_SDK_VERSION` statement with the version number (e.g. `ENV CLOUD_SDK_VERSION 160.0.0`) in the 
+following files:
 
+* `Dockerfile`
+* `debian_slim/Dockerfile`
+* `alpine/Dockerfile`
 
-To publish a new release, update the README with the version to deploy under "Supported tags and respective Dockerfile links".
-
-Then edit the following files and update the SDK version:
-
-* Dockerfile
-* debian_slim/Dockerfile
-* alpine/Dockerfile
-
-then
-
-finally,
-```bash
-export TAG_VER=159.0.0
-git add -A
-git commit -m "Update SDK to $TAG_VER"
-
-git push
-
-git tag -a $TAG_VER -m "Push $TAG_VER"
-git push origin $TAG_VER
-
-```
-
-To recreate a tagged version in github and dockerhub, first delete the local and remote tags:
-
-```
-git tag -d 159.0.0
-
-git push origin :159.0.0
-```
-
-After that, you can tag and re-push your current version.  This will trigger a rebuild in dockerhub
-
-A github [pre-commit](hooks/pre-commit) hook is also provided which will build the default image with the SDK provided. 
-
-It requires docker on your build machine so if you have that installed, just copy this file into 
-```
-cp hooks/pre-commit .git/hooks/pre-commit
-```
-Then on git commit, the script will build the image specified and then compare its output to the value of '$TAG_VER'.  
-
-If the build does not succeed or gcloud is not initialized with that version, the commit will fail.
-
-You can also pass in the ARG value of the sdk version and checksum as overrides for aplpine/Dockerfile:
+Commit, and tag the release:
 
 ```bash
-docker build --build-arg CLOUD_SDK_VERSION=151.0.1 -t alpine_151 --no-cache .
+export VERSION=160.0.0
+git add --all && git commit -m "Update SDK to $VERSION" && \
+    git tag -a $VERSION -m "v${VERSION}" && \
+    git push origin master --tags
 ```
 
----
 
-Archived versions of the SDK can be found under in GCS bucket: 
+## Updating a tagged version
+
+**Caution:** Do not update version-tagged images on Docker Hub with breaking
+changes. If a user is consuming `google/cloud-sdk:160.0.0-slim` image, then do
+not change that image in a breaking way!
+
+To recreate a version-tagged image in Docker Hub, delete the git tag locally
+and remotely on GitHub:
+
+```bash
+git tag -d 159.0.0 && \
+    git push origin :159.0.0
 ```
-gsutil ls gs://cloud-sdk-release
-```
-* [https://storage.cloud.google.com/cloud-sdk-release](https://storage.cloud.google.com/cloud-sdk-release)
 
-
-The Alpine image contains the SHA256 checksum for that version as listed on the SDK [documentation page](https://cloud.google.com/sdk/downloads#versioned).
+Then follow the steps in "Releasing new versions" to release the version
+again.
