@@ -17,6 +17,10 @@ line tools of Google Cloud SDK (`gcloud`, `gsutil`, `bq`) as well as all
 
 &rarr; Check out [Docker Hub](https://hub.docker.com/r/google/cloud-sdk/tags/) for available tags.
 
+[![Docker Pulls](https://img.shields.io/docker/pulls/google/cloud-sdk.svg)]()
+[![Docker Build Status](https://img.shields.io/docker/build/google/cloud-sdk.svg)]()
+[![Docker Automated buil](https://img.shields.io/docker/automated/google/cloud-sdk.svg)]()
+
 ## Usage
 
 To use this image, pull from [Docker Hub](https://hub.docker.com/r/google/cloud-sdk/), run the following command:
