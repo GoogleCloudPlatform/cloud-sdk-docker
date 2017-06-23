@@ -1,5 +1,6 @@
 FROM debian:jessie
-ARG CLOUD_SDK_VERSION=160.0.0
+ENV CLOUD_SDK_VERSION 160.0.0
+
 ARG INSTALL_COMPONENTS
 RUN apt-get update && apt-get install -qqy curl gcc python-dev python-setuptools apt-transport-https lsb-release  && \
     easy_install -U pip && \
