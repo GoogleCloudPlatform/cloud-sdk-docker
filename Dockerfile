@@ -1,6 +1,7 @@
 FROM debian:jessie
 ENV CLOUD_SDK_VERSION 160.0.0
-RUN apt-get update && apt-get install -qqy curl gcc python-dev python-setuptools apt-transport-https lsb-release openssh-client && \
+ENV CLOUDSDK_PYTHON_SITEPACKAGES 1
+RUN apt-get update && apt-get install -qqy curl gcc python-dev python-setuptools apt-transport-https lsb-release openssh-client python-openssl && \
     easy_install -U pip && \
     pip install -U crcmod   && \
     export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
