@@ -1,5 +1,5 @@
 FROM debian:jessie
-ENV CLOUD_SDK_VERSION 161.0.0
+ENV CLOUD_SDK_VERSION 162.0.0
 
 RUN apt-get -qqy update && apt-get install -qqy \
         curl \
@@ -24,6 +24,7 @@ RUN apt-get -qqy update && apt-get install -qqy \
         google-cloud-sdk-datastore-emulator \
         google-cloud-sdk-pubsub-emulator \
         google-cloud-sdk-bigtable-emulator \
+        google-cloud-sdk-cbt \
         kubectl && \
     gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
