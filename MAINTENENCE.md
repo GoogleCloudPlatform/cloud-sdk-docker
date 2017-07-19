@@ -27,8 +27,11 @@ To recreate a version-tagged image in Docker Hub, delete the git tag locally
 and remotely on GitHub:
 
 ```bash
-git tag -d 159.0.0 && \
-    git push origin :159.0.0
+export VERSION=160.0.0
+git add --all && git commit -m "Re-release tag $VERSION" --allow-empty && \
+    git tag -d $VERSION -m "v${VERSION}" && \
+    git push origin ":${VERSION}" && \
+    git push origin master --tags
 ```
 
 Then follow the steps in "Releasing new versions" to release the version
