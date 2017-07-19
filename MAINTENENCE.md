@@ -12,6 +12,7 @@ Commit, and tag the release:
 ```bash
 export VERSION=160.0.0
 git add --all && git commit -m "Update SDK to $VERSION" --allow-empty && \
+    git tag -d $VERSION; \
     git tag -a $VERSION -m "v${VERSION}" && \
     git push origin master --tags
 ```
@@ -29,7 +30,7 @@ and remotely on GitHub:
 ```bash
 export VERSION=160.0.0
 git add --all && git commit -m "Re-release tag $VERSION" --allow-empty && \
-    git tag -d $VERSION -m "v${VERSION}" && \
+    git tag -a $VERSION -m "v${VERSION}" && \
     git push origin ":${VERSION}" && \
     git push origin master --tags
 ```
