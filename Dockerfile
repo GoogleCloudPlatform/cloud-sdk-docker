@@ -1,7 +1,7 @@
 FROM debian:jessie
 ENV CLOUD_SDK_VERSION 167.0.0
 
-RUN apt-get -qqy update && apt-get install -qqy \
+RUN apt-get -qqy update && apt-get install -qqy --no-install-recommends --no-install-suggests \
         curl \
         gcc \
         python-dev \
@@ -16,7 +16,7 @@ RUN apt-get -qqy update && apt-get install -qqy \
     echo "deb https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" > /etc/apt/sources.list.d/google-cloud-sdk.list && \
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
     apt-get update && \
-    apt-get install -y google-cloud-sdk=${CLOUD_SDK_VERSION}-0 \
+    apt-get install -y --no-install-recommends --no-install-suggests google-cloud-sdk=${CLOUD_SDK_VERSION}-0 \
         google-cloud-sdk-app-engine-python \
         google-cloud-sdk-app-engine-java \
         google-cloud-sdk-app-engine-go \
