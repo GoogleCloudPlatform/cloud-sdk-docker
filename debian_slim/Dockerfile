@@ -4,6 +4,7 @@ ENV CLOUD_SDK_VERSION 167.0.0
 ARG INSTALL_COMPONENTS
 RUN apt-get update -qqy && apt-get install -qqy --no-install-recommends --no-install-suggests \
         curl \
+        ca-certificates \
         gcc \
         python-dev \
         python-setuptools \
