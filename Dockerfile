@@ -1,5 +1,5 @@
 FROM debian:jessie
-ENV CLOUD_SDK_VERSION 170.0.1
+ENV CLOUD_SDK_VERSION 171.0.0
 
 RUN apt-get -qqy update && apt-get install -qqy \
         curl \
