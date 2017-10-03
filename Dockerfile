@@ -1,4 +1,4 @@
-FROM docker:17.06.1-ce as static-docker-source
+FROM docker:17.09.0-ce as static-docker-source
 
 FROM debian:jessie
 ENV CLOUD_SDK_VERSION 171.0.0
