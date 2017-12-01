@@ -1,5 +1,5 @@
 FROM alpine:3.5
-ENV CLOUD_SDK_VERSION 178.0.0
+ENV CLOUD_SDK_VERSION 181.0.0
 
 ENV PATH /google-cloud-sdk/bin:$PATH
 RUN apk --no-cache add \
