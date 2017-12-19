@@ -1,7 +1,7 @@
 FROM docker:17.09.0-ce as static-docker-source
 
 FROM debian:jessie
-ENV CLOUD_SDK_VERSION 181.0.0
+ENV CLOUD_SDK_VERSION 182.0.0
 
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
 RUN apt-get -qqy update && apt-get install -qqy \
@@ -20,14 +20,14 @@ RUN apt-get -qqy update && apt-get install -qqy \
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
     apt-get update && \
     apt-get install -y google-cloud-sdk=${CLOUD_SDK_VERSION}-0 \
-        google-cloud-sdk-app-engine-python \
-        google-cloud-sdk-app-engine-java \
-        google-cloud-sdk-app-engine-go \
-        google-cloud-sdk-datalab \
-        google-cloud-sdk-datastore-emulator \
-        google-cloud-sdk-pubsub-emulator \
-        google-cloud-sdk-bigtable-emulator \
-        google-cloud-sdk-cbt \
+        google-cloud-sdk-app-engine-python=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-sdk-app-engine-java=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-sdk-app-engine-go=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-sdk-datalab=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-sdk-datastore-emulator=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-sdk-pubsub-emulator=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-sdk-bigtable-emulator=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-sdk-cbt=${CLOUD_SDK_VERSION}-0 \
         kubectl && \
     gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \

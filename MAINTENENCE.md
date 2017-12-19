@@ -13,7 +13,7 @@ Commit, and tag the release:
 export VERSION=160.0.0
 git add --all && git commit -m "Update SDK to $VERSION" --allow-empty && \
     git tag -a $VERSION -m "v${VERSION}" && \
-    git push origin master --tags
+    git push origin master --tags "${VERSION}"
 ```
 
 
