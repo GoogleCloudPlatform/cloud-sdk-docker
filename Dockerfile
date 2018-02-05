@@ -1,7 +1,7 @@
 FROM docker:17.09.0-ce as static-docker-source
 
 FROM debian:jessie
-ENV CLOUD_SDK_VERSION 183.0.0
+ENV CLOUD_SDK_VERSION 187.0.0
 
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
 RUN apt-get -qqy update && apt-get install -qqy \
