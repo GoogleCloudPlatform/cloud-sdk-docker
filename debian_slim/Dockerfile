@@ -1,5 +1,5 @@
 FROM debian:jessie
-ENV CLOUD_SDK_VERSION 187.0.0
+ENV CLOUD_SDK_VERSION 189.0.0
 
 ARG INSTALL_COMPONENTS
 RUN apt-get update -qqy && apt-get install -qqy \
