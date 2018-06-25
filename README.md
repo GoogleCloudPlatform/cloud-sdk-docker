@@ -34,13 +34,13 @@ Verify the install
 
 ```bash
 docker run -ti  google/cloud-sdk:latest gcloud version
-Google Cloud SDK 159.0.0
+Google Cloud SDK 206.0.0
 ```
 
 or use a particular version number:
 
 ```bash
-docker run -ti google/cloud-sdk:160.0.0 gcloud version
+docker run -ti google/cloud-sdk:206.0.0 gcloud version
 ```
 
 Then, authenticate by running:
@@ -79,7 +79,7 @@ the instructions below:
 
 ```
 cd debian_slim/
-docker build --build-arg CLOUD_SDK_VERSION=159.0.0 \
+docker build --build-arg CLOUD_SDK_VERSION=206.0.0 \
     --build-arg INSTALL_COMPONENTS="google-cloud-sdk-datastore-emulator" \
     -t my-cloud-sdk-docker:slim .
 ```
