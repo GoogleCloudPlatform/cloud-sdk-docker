@@ -1,5 +1,5 @@
 FROM debian:stretch
-ENV CLOUD_SDK_VERSION 215.0.0
+ARG CLOUD_SDK_VERSION=215.0.0
 
 ARG INSTALL_COMPONENTS
 RUN apt-get update -qqy && apt-get install -qqy \

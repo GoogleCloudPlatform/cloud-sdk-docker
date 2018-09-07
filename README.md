@@ -105,6 +105,11 @@ docker build  -t my-cloud-sdk-docker:alpine .
 Note that in this case, you have to install dependencies of additional
 components manually.
 
+### Installing different version of gcloud sdk:
+```
+docker build -t my-cloud-sdk-docker:alpine --build-args CLOUD_SDK_VERSION=<release_number> .
+```
+
 ### Legacy image (Google App Engine based)
 
 The original image in this repository was based off of 
