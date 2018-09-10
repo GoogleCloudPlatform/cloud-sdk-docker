@@ -1,6 +1,6 @@
 # Releasing new versions
 
-Update the `ENV CLOUD_SDK_VERSION` statement with the version number (e.g. `ENV CLOUD_SDK_VERSION 160.0.0`) in the 
+Update the `ARG CLOUD_SDK_VERSION` statement with the version number (e.g. `ARG CLOUD_SDK_VERSION 160.0.0`) in the 
 following files:
 
 * `Dockerfile`
