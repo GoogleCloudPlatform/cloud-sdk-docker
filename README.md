@@ -65,6 +65,37 @@ instance-1  us-central1-a  n1-standard-1               10.240.0.2   8.34.219.29 
 > containing your Google Cloud credentials. Do not use `gcloud-config` volume in
 > other containers.
 
+
+Alternatively, you can use use `auth/credential_file_override` property to set a path to a mounted service account
+and then the config to read that using `CLOUDSDK_CONFIG` environment variable.
+
+for example, `mycloud` configuration below has the `auth/credential_file_override` already set and points towards a certificate file
+that will be present within the container as a separate volume mount.
+
+> See [issue#152](https://github.com/GoogleCloudPlatform/cloud-sdk-docker/issues/152#event-1933393673)
+
+```
+$ docker run -ti -e CLOUDSDK_CONFIG=/config/mygcloud \
+                 -v `pwd`/mygcloud:/config/mygcloud \
+                 -v `pwd`:/certs  google/cloud-sdk:alpine /bin/bash
+
+bash-4.4# gcloud config list
+[auth]
+credential_file_override = /certs/svc_account.json
+
+bash-4.4# head -10  /certs/svc_account.json
+{
+  "type": "service_account",
+  "project_id": "project_id1",
+....
+
+bash-4.4# gcloud projects list
+PROJECT_ID           NAME         PROJECT_NUMBER
+project_id1          GCPAppID     1071284184432
+
+```
+
+
 ### Installing additional components
 
 By default, [all gcloud components
@@ -112,7 +143,7 @@ docker build -t my-cloud-sdk-docker:alpine --build-arg CLOUD_SDK_VERSION=<releas
 
 ### Legacy image (Google App Engine based)
 
-The original image in this repository was based off of 
+The original image in this repository was based off of
 
 > FROM gcr.io/google_appengine/base
 
