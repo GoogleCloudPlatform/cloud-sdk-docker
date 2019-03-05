@@ -1,7 +1,7 @@
 FROM docker:17.12.0-ce as static-docker-source
 
 FROM debian:stretch
-ARG CLOUD_SDK_VERSION=236.0.0
+ARG CLOUD_SDK_VERSION=237.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
