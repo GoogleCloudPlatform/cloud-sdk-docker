@@ -3,7 +3,7 @@ FROM docker:17.12.0-ce as static-docker-source
 FROM debian:stretch
 ARG CLOUD_SDK_VERSION=239.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
-
+ENV PATH "$PATH:/opt/google-cloud-sdk/bin/"
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
 RUN apt-get -qqy update && apt-get install -qqy \
         curl \
@@ -17,21 +17,13 @@ RUN apt-get -qqy update && apt-get install -qqy \
         gnupg \
     && easy_install -U pip && \
     pip install -U crcmod   && \
-    export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
-    echo "deb https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" > /etc/apt/sources.list.d/google-cloud-sdk.list && \
-    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
-    apt-get update && \
-    apt-get install -y google-cloud-sdk=${CLOUD_SDK_VERSION}-0 \
-        google-cloud-sdk-app-engine-python=${CLOUD_SDK_VERSION}-0 \
-        google-cloud-sdk-app-engine-python-extras=${CLOUD_SDK_VERSION}-0 \
-        google-cloud-sdk-app-engine-java=${CLOUD_SDK_VERSION}-0 \
-        google-cloud-sdk-app-engine-go=${CLOUD_SDK_VERSION}-0 \
-        google-cloud-sdk-datalab=${CLOUD_SDK_VERSION}-0 \
-        google-cloud-sdk-datastore-emulator=${CLOUD_SDK_VERSION}-0 \
-        google-cloud-sdk-pubsub-emulator=${CLOUD_SDK_VERSION}-0 \
-        google-cloud-sdk-bigtable-emulator=${CLOUD_SDK_VERSION}-0 \
-        google-cloud-sdk-cbt=${CLOUD_SDK_VERSION}-0 \
-        kubectl && \
+    mkdir -p /opt && cd /opt && \
+    curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
+    tar xzf google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
+    rm google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
+    gcloud components install -q cbt bigtable datalab gcd-emulator cloud-firestore-emulator pubsub-emulator \
+      cloud_sql_proxy emulator-reverse-proxy cloud-build-local docker-credential-gcr app-engine-java \
+      app-engine-go bq cloud-datastore-emulator core gsutil alpha beta app-engine-python app-engine-php app-engine-python-extras kubectl && \
     gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment github_docker_image && \
