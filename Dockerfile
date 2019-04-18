@@ -15,6 +15,7 @@ RUN apt-get -qqy update && apt-get install -qqy \
         openssh-client \
         git \
         gnupg \
+        gettext-base \
     && easy_install -U pip && \
     pip install -U crcmod   && \
     export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
