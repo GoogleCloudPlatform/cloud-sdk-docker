@@ -7,6 +7,7 @@ ENV PATH "$PATH:/opt/google-cloud-sdk/bin/"
 RUN apt-get update -qqy && apt-get install -qqy \
         curl \
         gcc \
+        make \
         python-dev \
         python-setuptools \
         apt-transport-https \
