@@ -34,4 +34,5 @@ RUN apt-get -qqy update && apt-get install -qqy \
         kubectl && \
     gcloud --version && \
     docker --version && kubectl version --client
-VOLUME ["/root/.config"]
+VOLUME ["/root/.config", "/root/.kube"]
+
