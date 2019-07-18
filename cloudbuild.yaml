@@ -61,6 +61,7 @@ steps:
 secrets:
 - kmsKeyName: projects/$PROJECT_ID/locations/global/keyRings/$_KMSKEYRING/cryptoKeys/$_KMSKEY
   secretEnv:
-    PASSWORD: CiQA9btlfh/xoOAinOXgByDfnETIJVHhPjOFzEee/sP0blzT1F4SNwC8sn1MgnUqD0dw6PV7OZIm
-QMNwNkZ/eGGhmCElE0hBRmOqKzBkKk9u2tRLu5GjgWFzdj9fMV4=
+    PASSWORD: |
+      CiQA9btlfh/xoOAinOXgByDfnETIJVHhPjOFzEee/sP0blzT1F4SNwC8sn1MgnUqD0dw6PV7OZIm
+      QMNwNkZ/eGGhmCElE0hBRmOqKzBkKk9u2tRLu5GjgWFzdj9fMV4=
 timeout: 1200s
