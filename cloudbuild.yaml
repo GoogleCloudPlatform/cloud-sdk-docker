@@ -15,7 +15,7 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   id: dockersecret
   entrypoint: 'bash'
-  args: ['-c', 'docker login --username=$_USERNAME] --password=$$PASSWORD']
+  args: ['-c', 'docker login --username=$_USERNAME --password=$$PASSWORD']
   secretEnv: ['PASSWORD']
 
 - name: 'gcr.io/cloud-builders/docker'
@@ -59,7 +59,7 @@ steps:
   waitFor: ['dockersecret', 'debian_slim']
 
 secrets:
-- kmsKeyName: projects/$PROJECT_ID/locations/global/keyRings/$_KMSKEYRING/cryptoKeys/$_KMSKEY
+- kmsKeyName: projects/$PROJECT_ID/locations/global/keyRings/${_KMSKEYRING}/cryptoKeys/${_KMSKEY}
   secretEnv:
     PASSWORD: |
       CiQA9btlfh/xoOAinOXgByDfnETIJVHhPjOFzEee/sP0blzT1F4SNwC8sn1MgnUqD0dw6PV7OZIm
