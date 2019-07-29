@@ -14,6 +14,7 @@ RUN apt-get -qqy update && apt-get install -qqy \
         lsb-release \
         openssh-client \
         git \
+        make \
         gnupg \
     && easy_install -U pip && \
     pip install -U crcmod   && \
