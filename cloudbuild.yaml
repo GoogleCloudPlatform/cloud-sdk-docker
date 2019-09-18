@@ -59,7 +59,7 @@ steps:
   waitFor: ['dockersecret', 'debian_slim']
 
 secrets:
-- kmsKeyName: projects/$PROJECT_ID/locations/global/keyRings/${_KMSKEYRING}/cryptoKeys/${_KMSKEY}
+- kmsKeyName: projects/google.com:cloudsdktool/locations/global/keyRings/docker/cryptoKeys/dockerhub-password
   secretEnv:
     PASSWORD: |
       CiQA9btlfh/xoOAinOXgByDfnETIJVHhPjOFzEee/sP0blzT1F4SNwC8sn1MgnUqD0dw6PV7OZIm
