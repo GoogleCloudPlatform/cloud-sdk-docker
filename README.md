@@ -33,14 +33,14 @@ docker pull google/cloud-sdk:latest
 Verify the install
 
 ```bash
-docker run -ti  google/cloud-sdk:latest gcloud version
+docker run google/cloud-sdk:latest gcloud version
 Google Cloud SDK 159.0.0
 ```
 
 or use a particular version number:
 
 ```bash
-docker run -ti google/cloud-sdk:160.0.0 gcloud version
+docker run google/cloud-sdk:160.0.0 gcloud version
 ```
 
 Then, authenticate by running:
@@ -56,7 +56,7 @@ To list compute instances using these credentials, run the container with
 `--volumes-from`:
 
 ```
-docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gcloud compute instances list --project your_project
+docker run --rm --volumes-from gcloud-config google/cloud-sdk gcloud compute instances list --project your_project
 NAME        ZONE           MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP      STATUS
 instance-1  us-central1-a  n1-standard-1               10.240.0.2   8.34.219.29      RUNNING
 ```
@@ -130,7 +130,7 @@ RUN gcloud components install app-engine-java kubectl
 and run:
 
 ```
-docker build  -t my-cloud-sdk-docker:alpine .
+docker build -t my-cloud-sdk-docker:alpine .
 ```
 
 Note that in this case, you have to install dependencies of additional
