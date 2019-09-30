@@ -14,6 +14,7 @@ RUN apt-get -qqy update && apt-get install -qqy \
         lsb-release \
         openssh-client \
         git \
+        make \
         gnupg && \
     pip install -U crcmod && \
     echo 'deb http://deb.debian.org/debian/ sid main' >> /etc/apt/sources.list && \
