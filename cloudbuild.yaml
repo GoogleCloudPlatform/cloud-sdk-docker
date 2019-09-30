@@ -1,21 +1,21 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
   id: alpine
-  args: ['build', '-t', 'google/cloud-sdk:alpine', '-t', 'google/cloud-sdk:$TAG_NAME-alpine', 'alpine/']
+  args: ['build', '-t', 'google/cloud-sdk:alpine', '-t', 'google/cloud-sdk:$TAG_NAME-alpine', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-alpine', 'alpine/']
   waitFor: ['-']
 - name: 'gcr.io/cloud-builders/docker'
   id: debian_slim
-  args: ['build', '-t', 'google/cloud-sdk:slim', '-t', 'google/cloud-sdk:$TAG_NAME-slim', 'debian_slim/']
+  args: ['build', '-t', 'google/cloud-sdk:slim', '-t', 'google/cloud-sdk:$TAG_NAME-slim', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-slim', 'debian_slim/']
   waitFor: ['-']
 - name: 'gcr.io/cloud-builders/docker'
   id: default
-  args: ['build', '-t', 'google/cloud-sdk:latest', '-t', 'google/cloud-sdk:$TAG_NAME', '.']
+  args: ['build', '-t', 'google/cloud-sdk:latest', '-t', 'google/cloud-sdk:$TAG_NAME', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:latest', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME', '.']
   waitFor: ['-']
 
 - name: 'gcr.io/cloud-builders/docker'
   id: dockersecret
   entrypoint: 'bash'
-  args: ['-c', 'docker login --username=[USERNAME] --password=$$PASSWORD']
+  args: ['-c', 'docker login --username=$_USERNAME --password=$$PASSWORD']
   secretEnv: ['PASSWORD']
 
 - name: 'gcr.io/cloud-builders/docker'
@@ -25,20 +25,43 @@ steps:
   args: ['push', 'google/cloud-sdk:$TAG_NAME-alpine']
   waitFor: ['dockersecret', 'alpine']
 - name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine']
+  waitFor: ['dockersecret', 'alpine']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-alpine']
+  waitFor: ['dockersecret', 'alpine']
+
+
+- name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'google/cloud-sdk:slim']
   waitFor: ['dockersecret', 'debian_slim']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'google/cloud-sdk:$TAG_NAME-slim']
   waitFor: ['dockersecret', 'debian_slim']
 - name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim']
+  waitFor: ['dockersecret', 'debian_slim']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-slim']
+  waitFor: ['dockersecret', 'debian_slim']
+
+- name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'google/cloud-sdk:latest']
   waitFor: ['dockersecret', 'default']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'google/cloud-sdk:$TAG_NAME']
   waitFor: ['dockersecret', 'default']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/google.com/cloudsdktool/cloud-sdk:latest']
+  waitFor: ['dockersecret', 'debian_slim']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME']
+  waitFor: ['dockersecret', 'debian_slim']
 
 secrets:
-- kmsKeyName: projects/[PROJECT]/locations/global/keyRings/[KMSKEYRING]/cryptoKeys/[KMSKEY]
+- kmsKeyName: projects/google.com:cloudsdktool/locations/global/keyRings/docker/cryptoKeys/dockerhub-password
   secretEnv:
-    PASSWORD: [KMSENCRYPTEDPASSWORD]
+    PASSWORD: |
+        CiQA9btlfpg/kWmwXQvrNXtkVpu2tDdD2VOi1FYd3mmjCUGaK4YSNwC8sn1MepjracHAg8VAQEWm
+        s26BTGccqD1NTS83DGFdY9moRGhSPm4WJKCg2tTQKYeTfdqUjjM=
 timeout: 1200s

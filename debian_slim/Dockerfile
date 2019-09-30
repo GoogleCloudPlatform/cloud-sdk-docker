@@ -1,7 +1,7 @@
 FROM docker:17.12.0-ce as static-docker-source
 
-FROM debian:stretch
-ARG CLOUD_SDK_VERSION=241.0.0
+FROM debian:buster
+ARG CLOUD_SDK_VERSION=264.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 
 ARG INSTALL_COMPONENTS
@@ -11,13 +11,12 @@ RUN apt-get update -qqy && apt-get install -qqy \
         curl \
         gcc \
         python-dev \
-        python-setuptools \
+        python-pip \
         apt-transport-https \
         lsb-release \
         openssh-client \
         git \
-        gnupg \
-    && easy_install -U pip && \
+        gnupg && \
     pip install -U crcmod && \
     export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
     echo "deb https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" > /etc/apt/sources.list.d/google-cloud-sdk.list && \
