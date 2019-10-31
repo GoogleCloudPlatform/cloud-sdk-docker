@@ -32,12 +32,13 @@ The full repository name for Docker Hub is `google/cloud-sdk`.
 
 To use this image, pull from [Container Registry](gcr.io/google.com/cloudsdktool/cloud-sdk) and then run the following command:
 
-(Note: To pull from Docker Hub, replace all of the following instances of `gcr.io/google.com/cloudsdktool/cloud-sdk` with `google/cloud-sdk`.)
-
-
 ```
 docker pull gcr.io/google.com/cloudsdktool/cloud-sdk:latest
 ```
+
+(Note: To pull from Docker Hub, replace all instances of `gcr.io/google.com/cloudsdktool/cloud-sdk` with `google/cloud-sdk`.)
+
+
 
 Verify the install
 
