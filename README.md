@@ -21,7 +21,7 @@ The full repository name for Docker Hub is `google/cloud-sdk`.
   no components pre-installed, Debian-based)
 * `:alpine`,  `:VERSION-alpine`: (smallest image
   with no additional components installed, Alpine-based)
-* `:component_install`, `:VERSION`: (Similar to
+* `:component_based`, `:VERSION`: (Similar to
   :latest but component installer based)
 
 &rarr; Check out [Container Registry](https://gcr.io/google.com/cloudsdktool/cloud-sdk) for available tags.
