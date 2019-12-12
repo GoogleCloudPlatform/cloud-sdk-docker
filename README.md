@@ -7,7 +7,7 @@ line tools of Google Cloud SDK (`gcloud`, `gsutil`, `bq`) as well as all
 [additional components](https://cloud.google.com/sdk/downloads#apt-get).
 
 ## Repositories
-The Google Cloud SDK Docker Image is hosted on both [Container Registry](https://gcr.io/google.com/cloudsdktool/cloud-sdk) and [Docker Hub](https://hub.docker.com/r/google/cloud-sdk/). 
+The Google Cloud SDK Docker Image is hosted on both [Container Registry](https://gcr.io/google.com/cloudsdktool/cloud-sdk) and [Docker Hub](https://hub.docker.com/r/google/cloud-sdk/).
 
 The full repository name for Container Registry is `gcr.io/google.com/cloudsdktool/cloud-sdk`.
 
@@ -21,6 +21,8 @@ The full repository name for Docker Hub is `google/cloud-sdk`.
   no components pre-installed, Debian-based)
 * `:alpine`,  `:VERSION-alpine`: (smallest image
   with no additional components installed, Alpine-based)
+* `:component_install`, `:VERSION`: (Similar to
+  :latest but component installer based)
 
 &rarr; Check out [Container Registry](https://gcr.io/google.com/cloudsdktool/cloud-sdk) for available tags.
 
