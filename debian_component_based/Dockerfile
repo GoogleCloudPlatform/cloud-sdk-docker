@@ -3,7 +3,7 @@ FROM docker:17.12.0-ce as static-docker-source
 FROM debian:buster
 ARG CLOUD_SDK_VERSION=273.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
-ENV PATH "$PATH:/opt/google-cloud-sdk/bin/"
+ENV PATH /google-cloud-sdk/bin:$PATH
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
 RUN apt-get -qqy update && apt-get install -qqy \
         curl \
