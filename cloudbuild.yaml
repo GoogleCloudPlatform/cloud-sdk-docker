@@ -13,7 +13,7 @@ steps:
   waitFor: ['-']
 - name: 'gcr.io/cloud-builders/docker'
   id: debian_component_based
-  args: ['build', '-t', 'google/cloud-sdk:debian_component_based', '-t', 'google/cloud-sdk:273.0.0-debian_component_based', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:debian_component_based', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:273.0.0-debian_component_based', 'debian_component_based/']
+  args: ['build', '-t', 'google/cloud-sdk:debian_component_based', '-t', 'google/cloud-sdk:$TAG_NAME-debian_component_based', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:debian_component_based', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NEM-debian_component_based', 'debian_component_based/']
   waitFor: ['-']
 
 - name: 'gcr.io/cloud-builders/docker'
@@ -66,13 +66,13 @@ steps:
   args: ['push', 'google/cloud-sdk:debian_component_based']
   waitFor: ['dockersecret', 'debian_component_based']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'google/cloud-sdk:273.0.0-debian_component_based']
+  args: ['push', 'google/cloud-sdk:$TAG_NAME-debian_component_based']
   waitFor: ['dockersecret', 'debian_component_based']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/google.com/cloudsdktool/cloud-sdk:debian_component_based']
   waitFor: ['dockersecret', 'debian_component_based']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/google.com/cloudsdktool/cloud-sdk:273.0.0-debian_component_based']
+  args: ['push', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-debian_component_based']
   waitFor: ['dockersecret', 'debian_component_based']
 
 secrets:
