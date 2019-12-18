@@ -13,7 +13,7 @@ steps:
   waitFor: ['-']
 - name: 'gcr.io/cloud-builders/docker'
   id: debian_component_based
-  args: ['build', '-t', 'google/cloud-sdk:debian_component_based', '-t', 'google/cloud-sdk:$TAG_NAME-debian_component_based', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:debian_component_based', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NEM-debian_component_based', 'debian_component_based/']
+  args: ['build', '-t', 'google/cloud-sdk:debian_component_based', '-t', 'google/cloud-sdk:$TAG_NAME-debian_component_based', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:debian_component_based', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-debian_component_based', 'debian_component_based/']
   waitFor: ['-']
 
 - name: 'gcr.io/cloud-builders/docker'
