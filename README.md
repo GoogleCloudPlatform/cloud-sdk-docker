@@ -135,7 +135,7 @@ that uses the gcloud image as the base image. For example, to add `kubectl` and
 
 ```Dockerfile
 FROM gcr.io/google.com/cloudsdktool/cloud-sdk:alpine
-RUN apk --update add openjdk7-jre
+RUN apk --update add openjdk8-jre
 RUN gcloud components install app-engine-java kubectl
 ```
 
