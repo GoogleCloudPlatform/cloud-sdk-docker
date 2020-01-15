@@ -4,10 +4,9 @@ FROM debian:buster
 ARG CLOUD_SDK_VERSION=276.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV CLOUDSDK_PYTHON=python3
-
-ARG INSTALL_COMPONENTS
 ENV PATH "$PATH:/opt/google-cloud-sdk/bin/"
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
+ARG INSTALL_COMPONENTS
 RUN apt-get update -qqy && apt-get install -qqy \
         curl \
         gcc \
