@@ -1,6 +1,6 @@
 FROM docker:17.12.0-ce as static-docker-source
 
-FROM alpine:3.10
+FROM alpine:3.11
 ARG CLOUD_SDK_VERSION=276.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 
