@@ -1,7 +1,7 @@
 FROM docker:17.12.0-ce as static-docker-source
 
 FROM debian:buster
-ARG CLOUD_SDK_VERSION=279.0.0
+ARG CLOUD_SDK_VERSION=280.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV CLOUDSDK_PYTHON=python3
 ENV PATH "$PATH:/opt/google-cloud-sdk/bin/"
