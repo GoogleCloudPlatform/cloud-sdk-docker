@@ -1,0 +1,5 @@
+#!/bin/bash
+export VERSION=<RELEASE_NUMBER> && \
+  git add --all && git commit -m "Update SDK to $VERSION" --allow-empty && \
+  git tag -a $VERSION -m "v${VERSION}" && \
+  git push origin master --tags "${VERSION}"

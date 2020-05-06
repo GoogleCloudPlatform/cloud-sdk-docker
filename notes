@@ -1,0 +1,19 @@
+These are the packages with openjdk deps...
+
+google-cloud-sdk-app-engine-java
+
+Depends: google-cloud-sdk-app-engine-python, openjdk-7-jdk | openjdk-8-jdk
+
+
+google-cloud-sdk-datastore-emulator.debian/
+
+Depends: google-cloud-sdk, openjdk-8-jdk
+
+
+google-cloud-sdk-pubsub-emulator.debian/
+
+Depends: google-cloud-sdk, openjdk-7-jdk | openjdk-8-jdk
+
+google-cloud-sdk-firestore-emulator.debian/control
+
+Depends: google-cloud-sdk, openjdk-8-jdk
