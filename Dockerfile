@@ -8,7 +8,6 @@ ENV PATH "$PATH:/opt/google-cloud-sdk/bin/"
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
 RUN apt-get -qqy update && apt-get install -qqy \
         curl \
-        gcc \
         python3-dev \
         python3-crcmod \
         python-crcmod \
@@ -36,5 +35,8 @@ RUN apt-get -qqy update && apt-get install -qqy \
         kubectl && \
     gcloud --version && \
     docker --version && kubectl version --client
+RUN apt-get install -qqy \
+        gcc \
+        python3-pip
 VOLUME ["/root/.config", "/root/.kube"]
 
