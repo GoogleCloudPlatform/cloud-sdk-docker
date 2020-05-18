@@ -38,5 +38,6 @@ RUN apt-get -qqy update && apt-get install -qqy \
 RUN apt-get install -qqy \
         gcc \
         python3-pip
+RUN git config --global credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config", "/root/.kube"]
 
