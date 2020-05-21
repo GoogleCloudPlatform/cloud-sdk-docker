@@ -23,4 +23,5 @@ RUN apk --no-cache add \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment github_docker_image && \
     gcloud --version
+RUN git config --global credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config"]

@@ -25,4 +25,5 @@ RUN /google-cloud-sdk/install.sh --bash-completion=false --path-update=true --us
 	--additional-components app-engine-java app-engine-python alpha beta \
 	pubsub-emulator cloud-datastore-emulator app-engine-go bigtable cbt datalab \
 	app-engine-python-extras kubectl
+RUN git config --global credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config", "/root/.kube"]
