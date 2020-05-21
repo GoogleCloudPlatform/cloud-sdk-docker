@@ -28,4 +28,6 @@ RUN apt-get update -qqy && apt-get install -qqy \
     gcloud config set metrics/environment github_docker_image && \
     gcloud --version
 
+RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
+
 VOLUME ["/root/.config"]
