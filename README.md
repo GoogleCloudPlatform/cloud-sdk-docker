@@ -130,7 +130,7 @@ docker build --build-arg CLOUD_SDK_VERSION=159.0.0 \
 #### Alpine-based images
 
 To install additional components for Alpine-based images, create a Dockerfile
-that uses the gcloud image as the base image. For example, to add `kubectl` and
+that uses the `cloud-sdk` image as the base image. For example, to add `kubectl` and
 `app-engine-java` components:
 
 ```Dockerfile
