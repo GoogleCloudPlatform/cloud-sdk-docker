@@ -1,4 +1,4 @@
-FROM docker:19.03.0-ce as static-docker-source
+FROM docker:19.03.11 as static-docker-source
 
 FROM alpine:3.11
 ARG CLOUD_SDK_VERSION=295.0.0
