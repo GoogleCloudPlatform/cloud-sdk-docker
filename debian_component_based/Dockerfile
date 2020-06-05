@@ -1,4 +1,4 @@
-FROM docker:17.12.0-ce as static-docker-source
+FROM docker:19.03.0-ce as static-docker-source
 
 FROM debian:buster
 ARG CLOUD_SDK_VERSION=295.0.0
