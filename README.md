@@ -106,7 +106,24 @@ PROJECT_ID           NAME         PROJECT_NUMBER
 project_id1          GCPAppID     1071284184432
 
 ```
+### Components Installed in Each Tag
 
+|                    Component                   | :latest | :alpine | :slim | :debian_component_based |
+|:----------------------------------------------:|:-------:|:-------:|:-----:|:-----------------------:|
+|            App Engine Go Extensions            |    x    |         |       |            x            |
+|           BigQuery Command Line Tool           |    x    |    x    |   x   |            x            |
+|        Cloud Bigtable Command Line Tool        |    x    |         |       |            x            |
+|             Cloud Bigtable Emulator            |    x    |         |       |            x            |
+|         Cloud Datalab Command Line Tool        |    x    |         |       |            x            |
+|            Cloud Datastore Emulator            |    x    |         |       |            x            |
+|             Cloud Pub/Sub Emulator             |    x    |         |       |            x            |
+|         Cloud Storage Command Line Tool        |    x    |    x    |   x   |            x            |
+|              gcloud Alpha Commands             |    x    |         |   x   |            x            |
+|              gcloud Beta Commands              |    x    |         |   x   |            x            |
+|           gcloud app Java Extensions           |    x    |         |       |            x            |
+|          gcloud app Python Extensions          |    x    |         |       |            x            |
+| gcloud app Python Extensions (Extra Libraries) |    x    |         |       |            x            |
+|                     kubectl                    |    x    |         |   x   |            x            |
 
 ### Installing additional components
 
