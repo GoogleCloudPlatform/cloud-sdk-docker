@@ -24,4 +24,4 @@ RUN apk --no-cache add \
     gcloud config set metrics/environment github_docker_image && \
     gcloud --version
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
-VOLUME ["/root/.config"]
+VOLUME ["~/.config"]
