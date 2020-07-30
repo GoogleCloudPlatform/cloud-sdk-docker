@@ -6,6 +6,8 @@ ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV CLOUDSDK_PYTHON=python3
 ENV PATH "$PATH:/opt/google-cloud-sdk/bin/"
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
+RUN groupadd -r -g 1000 cloudsdk && \
+    useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
 ARG INSTALL_COMPONENTS
 RUN apt-get update -qqy && apt-get install -qqy \
         curl \
@@ -29,4 +31,5 @@ RUN apt-get update -qqy && apt-get install -qqy \
 
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 
-VOLUME ["/root/.config"]
+USER cloudsdk
+VOLUME ["~/.config"]
