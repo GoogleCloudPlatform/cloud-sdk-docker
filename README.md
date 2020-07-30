@@ -78,7 +78,7 @@ instance-1  us-central1-a  n1-standard-1               10.240.0.2   8.34.219.29 
 > other containers.
 
 
-Alternatively, you can use use `auth/credential_file_override` property to set a path to a mounted service account
+Alternatively, you can use `auth/credential_file_override` property to set a path to a mounted service account
 and then the config to read that using `CLOUDSDK_CONFIG` environment variable.
 
 for example, `mycloud` configuration below has the `auth/credential_file_override` already set and points towards a certificate file
