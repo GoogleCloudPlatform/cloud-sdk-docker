@@ -55,10 +55,16 @@ or use a particular version number:
 docker run gcr.io/google.com/cloudsdktool/cloud-sdk:260.0.0 gcloud version
 ```
 
-Then, authenticate by running:
+You can authenticate `gcloud` with your user credentials by running [`gcloud auth login`](https://cloud.google.com/sdk/gcloud/reference/auth/login):
 
 ```
 docker run -ti --name gcloud-config gcr.io/google.com/cloudsdktool/cloud-sdk gcloud auth login
+```
+
+If you need to authenticate any program that uses the Google Cloud APIs, you need to pass the `--update-adc` option:
+
+```
+docker run -ti --name gcloud-config gcr.io/google.com/cloudsdktool/cloud-sdk gcloud auth login --update-adc
 ```
 
 Once you authenticate successfully, credentials are preserved in the volume of
