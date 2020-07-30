@@ -55,10 +55,16 @@ or use a particular version number:
 docker run gcr.io/google.com/cloudsdktool/cloud-sdk:260.0.0 gcloud version
 ```
 
-Then, authenticate by running:
+You can authenticate `gcloud` with your user credentials by running [`gcloud auth login`](https://cloud.google.com/sdk/gcloud/reference/auth/login):
 
 ```
 docker run -ti --name gcloud-config gcr.io/google.com/cloudsdktool/cloud-sdk gcloud auth login
+```
+
+If you need to authenticate any program that uses the Google Cloud APIs, you need to pass the `--update-adc` option:
+
+```
+docker run -ti --name gcloud-config gcr.io/google.com/cloudsdktool/cloud-sdk gcloud auth login --update-adc
 ```
 
 Once you authenticate successfully, credentials are preserved in the volume of
@@ -78,7 +84,7 @@ instance-1  us-central1-a  n1-standard-1               10.240.0.2   8.34.219.29 
 > other containers.
 
 
-Alternatively, you can use use `auth/credential_file_override` property to set a path to a mounted service account
+Alternatively, you can use `auth/credential_file_override` property to set a path to a mounted service account
 and then the config to read that using `CLOUDSDK_CONFIG` environment variable.
 
 for example, `mycloud` configuration below has the `auth/credential_file_override` already set and points towards a certificate file
