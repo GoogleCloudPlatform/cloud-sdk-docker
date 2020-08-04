@@ -6,8 +6,6 @@ ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV CLOUDSDK_PYTHON=python3
 ENV PATH /google-cloud-sdk/bin:$PATH
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
-RUN groupadd -r -g 1000 cloudsdk && \
-    useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
 RUN apt-get -qqy update && apt-get install -qqy \
         curl \
         gcc \
@@ -28,5 +26,4 @@ RUN /google-cloud-sdk/install.sh --bash-completion=false --path-update=true --us
 	pubsub-emulator cloud-datastore-emulator app-engine-go bigtable cbt datalab \
 	app-engine-python-extras kubectl
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
-USER cloudsdk
-VOLUME ["~/.config", "~/.kube"]
+VOLUME ["/root/.config", "/root/.kube"]
