@@ -1,6 +1,6 @@
 FROM docker:19.03.11 as static-docker-source
 
-FROM debian:buster
+FROM debian:buster-slim
 ARG CLOUD_SDK_VERSION=305.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV CLOUDSDK_PYTHON=python3
