@@ -10,19 +10,20 @@ RUN apt-get -qqy update && apt-get install -qqy \
         gcc \
         python3-dev \
         python3-pip \
+        python3-crcmod \
         apt-transport-https \
         lsb-release \
         openssh-client \
         git \
         make \
-        gnupg && \
-    pip3 install -U crcmod
+        gnupg
 RUN curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
     tar xzf google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
     rm google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz
 RUN /google-cloud-sdk/install.sh --bash-completion=false --path-update=true --usage-reporting=false \
 	--additional-components app-engine-java app-engine-python alpha beta \
 	pubsub-emulator cloud-datastore-emulator app-engine-go bigtable cbt datalab \
-	app-engine-python-extras kubectl
+	app-engine-python-extras kubectl appctl kind kustomize minikube nomos skaffold anthos-auth \
+	kpt
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config", "/root/.kube"]
