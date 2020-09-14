@@ -114,32 +114,40 @@ project_id1          GCPAppID     1071284184432
 ```
 ### Components Installed in Each Tag
 
-|                    Component                   | :latest | :alpine | :slim | :debian_component_based |
-|:----------------------------------------------:|:-------:|:-------:|:-----:|:-----------------------:|
-|            App Engine Go Extensions            |    x    |         |       |            x            |
-|           BigQuery Command Line Tool           |    x    |    x    |   x   |            x            |
-|        Cloud Bigtable Command Line Tool        |    x    |         |       |            x            |
-|             Cloud Bigtable Emulator            |    x    |         |       |            x            |
-|         Cloud Datalab Command Line Tool        |    x    |         |       |            x            |
-|            Cloud Datastore Emulator            |    x    |         |       |            x            |
-|             Cloud Pub/Sub Emulator             |    x    |         |       |            x            |
-|         Cloud Storage Command Line Tool        |    x    |    x    |   x   |            x            |
-|              gcloud Alpha Commands             |    x    |         |   x   |            x            |
-|              gcloud Beta Commands              |    x    |         |   x   |            x            |
-|           gcloud app Java Extensions           |    x    |         |       |            x            |
-|          gcloud app Python Extensions          |    x    |         |       |            x            |
-| gcloud app Python Extensions (Extra Libraries) |    x    |         |       |            x            |
-|                     kubectl                    |    x    |         |       |            x            |
+|                    Component                         | :latest | :alpine | :slim | :debian_component_based |
+|:----------------------------------------------------:|:-------:|:-------:|:-----:|:-----------------------:|
+| App Engine Go Extensions                             |    x    |         |       |            x            |
+| Appctl                                               |         |         |       |                         |
+| BigQuery Command Line Tool                           |    x    |    x    |   x   |            x            |
+| Cloud Bigtable Command Line Tool                     |    x    |         |       |            x            |
+| Cloud Bigtable Emulator                              |    x    |         |       |            x            |
+| Cloud Datalab Command Line Tool                      |    x    |         |       |            x            |
+| Cloud Datastore Emulator                             |    x    |         |       |            x            |
+| Cloud Firestore Emulator                             |    x    |         |       |                         |
+| Cloud Pub/Sub Emulator                               |    x    |         |       |            x            |
+| Cloud SDK Core Libraries                             |    x    |    x    |   x   |            x            |
+| Cloud SQL Proxy                                      |         |         |       |                         |
+| Cloud Spanner Emulator                               |    x    |         |       |                         |
+| Cloud Storage Command Line Tool                      |    x    |    x    |   x   |            x            |
+| Emulator Reverse Proxy                               |         |         |       |                         |
+| Google Cloud Build Local Builder                     |         |         |       |                         |
+| Google Container Registry's Docker credential helper |         |         |       |                         |
+| Kind                                                 |         |         |       |                         |
+| Kustomize                                            |         |         |       |                         |
+| Minikube                                             |         |         |       |                         |
+| Nomos CLI                                            |         |         |       |                         |
+| Skaffold                                             |         |         |       |                         |
+| anthos-auth                                          |         |         |       |                         |
+| gcloud Alpha Commands                                |    x    |         |   x   |            x            |
+| gcloud Beta Commands                                 |    x    |         |   x   |            x            |
+| gcloud app Java Extensions                           |    x    |         |       |            x            |
+| gcloud app Python Extensions                         |    x    |         |       |            x            |
+| gcloud app Python Extensions (Extra Libraries)       |    x    |         |       |            x            |
+| kpt                                                  |    x    |         |       |                         |
+| kubectl                                              |    x    |         |   x   |            x            |
+
 
 ### Installing additional components
-
-By default, [all gcloud components
-are](https://cloud.google.com/sdk/downloads#apt-get) installed on the default
-images (`gcr.io/google.com/cloudsdktool/cloud-sdk:latest` and `gcr.io/google.com/cloudsdktool/cloud-sdk:VERSION`).
-
-The `gcr.io/google.com/cloudsdktool/cloud-sdk:slim` and `gcr.io/google.com/cloudsdktool/cloud-sdk:alpine` images do not contain
-additional components pre-installed. You can extend these images by following
-the instructions below:
 
 #### Debian-based images
 
