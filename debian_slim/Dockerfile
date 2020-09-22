@@ -6,6 +6,7 @@ ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH "$PATH:/opt/google-cloud-sdk/bin/"
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
 ARG INSTALL_COMPONENTS
+RUN mkdir -p /usr/share/man/man1/
 RUN apt-get update -qqy && apt-get install -qqy \
         curl \
         gcc \
