@@ -124,7 +124,7 @@ project_id1          GCPAppID     1071284184432
 | Cloud Datalab Command Line Tool                      |    x    |         |       |            x            |
 | Cloud Datastore Emulator                             |    x    |         |       |            x            |
 | Cloud Firestore Emulator                             |    x    |         |       |                         |
-| Cloud Pub/Sub Emulator                               |    x    |         |       |            x            |
+| Cloud Pub/Sub Emulator                               |         |         |       |            x            |
 | Cloud SDK Core Libraries                             |    x    |    x    |   x   |            x            |
 | Cloud SQL Proxy                                      |         |         |       |                         |
 | Cloud Spanner Emulator                               |    x    |         |       |                         |
@@ -140,7 +140,7 @@ project_id1          GCPAppID     1071284184432
 | anthos-auth                                          |         |         |       |                         |
 | gcloud Alpha Commands                                |    x    |         |   x   |            x            |
 | gcloud Beta Commands                                 |    x    |         |   x   |            x            |
-| gcloud app Java Extensions                           |    x    |         |       |            x            |
+| gcloud app Java Extensions                           |         |         |       |            x            |
 | gcloud app Python Extensions                         |    x    |         |       |            x            |
 | gcloud app Python Extensions (Extra Libraries)       |    x    |         |       |            x            |
 | kpt                                                  |    x    |         |       |                         |
