@@ -1,7 +1,7 @@
 FROM docker:19.03.11 as static-docker-source
 
 FROM debian:buster-slim
-ARG CLOUD_SDK_VERSION=313.0.1
+ARG CLOUD_SDK_VERSION=314.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH "$PATH:/opt/google-cloud-sdk/bin/"
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
