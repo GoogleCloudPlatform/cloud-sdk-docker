@@ -23,9 +23,11 @@ RUN apt-get -qqy update && apt-get install -qqy \
     apt-get install -y google-cloud-sdk=${CLOUD_SDK_VERSION}-0 \
         google-cloud-sdk-app-engine-python=${CLOUD_SDK_VERSION}-0 \
         google-cloud-sdk-app-engine-python-extras=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-sdk-app-engine-java=${CLOUD_SDK_VERSION}-0 \
         google-cloud-sdk-app-engine-go=${CLOUD_SDK_VERSION}-0 \
         google-cloud-sdk-datalab=${CLOUD_SDK_VERSION}-0 \
         google-cloud-sdk-datastore-emulator=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-sdk-pubsub-emulator=${CLOUD_SDK_VERSION}-0 \
         google-cloud-sdk-bigtable-emulator=${CLOUD_SDK_VERSION}-0 \
         google-cloud-sdk-firestore-emulator=${CLOUD_SDK_VERSION}-0 \
         google-cloud-sdk-spanner-emulator=${CLOUD_SDK_VERSION}-0 \
