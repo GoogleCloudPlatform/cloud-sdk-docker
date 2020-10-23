@@ -197,3 +197,13 @@ The full Dockerfile for that can be found
 
 You can also follow the Cloud SDK Release schedule here
 - [https://groups.google.com/forum/#!forum/google-cloud-sdk-announce](https://groups.google.com/forum/#!forum/google-cloud-sdk-announce)
+
+### Pinning version
+
+Images tagged `:latest`, `:alpine`, `:slim` and `:debian_component_based` use
+the most recent version of Google Cloud SDK, which may change its behaviour in
+the future. List of components installed by default in each image can also
+change between versions. To avoid such change breaking the tool you are using,
+it is not recommended to use these tags in any production tools directly.
+Instead use a particular version as listed in [Supported tags](#supported-tags)
+and update it periodically.
