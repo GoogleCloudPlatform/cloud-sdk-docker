@@ -1,7 +1,7 @@
 # debian:buster-slim is used instead of alpine because the cloud bigtable emulator requires glibc.
 FROM debian:buster-slim
 
-ARG CLOUD_SDK_VERSION=317.0.0
+ARG CLOUD_SDK_VERSION=318.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH /google-cloud-sdk/bin:$PATH
 
