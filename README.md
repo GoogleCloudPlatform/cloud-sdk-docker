@@ -131,7 +131,6 @@ project_id1          GCPAppID     1071284184432
 | Emulator Reverse Proxy                               |         |         |       |                         |            |
 | Google Cloud Build Local Builder                     |         |         |       |                         |            |
 | Google Container Registry's Docker credential helper |         |         |       |                         |            |
-| Kind                                                 |         |         |       |                         |            |
 | Kustomize                                            |         |         |       |                         |            |
 | Minikube                                             |         |         |       |                         |            |
 | Nomos CLI                                            |         |         |       |                         |            |

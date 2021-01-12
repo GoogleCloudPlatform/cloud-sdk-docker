@@ -23,7 +23,7 @@ RUN curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cl
 RUN /google-cloud-sdk/install.sh --bash-completion=false --path-update=true --usage-reporting=false \
 	--additional-components app-engine-java app-engine-python alpha beta \
 	pubsub-emulator cloud-datastore-emulator app-engine-go bigtable cbt datalab \
-	app-engine-python-extras kubectl appctl kind kustomize minikube nomos skaffold anthos-auth \
+	app-engine-python-extras kubectl appctl kustomize minikube nomos skaffold anthos-auth \
 	kpt
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config", "/root/.kube"]
