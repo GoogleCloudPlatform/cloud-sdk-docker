@@ -7,11 +7,9 @@ line tools of Google Cloud SDK (`gcloud`, `gsutil`, `bq`) as well several
 [additional components](https://cloud.google.com/sdk/downloads#apt-get).
 
 ## Repositories
-The Google Cloud SDK Docker Image is hosted on both [Container Registry](https://gcr.io/google.com/cloudsdktool/cloud-sdk) and [Docker Hub](https://hub.docker.com/r/google/cloud-sdk/).
+The Google Cloud SDK Docker Image is hosted on [Container Registry](https://gcr.io/google.com/cloudsdktool/cloud-sdk).
 
 The full repository name for Container Registry is `gcr.io/google.com/cloudsdktool/cloud-sdk`.
-
-The full repository name for Docker Hub is `google/cloud-sdk`.
 
 ## Supported tags
 
@@ -38,8 +36,6 @@ To use this image, pull from [Container Registry](https://gcr.io/google.com/clou
 ```
 docker pull gcr.io/google.com/cloudsdktool/cloud-sdk:latest
 ```
-
-(Note: To pull from Docker Hub, replace all instances of `gcr.io/google.com/cloudsdktool/cloud-sdk` with `google/cloud-sdk`.)
 
 Verify the install
 
