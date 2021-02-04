@@ -138,7 +138,7 @@ project_id1          GCPAppID     1071284184432
 | gcloud app Python Extensions                         |    x    |         |       |            x            |            |
 | gcloud app Python Extensions (Extra Libraries)       |    x    |         |       |            x            |            |
 | kpt                                                  |    x    |         |       |                         |            |
-| kubectl                                              |    x    |         |   x   |            x            |            |
+| kubectl                                              |    x    |         |       |            x            |            |
 
 
 ### Installing additional components
