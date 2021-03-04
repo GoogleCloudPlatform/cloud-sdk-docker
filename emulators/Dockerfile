@@ -5,6 +5,9 @@ ARG CLOUD_SDK_VERSION=330.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH /google-cloud-sdk/bin:$PATH
 
+RUN groupadd -r -g 1000 cloudsdk && \
+    useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
+
 RUN mkdir -p /usr/share/man/man1/ && \
     apt-get update && \
     apt-get -y install \

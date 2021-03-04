@@ -5,6 +5,8 @@ ARG CLOUD_SDK_VERSION=330.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH /google-cloud-sdk/bin:$PATH
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
+RUN addgroup -g 1000 -S cloudsdk && \
+    adduser -u 1000 -S cloudsdk -G cloudsdk
 RUN apk --no-cache add \
         curl \
         python3 \
