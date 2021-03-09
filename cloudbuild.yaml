@@ -199,4 +199,4 @@ secrets:
         s26BTGccqD1NTS83DGFdY9moRGhSPm4WJKCg2tTQKYeTfdqUjjM=
 timeout: 7200s
 options:
-    machineType: 'e2-highcpu-32'
+    machineType: 'N1-HIGHCPU-32'
