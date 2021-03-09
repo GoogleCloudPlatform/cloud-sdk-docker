@@ -5,7 +5,7 @@ steps:
   waitFor: ['-']
 - name: 'gcr.io/cloud-builders/docker'
   id: debian_slim
-  args: ['build', '-t', 'google/cloud-sdk:slim', '-t', 'google/cloud-sdk:$TAG_NAME-slim', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-slim', '-t', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:slim', '-t', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-slim', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:slim', '-t', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-slim', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:slim', '-t', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-slim', 'debian_slim/']
+  args: ['build', '-t', 'google/cloud-sdk:slim', '-t', 'google/cloud-sdk:$TAG_NAME-slim', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-slim', '-t', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:slim', '-t', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-slim', '-t', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:slim', '-t', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-slim', '-t', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:slim', '-t', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-slim', 'debian_slim/']
   waitFor: ['-']
 - name: 'gcr.io/cloud-builders/docker'
   id: default
