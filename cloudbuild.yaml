@@ -198,5 +198,3 @@ secrets:
         CiQA9btlfpg/kWmwXQvrNXtkVpu2tDdD2VOi1FYd3mmjCUGaK4YSNwC8sn1MepjracHAg8VAQEWm
         s26BTGccqD1NTS83DGFdY9moRGhSPm4WJKCg2tTQKYeTfdqUjjM=
 timeout: 7200s
-options:
-    machineType: 'N1-HIGHCPU-32'
