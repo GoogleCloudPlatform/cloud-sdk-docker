@@ -1,4 +1,3 @@
-# DO NOT SUBMIT
 # PROD BUILDING STEPS
 options:
   machineType: 'E2_HIGHCPU_32'
@@ -24,14 +23,11 @@ steps:
   args: ['build', '-t', 'google/cloud-sdk:emulators', '-t', 'google/cloud-sdk:$TAG_NAME-emulators', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators', '-t', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', '-t', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators', '-t', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', '-t', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators', '-t', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', '-t', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators', 'emulators/']
   waitFor: ['-']
 # END OF PROD BUILDING STEPS
-# START DOCKER LOGIN
 - name: 'gcr.io/cloud-builders/docker'
   id: dockersecret
   entrypoint: 'bash'
   args: ['-c', 'docker login --username=$_USERNAME --password=$$PASSWORD']
   secretEnv: ['PASSWORD']
-# END DOCKER LOGIN
-# START OF PUBLISHING STEPS
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'google/cloud-sdk:alpine']
   waitFor: ['dockersecret', 'alpine']
@@ -197,8 +193,6 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators']
   waitFor: ['dockersecret', 'emulators']
-# END OF PUBLISHING STEPS
-# START DOCKER LOGIN
 secrets:
 - kmsKeyName: projects/google.com:cloudsdktool/locations/global/keyRings/docker/cryptoKeys/dockerhub-password
   secretEnv:
@@ -206,4 +200,3 @@ secrets:
         CiQA9btlfpg/kWmwXQvrNXtkVpu2tDdD2VOi1FYd3mmjCUGaK4YSNwC8sn1MepjracHAg8VAQEWm
         s26BTGccqD1NTS83DGFdY9moRGhSPm4WJKCg2tTQKYeTfdqUjjM=
 timeout: 7200s
-# END DOCKER LOGIN
