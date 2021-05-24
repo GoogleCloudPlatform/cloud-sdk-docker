@@ -108,13 +108,8 @@ project_id1          GCPAppID     1071284184432
 
 ```
 
-Another way to configure the Google Cloud SDK is through environment variables. Each environment variables that’s prefixed with `CLOUDSDK_` maps to
-the corresponding [gcloud config option](https://cloud.google.com/sdk/gcloud/reference/config). For example, interactive prompts can be disabled by 
-running:
-
-```
-$ docker run -ti -e CLOUDSDK_CORE_DISABLE_PROMPTS=1 gcr.io/google.com/cloudsdktool/cloud-sdk:alpine /bin/bash
-```
+You can set any Cloud SDK property via an ENV, please see
+https://cloud.google.com/sdk/docs/properties#setting_properties_via_environment_variables
 
 ### Components Installed in Each Tag
 
