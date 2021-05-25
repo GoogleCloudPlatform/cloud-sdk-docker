@@ -140,6 +140,7 @@ project_id1          GCPAppID     1071284184432
 | kpt                                                  |    x    |         |       |            x            |            |
 | kubectl                                              |    x    |         |       |            x            |            |
 | local-extract                                        |    x    |         |       |            x            |            |
+| Docker in Docker (dind)                              |         |    x    |       |                         |            |
 
 
 ### Installing additional components
