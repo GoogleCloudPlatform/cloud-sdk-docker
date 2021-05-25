@@ -107,6 +107,10 @@ PROJECT_ID           NAME         PROJECT_NUMBER
 project_id1          GCPAppID     1071284184432
 
 ```
+
+You can set any Cloud SDK property via an ENV, please see
+https://cloud.google.com/sdk/docs/properties#setting_properties_via_environment_variables
+
 ### Components Installed in Each Tag
 
 |                    Component                         | :latest | :alpine | :slim | :debian_component_based | :emulators |
