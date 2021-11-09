@@ -194,9 +194,13 @@ steps:
   args: ['push', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators']
   waitFor: ['dockersecret', 'emulators']
 - name: 'gcr.io/cloud-builders/docker'
-  id: google_cloud_cli_tags
+  id: google_cloud_cli_tag
   args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine']
   waitFor: ['alpine']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_push
+  args: ['push', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine']
+  waitFor: ['google_cloud_cli_tag']
 secrets:
 - kmsKeyName: projects/google.com:cloudsdktool/locations/global/keyRings/docker/cryptoKeys/dockerhub-password
   secretEnv:
