@@ -62,6 +62,12 @@ If you need to authenticate any program that uses the Google Cloud APIs, you nee
 docker run -ti --name gcloud-config gcr.io/google.com/cloudsdktool/cloud-sdk gcloud auth login --update-adc
 ```
 
+If you want to use a specific project for future uses, you can set this inside the `gcloud-config` container:
+
+```
+docker run -ti --name gcloud-config gcr.io/google.com/cloudsdktool/cloud-sdk /bin/bash -c 'gcloud auth login && gcloud config set project your-project'
+```
+
 Once you authenticate successfully, credentials are preserved in the volume of
 the `gcloud-config` container.
 
