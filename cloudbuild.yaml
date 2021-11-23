@@ -252,6 +252,62 @@ steps:
   args: ['push', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine']
   waitFor: ['google_cloud_cli_tag_8']
 # debian_slim
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_debian_slim_1
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:slim']
+  waitFor: ['debian_slim']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:slim']
+  waitFor: ['google_cloud_cli_tag_debian_slim_1']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_debian_slim_2
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-slim']
+  waitFor: ['debian_slim']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-slim']
+  waitFor: ['google_cloud_cli_tag_debian_slim_2']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_debian_slim_3
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:slim']
+  waitFor: ['debian_slim']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:slim']
+  waitFor: ['google_cloud_cli_tag_debian_slim_3']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_debian_slim_4
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-slim']
+  waitFor: ['debian_slim']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-slim']
+  waitFor: ['google_cloud_cli_tag_debian_slim_4']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_debian_slim_5
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:slim']
+  waitFor: ['debian_slim']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:slim']
+  waitFor: ['google_cloud_cli_tag_debian_slim_5']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_debian_slim_6
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-slim']
+  waitFor: ['debian_slim']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-slim']
+  waitFor: ['google_cloud_cli_tag_debian_slim_6']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_debian_slim_7
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:slim']
+  waitFor: ['debian_slim']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:slim']
+  waitFor: ['google_cloud_cli_tag_debian_slim_7']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_debian_slim_8
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-slim']
+  waitFor: ['debian_slim']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-slim']
+  waitFor: ['google_cloud_cli_tag_debian_slim_8']
 # default
 # debian_component_based
 # emulators
