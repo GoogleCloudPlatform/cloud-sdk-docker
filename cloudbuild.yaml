@@ -196,61 +196,61 @@ steps:
 ## Rebrand google-cloud-cli publis steps
 # alpine
 - name: 'gcr.io/cloud-builders/docker'
-  id: google_cloud_cli_tag_1
+  id: google_cloud_cli_tag_alpine_1
   args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine']
   waitFor: ['alpine']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine']
-  waitFor: ['google_cloud_cli_tag_1']
+  waitFor: ['google_cloud_cli_tag_alpine_1']
 - name: 'gcr.io/cloud-builders/docker'
-  id: google_cloud_cli_tag_2
+  id: google_cloud_cli_tag_alpine_2
   args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine']
   waitFor: ['alpine']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine']
-  waitFor: ['google_cloud_cli_tag_2']
+  waitFor: ['google_cloud_cli_tag_alpine_2']
 - name: 'gcr.io/cloud-builders/docker'
-  id: google_cloud_cli_tag_3
+  id: google_cloud_cli_tag_alpine_3
   args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine']
   waitFor: ['alpine']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine']
-  waitFor: ['google_cloud_cli_tag_3']
+  waitFor: ['google_cloud_cli_tag_alpine_3']
 - name: 'gcr.io/cloud-builders/docker'
-  id: google_cloud_cli_tag_4
+  id: google_cloud_cli_tag_alpine_4
   args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine']
   waitFor: ['alpine']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine']
-  waitFor: ['google_cloud_cli_tag_4']
+  waitFor: ['google_cloud_cli_tag_alpine_4']
 - name: 'gcr.io/cloud-builders/docker'
-  id: google_cloud_cli_tag_5
+  id: google_cloud_cli_tag_alpine_5
   args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine']
   waitFor: ['alpine']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine']
-  waitFor: ['google_cloud_cli_tag_5']
+  waitFor: ['google_cloud_cli_tag_alpine_5']
 - name: 'gcr.io/cloud-builders/docker'
-  id: google_cloud_cli_tag_6
+  id: google_cloud_cli_tag_alpine_6
   args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine']
   waitFor: ['alpine']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine']
-  waitFor: ['google_cloud_cli_tag_6']
+  waitFor: ['google_cloud_cli_tag_alpine_6']
 - name: 'gcr.io/cloud-builders/docker'
-  id: google_cloud_cli_tag_7
+  id: google_cloud_cli_tag_alpine_7
   args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine']
   waitFor: ['alpine']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine']
-  waitFor: ['google_cloud_cli_tag_7']
+  waitFor: ['google_cloud_cli_tag_alpine_7']
 - name: 'gcr.io/cloud-builders/docker'
-  id: google_cloud_cli_tag_8
+  id: google_cloud_cli_tag_alpine_8
   args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine']
   waitFor: ['alpine']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine']
-  waitFor: ['google_cloud_cli_tag_8']
+  waitFor: ['google_cloud_cli_tag_alpine_8']
 # debian_slim
 - name: 'gcr.io/cloud-builders/docker'
   id: google_cloud_cli_tag_debian_slim_1
