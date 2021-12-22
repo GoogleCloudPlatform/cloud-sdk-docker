@@ -310,6 +310,62 @@ steps:
   waitFor: ['google_cloud_cli_tag_debian_slim_8']
 # default
 # debian_component_based
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_debian_component_based_1
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:debian_component_based', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:debian_component_based']
+  waitFor: ['debian_component_based']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:debian_component_based']
+  waitFor: ['google_cloud_cli_tag_debian_component_based_1']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_debian_component_based_2
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:debian_component_based', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-debian_component_based']
+  waitFor: ['debian_component_based']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-debian_component_based']
+  waitFor: ['google_cloud_cli_tag_debian_component_based_2']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_debian_component_based_3
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:debian_component_based', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:debian_component_based']
+  waitFor: ['debian_component_based']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:debian_component_based']
+  waitFor: ['google_cloud_cli_tag_debian_component_based_3']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_debian_component_based_4
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:debian_component_based', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-debian_component_based']
+  waitFor: ['debian_component_based']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-debian_component_based']
+  waitFor: ['google_cloud_cli_tag_debian_component_based_4']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_debian_component_based_5
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:debian_component_based', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:debian_component_based']
+  waitFor: ['debian_component_based']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:debian_component_based']
+  waitFor: ['google_cloud_cli_tag_debian_component_based_5']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_debian_component_based_6
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:debian_component_based', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-debian_component_based']
+  waitFor: ['debian_component_based']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-debian_component_based']
+  waitFor: ['google_cloud_cli_tag_debian_component_based_6']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_debian_component_based_7
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:debian_component_based', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:debian_component_based']
+  waitFor: ['debian_component_based']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:debian_component_based']
+  waitFor: ['google_cloud_cli_tag_debian_component_based_7']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_debian_component_based_8
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:debian_component_based', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-debian_component_based']
+  waitFor: ['debian_component_based']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-debian_component_based']
+  waitFor: ['google_cloud_cli_tag_debian_component_based_8']
 # emulators
 
 secrets:
