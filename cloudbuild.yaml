@@ -367,6 +367,62 @@ steps:
   args: ['push', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-debian_component_based']
   waitFor: ['google_cloud_cli_tag_debian_component_based_8']
 # emulators
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_emulators_1
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators']
+  waitFor: ['emulators']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators']
+  waitFor: ['google_cloud_cli_tag_emulators_1']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_emulators_2
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators']
+  waitFor: ['emulators']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators']
+  waitFor: ['google_cloud_cli_tag_emulators_2']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_emulators_3
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators']
+  waitFor: ['emulators']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators']
+  waitFor: ['google_cloud_cli_tag_emulators_3']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_emulators_4
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators']
+  waitFor: ['emulators']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators']
+  waitFor: ['google_cloud_cli_tag_emulators_4']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_emulators_5
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators']
+  waitFor: ['emulators']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators']
+  waitFor: ['google_cloud_cli_tag_emulators_5']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_emulators_6
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators']
+  waitFor: ['emulators']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators']
+  waitFor: ['google_cloud_cli_tag_emulators_6']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_emulators_7
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators']
+  waitFor: ['emulators']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators']
+  waitFor: ['google_cloud_cli_tag_emulators_7']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_emulators_8
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators']
+  waitFor: ['emulators']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators']
+  waitFor: ['google_cloud_cli_tag_emulators_8']
 
 secrets:
 - kmsKeyName: projects/google.com:cloudsdktool/locations/global/keyRings/docker/cryptoKeys/dockerhub-password
