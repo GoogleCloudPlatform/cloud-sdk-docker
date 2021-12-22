@@ -309,6 +309,62 @@ steps:
   args: ['push', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-slim']
   waitFor: ['google_cloud_cli_tag_debian_slim_8']
 # default
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_default_1
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:latest', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:latest']
+  waitFor: ['default']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:latest']
+  waitFor: ['google_cloud_cli_tag_default_1']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_default_2
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:latest', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME']
+  waitFor: ['default']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME']
+  waitFor: ['google_cloud_cli_tag_default_2']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_default_3
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:latest', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:latest']
+  waitFor: ['default']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:latest']
+  waitFor: ['google_cloud_cli_tag_default_3']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_default_4
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:latest', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME']
+  waitFor: ['default']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME']
+  waitFor: ['google_cloud_cli_tag_default_4']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_default_5
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:latest', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:latest']
+  waitFor: ['default']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:latest']
+  waitFor: ['google_cloud_cli_tag_default_5']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_default_6
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:latest', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME']
+  waitFor: ['default']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME']
+  waitFor: ['google_cloud_cli_tag_default_6']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_default_7
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:latest', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:latest']
+  waitFor: ['default']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:latest']
+  waitFor: ['google_cloud_cli_tag_default_7']
+- name: 'gcr.io/cloud-builders/docker'
+  id: google_cloud_cli_tag_default_8
+  args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:latest', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME']
+  waitFor: ['default']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME']
+  waitFor: ['google_cloud_cli_tag_default_8']
 # debian_component_based
 - name: 'gcr.io/cloud-builders/docker'
   id: google_cloud_cli_tag_debian_component_based_1
