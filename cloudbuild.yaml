@@ -193,7 +193,7 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators']
   waitFor: ['dockersecret', 'emulators']
-## Rebrand google-cloud-cli publis steps
+## Rebrand google-cloud-cli public steps
 # alpine
 - name: 'gcr.io/cloud-builders/docker'
   id: google_cloud_cli_tag_alpine_1
