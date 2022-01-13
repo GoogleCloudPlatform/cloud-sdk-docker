@@ -103,30 +103,30 @@ steps:
 
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/google.com/cloudsdktool/cloud-sdk:latest']
-  waitFor: ['dockersecret', 'debian_slim']
+  waitFor: ['dockersecret', 'default']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:latest']
-  waitFor: ['dockersecret', 'debian_slim']
+  waitFor: ['dockersecret', 'default']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:latest']
-  waitFor: ['dockersecret', 'debian_slim']
+  waitFor: ['dockersecret', 'default']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:latest']
-  waitFor: ['dockersecret', 'debian_slim']
+  waitFor: ['dockersecret', 'default']
 
 
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME']
-  waitFor: ['dockersecret', 'debian_slim']
+  waitFor: ['dockersecret', 'default']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME']
-  waitFor: ['dockersecret', 'debian_slim']
+  waitFor: ['dockersecret', 'default']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME']
-  waitFor: ['dockersecret', 'debian_slim']
+  waitFor: ['dockersecret', 'default']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME']
-  waitFor: ['dockersecret', 'debian_slim']
+  waitFor: ['dockersecret', 'default']
 
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'google/cloud-sdk:debian_component_based']
