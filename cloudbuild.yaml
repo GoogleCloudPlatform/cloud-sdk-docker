@@ -34,7 +34,6 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'google/cloud-sdk:$TAG_NAME-alpine']
   waitFor: ['dockersecret', 'alpine']
-
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine']
   waitFor: ['dockersecret', 'alpine']
@@ -47,7 +46,6 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:alpine']
   waitFor: ['dockersecret', 'alpine']
-
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-alpine']
   waitFor: ['dockersecret', 'alpine']
@@ -60,14 +58,12 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-alpine']
   waitFor: ['dockersecret', 'alpine']
-
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'google/cloud-sdk:slim']
   waitFor: ['dockersecret', 'debian_slim']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'google/cloud-sdk:$TAG_NAME-slim']
   waitFor: ['dockersecret', 'debian_slim']
-
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim']
   waitFor: ['dockersecret', 'debian_slim']
@@ -80,7 +76,6 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:slim']
   waitFor: ['dockersecret', 'debian_slim']
-
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-slim']
   waitFor: ['dockersecret', 'debian_slim']
@@ -93,14 +88,12 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-slim']
   waitFor: ['dockersecret', 'debian_slim']
-
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'google/cloud-sdk:latest']
   waitFor: ['dockersecret', 'default']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'google/cloud-sdk:$TAG_NAME']
   waitFor: ['dockersecret', 'default']
-
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/google.com/cloudsdktool/cloud-sdk:latest']
   waitFor: ['dockersecret', 'default']
@@ -113,8 +106,6 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:latest']
   waitFor: ['dockersecret', 'default']
-
-
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME']
   waitFor: ['dockersecret', 'default']
@@ -127,14 +118,12 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME']
   waitFor: ['dockersecret', 'default']
-
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'google/cloud-sdk:debian_component_based']
   waitFor: ['dockersecret', 'debian_component_based']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'google/cloud-sdk:$TAG_NAME-debian_component_based']
   waitFor: ['dockersecret', 'debian_component_based']
-
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/google.com/cloudsdktool/cloud-sdk:debian_component_based']
   waitFor: ['dockersecret', 'debian_component_based']
@@ -147,7 +136,6 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:debian_component_based']
   waitFor: ['dockersecret', 'debian_component_based']
-
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-debian_component_based']
   waitFor: ['dockersecret', 'debian_component_based']
@@ -160,14 +148,12 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-debian_component_based']
   waitFor: ['dockersecret', 'debian_component_based']
-
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'google/cloud-sdk:emulators']
   waitFor: ['dockersecret', 'emulators']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'google/cloud-sdk:$TAG_NAME-emulators']
   waitFor: ['dockersecret', 'emulators']
-
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/google.com/cloudsdktool/cloud-sdk:emulators']
   waitFor: ['dockersecret', 'emulators']
@@ -180,7 +166,6 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:emulators']
   waitFor: ['dockersecret', 'emulators']
-
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators']
   waitFor: ['dockersecret', 'emulators']
@@ -400,8 +385,6 @@ images:
 - 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators'
 - 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:latest'
 - 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:slim'
-
-
 secrets:
 - kmsKeyName: projects/google.com:cloudsdktool/locations/global/keyRings/docker/cryptoKeys/dockerhub-password
   secretEnv:
