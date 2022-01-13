@@ -179,7 +179,6 @@ steps:
   args: ['push', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators']
   waitFor: ['dockersecret', 'emulators']
 ## Rebrand google-cloud-cli public steps
-# alpine
 - name: 'gcr.io/cloud-builders/docker'
   id: google_cloud_cli_tag_alpine_1
   args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine']
@@ -212,7 +211,6 @@ steps:
   id: google_cloud_cli_tag_alpine_8
   args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine']
   waitFor: ['alpine']
-# debian_slim
 - name: 'gcr.io/cloud-builders/docker'
   id: google_cloud_cli_tag_debian_slim_1
   args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:slim']
@@ -245,7 +243,6 @@ steps:
   id: google_cloud_cli_tag_debian_slim_8
   args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-slim']
   waitFor: ['debian_slim']
-# default
 - name: 'gcr.io/cloud-builders/docker'
   id: google_cloud_cli_tag_default_1
   args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:latest', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:latest']
@@ -278,7 +275,6 @@ steps:
   id: google_cloud_cli_tag_default_8
   args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:latest', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME']
   waitFor: ['default']
-# debian_component_based
 - name: 'gcr.io/cloud-builders/docker'
   id: google_cloud_cli_tag_debian_component_based_1
   args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:debian_component_based', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:debian_component_based']
@@ -311,7 +307,6 @@ steps:
   id: google_cloud_cli_tag_debian_component_based_8
   args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:debian_component_based', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-debian_component_based']
   waitFor: ['debian_component_based']
-# emulators
 - name: 'gcr.io/cloud-builders/docker'
   id: google_cloud_cli_tag_emulators_1
   args: ['tag', 'gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators']
