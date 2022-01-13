@@ -85,7 +85,7 @@ steps:
   args: ['push', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-slim']
   waitFor: ['dockersecret', 'debian_slim']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:slim']
+  args: ['push', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-slim']
   waitFor: ['dockersecret', 'debian_slim']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-slim']
