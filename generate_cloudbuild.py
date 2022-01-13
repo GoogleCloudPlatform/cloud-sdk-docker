@@ -10,8 +10,6 @@ steps:
   args: ['-c', 'docker login --username=$_USERNAME --password=$$PASSWORD']
   secretEnv: ['PASSWORD']
 {PUSHSTEPS}
-## Rebrand google-cloud-cli public steps
-{REBRAND_TAG_STEPS}
 images:
 {REBRAND_IMAGE_TAGS_SORTED}
 secrets:
@@ -38,10 +36,8 @@ LABEL_FOR_IMAGE={
 
 # Make all the tags and save them
 tags={}
-rebrand_tags={}
 for i in IMAGES:
     tags[i]=[]
-    rebrand_tags[i]=[]
     label_name = LABEL_FOR_IMAGE[i]
     label_without_tag = label_name
     label_with_tag = label_name
@@ -75,13 +71,13 @@ for i in IMAGES:
                     old_name=OLD_NAME,
                     maybe_hypen=maybe_hypen,
                     label=label_with_tag))
-        rebrand_tags[i].append(
+        tags[i].append(
             '\'{gcrprefix}/{gcrio_project}/{rebrand_name}:{label}\''
             .format(gcrprefix=gcr_prefix,
                     gcrio_project=GCRIO_PROJECT,
                     rebrand_name=REBRAND_NAME,
                     label=label_without_tag))
-        rebrand_tags[i].append(
+        tags[i].append(
             '\'{gcr_prefix}/{gcrio_project}/{rebrand_name}:$TAG_NAME{maybe_hypen}{label}\''
             .format(gcr_prefix=gcr_prefix,
                     gcrio_project=GCRIO_PROJECT,
@@ -117,42 +113,17 @@ for i in IMAGES:
                 push_steps+='\n'
             push_steps+=push_step.format(tag=tag, build_step=i)
 
-rebrand_tag_steps=''
-for i in IMAGES:
-    rebrand_tag_step = """- name: 'gcr.io/cloud-builders/docker'
-  id: {step_name_prefix}_{step_count}
-  args: ['tag', {source_tag}, {rebrand_tag}]
-  waitFor: ['{build_step}']"""
-    step_name_prefix='google_cloud_cli_tag_{}'.format(i)
-    step_count=1
-    label=LABEL_FOR_IMAGE[i]
-    if i == 'default':
-        label = 'latest'
-    source_tag='\'gcr.io/google.com/cloudsdktool/cloud-sdk:{}\''.format(label)
-    for tag in rebrand_tags[i]:
-        if len(rebrand_tag_steps) > 0:
-            rebrand_tag_steps+='\n'
-        rebrand_tag_steps+=rebrand_tag_step.format(
-            step_name_prefix=step_name_prefix,
-            step_count=step_count,
-            source_tag=source_tag,
-            rebrand_tag=tag,
-            build_step=i)
-        step_count+=1
-
 all_rebranded_tags_for_images=''
 all_images_tags=[]
 for i in IMAGES:
-    all_images_tags.extend(rebrand_tags[i])
     all_images_tags.extend([t for t in tags[i] if not t.startswith('\'google/cloud-sdk')])
-for rebranded_tag in sorted(all_images_tags):
+for tag in sorted(all_images_tags):
     if len(all_rebranded_tags_for_images) > 0:
         all_rebranded_tags_for_images+='\n'
-    all_rebranded_tags_for_images+='- {}'.format(rebranded_tag)
+    all_rebranded_tags_for_images+='- {}'.format(tag)
 
 print(MAIN_TEMPLATE.format(
     BUILDSTEPS=build_steps,
     PUSHSTEPS=push_steps,
-    REBRAND_TAG_STEPS=rebrand_tag_steps,
     REBRAND_IMAGE_TAGS_SORTED=all_rebranded_tags_for_images
     ))
