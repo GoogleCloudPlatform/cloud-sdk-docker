@@ -9,9 +9,9 @@ steps:
   entrypoint: 'bash'
   args: ['-c', 'docker login --username=$_USERNAME --password=$$PASSWORD']
   secretEnv: ['PASSWORD']
-{PUSHSTEPS}
+{DOCKER_PUSHSTEPS}
 images:
-{REBRAND_IMAGE_TAGS_SORTED}
+{GCR_IO_TAGS_SORTED}
 secrets:
 - kmsKeyName: projects/google.com:cloudsdktool/locations/global/keyRings/docker/cryptoKeys/dockerhub-password
   secretEnv:
@@ -102,28 +102,28 @@ for i in IMAGES:
         build_steps+='\n'
     build_steps+=output_build_step
 
-push_steps=''
+docker_push_steps=''
 for i in IMAGES:
     push_step = """- name: 'gcr.io/cloud-builders/docker'
   args: ['push', {tag}]
   waitFor: ['dockersecret', '{build_step}']"""
     for tag in tags[i]:
         if tag.startswith('\'google/cloud-sdk'):
-            if len(push_steps) > 0:
-                push_steps+='\n'
-            push_steps+=push_step.format(tag=tag, build_step=i)
+            if len(docker_push_steps) > 0:
+                docker_push_steps+='\n'
+            docker_push_steps+=push_step.format(tag=tag, build_step=i)
 
-all_rebranded_tags_for_images=''
+all_gcr_io_tags_for_images=''
 all_images_tags=[]
 for i in IMAGES:
     all_images_tags.extend([t for t in tags[i] if not t.startswith('\'google/cloud-sdk')])
 for tag in sorted(all_images_tags):
-    if len(all_rebranded_tags_for_images) > 0:
-        all_rebranded_tags_for_images+='\n'
-    all_rebranded_tags_for_images+='- {}'.format(tag)
+    if len(all_gcr_io_tags_for_images) > 0:
+        all_gcr_io_tags_for_images+='\n'
+    all_gcr_io_tags_for_images+='- {}'.format(tag)
 
 print(MAIN_TEMPLATE.format(
     BUILDSTEPS=build_steps,
-    PUSHSTEPS=push_steps,
-    REBRAND_IMAGE_TAGS_SORTED=all_rebranded_tags_for_images
+    DOCKER_PUSHSTEPS=docker_push_steps,
+    GCR_IO_TAGS_SORTED=all_gcr_io_tags_for_images
     ))
