@@ -26,7 +26,6 @@ RUN /google-cloud-sdk/install.sh --bash-completion=false --path-update=true --us
 	--additional-components app-engine-java app-engine-python alpha beta \
 	pubsub-emulator cloud-datastore-emulator app-engine-go bigtable cbt datalab \
 	app-engine-python-extras kubectl appctl kustomize minikube nomos skaffold anthos-auth \
-	kpt local-extract
-RUN rm -rf /google-cloud-sdk/.install/.backup/
+	kpt local-extract && rm -rf /google-cloud-sdk/.install/.backup
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config", "/root/.kube"]
