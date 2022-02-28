@@ -3,6 +3,13 @@ options:
   machineType: 'E2_HIGHCPU_32'
 steps:
 - name: 'gcr.io/cloud-builders/docker'
+  id: 'initialize-qemu'
+  args: ['run', '--privileged', '--rm', 'tonistiigi/binfmt', '--install', 'all']
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'create-and-select-builder'
+  args: ['buildx', 'create', '--name', 'multi-arch-builder', '--use']
+  waitFor: ['initialize-qemu']
+- name: 'gcr.io/cloud-builders/docker'
   id: alpine
   args: ['build', '-t', 'google/cloud-sdk:alpine', '-t', 'google/cloud-sdk:$TAG_NAME-alpine', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-alpine', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine', '-t', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', '-t', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-alpine', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine', '-t', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', '-t', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-alpine', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine', '-t', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', '-t', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-alpine', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine', 'alpine/']
   waitFor: ['-']
@@ -146,3 +153,6 @@ secrets:
         CiQA9btlfpg/kWmwXQvrNXtkVpu2tDdD2VOi1FYd3mmjCUGaK4YSNwC8sn1MepjracHAg8VAQEWm
         s26BTGccqD1NTS83DGFdY9moRGhSPm4WJKCg2tTQKYeTfdqUjjM=
 timeout: 7200s
+options:
+  env:
+  - 'DOCKER_CLI_EXPERIMENTAL=enabled'

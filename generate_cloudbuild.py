@@ -2,6 +2,13 @@ MAIN_TEMPLATE="""# PROD BUILDING STEPS
 options:
   machineType: 'E2_HIGHCPU_32'
 steps:
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'initialize-qemu'
+  args: ['run', '--privileged', '--rm', 'tonistiigi/binfmt', '--install', 'all']
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'create-and-select-builder'
+  args: ['buildx', 'create', '--name', 'multi-arch-builder', '--use']
+  waitFor: ['initialize-qemu']
 {BUILDSTEPS}
 # END OF PROD BUILDING STEPS
 - name: 'gcr.io/cloud-builders/docker'
@@ -18,7 +25,10 @@ secrets:
     PASSWORD: |
         CiQA9btlfpg/kWmwXQvrNXtkVpu2tDdD2VOi1FYd3mmjCUGaK4YSNwC8sn1MepjracHAg8VAQEWm
         s26BTGccqD1NTS83DGFdY9moRGhSPm4WJKCg2tTQKYeTfdqUjjM=
-timeout: 7200s"""
+timeout: 7200s
+options:
+  env:
+  - 'DOCKER_CLI_EXPERIMENTAL=enabled'"""
 
 GCRIO_PROJECT='google.com/cloudsdktool'
 GCR_PREFIXES = ['gcr.io', 'eu.gcr.io', 'asia.gcr.io', 'us.gcr.io']
