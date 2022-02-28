@@ -1,22 +1,21 @@
-MAIN_TEMPLATE="""# PROD BUILDING STEPS
+MAIN_TEMPLATE="""
 options:
   machineType: 'E2_HIGHCPU_32'
 steps:
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'initialize-qemu'
-  args: ['run', '--privileged', '--rm', 'tonistiigi/binfmt', '--install', 'all']
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'create-and-select-builder'
-  args: ['buildx', 'create', '--name', 'multi-arch-builder', '--use']
-  waitFor: ['initialize-qemu']
-{BUILDSTEPS}
-# END OF PROD BUILDING STEPS
 - name: 'gcr.io/cloud-builders/docker'
   id: dockersecret
   entrypoint: 'bash'
   args: ['-c', 'docker login --username=$_USERNAME --password=$$PASSWORD']
   secretEnv: ['PASSWORD']
-{DOCKER_PUSHSTEPS}
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'initialize-qemu'
+  args: ['run', '--privileged', '--rm', 'tonistiigi/binfmt', '--install', 'all']
+  waitFor: ['dockersecret']
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'create-and-select-builder'
+  args: ['buildx', 'create', '--name', 'multi-arch-builder', '--use']
+  waitFor: ['initialize-qemu']
+{BUILDSTEPS}
 images:
 {GCR_IO_TAGS_SORTED}
 secrets:
@@ -104,7 +103,7 @@ for i in IMAGES:
 
     build_step = """- name: 'gcr.io/cloud-builders/docker'
   id: {image_name}
-  args: ['buildx', 'build', '--platform', '$_DOCKER_BUILDX_PLATFORMS', {tags}, '{image_directory}']
+  args: ['buildx', 'build', '--platform', '$_DOCKER_BUILDX_PLATFORMS', {tags}, '--push', '{image_directory}']
   waitFor: ['create-and-select-builder']"""
     output_build_step = build_step.format(
         image_name=i,
@@ -113,17 +112,6 @@ for i in IMAGES:
     if len(build_steps) > 0:
         build_steps+='\n'
     build_steps+=output_build_step
-
-docker_push_steps=''
-for i in IMAGES:
-    push_step = """- name: 'gcr.io/cloud-builders/docker'
-  args: ['push', {tag}]
-  waitFor: ['dockersecret', '{build_step}']"""
-    for tag in tags[i]:
-        if tag.startswith('\'google/cloud-sdk'):
-            if len(docker_push_steps) > 0:
-                docker_push_steps+='\n'
-            docker_push_steps+=push_step.format(tag=tag, build_step=i)
 
 all_gcr_io_tags_for_images=''
 all_images_tags=[]
@@ -136,6 +124,5 @@ for tag in sorted(all_images_tags):
 
 print(MAIN_TEMPLATE.format(
     BUILDSTEPS=build_steps,
-    DOCKER_PUSHSTEPS=docker_push_steps,
     GCR_IO_TAGS_SORTED=all_gcr_io_tags_for_images
     ))
