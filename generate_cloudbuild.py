@@ -28,7 +28,9 @@ secrets:
 timeout: 7200s
 options:
   env:
-  - 'DOCKER_CLI_EXPERIMENTAL=enabled'"""
+  - 'DOCKER_CLI_EXPERIMENTAL=enabled'
+substitutions:
+  _DOCKER_BUILDX_PLATFORMS: 'linux/amd64,linux/arm/v7,linux/arm64'"""
 
 GCRIO_PROJECT='google.com/cloudsdktool'
 GCR_PREFIXES = ['gcr.io', 'eu.gcr.io', 'asia.gcr.io', 'us.gcr.io']
@@ -102,8 +104,8 @@ for i in IMAGES:
 
     build_step = """- name: 'gcr.io/cloud-builders/docker'
   id: {image_name}
-  args: ['build', {tags}, '{image_directory}']
-  waitFor: ['-']"""
+  args: ['buildx', 'build', '--platform', '$_DOCKER_BUILDX_PLATFORMS', {tags}, '{image_directory}']
+  waitFor: ['create-and-select-builder']"""
     output_build_step = build_step.format(
         image_name=i,
         tags=', '.join(['\'-t\', {}'.format(t) for t in  tags[i]]),
