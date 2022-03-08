@@ -1,8 +1,33 @@
 MAIN_TEMPLATE="""# PROD BUILDING STEPS
 options:
   machineType: 'E2_HIGHCPU_32'
+  env:
+    - DOCKER_CLI_EXPERIMENTAL=enabled
 steps:
+- name: 'docker/binfmt:a7996909642ee92942dcd6cff44b9b95f08dad64'
+- name: 'gcr.io/cloud-builders/docker'
+  id: multi_arch_step1
+  args:
+  - 'buildx'
+  - 'create'
+  - '--name'
+  - 'mybuilder'
+- name: 'gcr.io/cloud-builders/docker'
+  id: multi_arch_step2
+  args:
+  - 'buildx'
+  - 'use'
+  - 'mybuilder'
+  waitFor: ['multi_arch_step1']
+- name: 'gcr.io/cloud-builders/docker'
+  id: multi_arch_step3
+  args:
+  - 'buildx'
+  - 'inspect'
+  - '--bootstrap'
+  waitFor: ['multi_arch_step2']
 {BUILDSTEPS}
+{MULTIARCH_BUILDSTEPS}
 # END OF PROD BUILDING STEPS
 - name: 'gcr.io/cloud-builders/docker'
   id: dockersecret
@@ -124,11 +149,29 @@ for i in IMAGES:
   waitFor: ['-']"""
     output_build_step = build_step.format(
         image_name=i,
-        tags=', '.join(['\'-t\', {}'.format(t) for t in  tags[i]]),
+        tags=', '.join(['\'-t\', {}'.format(t) for t in tags[i]]),
         image_directory=image_directory)
     if len(build_steps) > 0:
         build_steps+='\n'
     build_steps+=output_build_step
+
+multi_arch_build_steps=''
+for i in MULTI_ARCH:
+    image_directory = '{}/'.format(i)
+    if i == 'default':
+        image_directory = '.'
+
+    multi_arch_build_step = """- name: 'gcr.io/cloud-builders/docker'
+  id: multi_arch_{image_name}
+  args: ['buildx', 'build', '--platform', 'linux/arm64,linux/amd64', {tags}, '{image_directory}', '--push']
+  waitFor: ['multi_arch_step3']"""
+    output_build_step = multi_arch_build_step.format(
+        image_name=i,
+        tags=', '.join(['\'-t\', {}'.format(t) for t in multi_arch_tags[i]]),
+        image_directory=image_directory)
+    if len(multi_arch_build_steps) > 0:
+        multi_arch_build_steps+='\n'
+    multi_arch_build_steps+=output_build_step
 
 docker_push_steps=''
 for i in IMAGES:
@@ -152,6 +195,7 @@ for tag in sorted(all_images_tags):
 
 print(MAIN_TEMPLATE.format(
     BUILDSTEPS=build_steps,
+    MULTIARCH_BUILDSTEPS=multi_arch_build_steps,
     DOCKER_PUSHSTEPS=docker_push_steps,
     GCR_IO_TAGS_SORTED=all_gcr_io_tags_for_images
     ))

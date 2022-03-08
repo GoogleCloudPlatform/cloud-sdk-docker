@@ -1,7 +1,31 @@
 # PROD BUILDING STEPS
 options:
   machineType: 'E2_HIGHCPU_32'
+  env:
+    - DOCKER_CLI_EXPERIMENTAL=enabled
 steps:
+- name: 'docker/binfmt:a7996909642ee92942dcd6cff44b9b95f08dad64'
+- name: 'gcr.io/cloud-builders/docker'
+  id: multi_arch_step1
+  args:
+  - 'buildx'
+  - 'create'
+  - '--name'
+  - 'mybuilder'
+- name: 'gcr.io/cloud-builders/docker'
+  id: multi_arch_step2
+  args:
+  - 'buildx'
+  - 'use'
+  - 'mybuilder'
+  waitFor: ['multi_arch_step1']
+- name: 'gcr.io/cloud-builders/docker'
+  id: multi_arch_step3
+  args:
+  - 'buildx'
+  - 'inspect'
+  - '--bootstrap'
+  waitFor: ['multi_arch_step2']
 - name: 'gcr.io/cloud-builders/docker'
   id: alpine
   args: ['build', '-t', 'google/cloud-sdk:alpine', '-t', 'google/cloud-sdk:$TAG_NAME-alpine', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-alpine', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine', '-t', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', '-t', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-alpine', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine', '-t', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', '-t', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-alpine', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine', '-t', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', '-t', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-alpine', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine', 'alpine/']
@@ -22,6 +46,10 @@ steps:
   id: emulators
   args: ['build', '-t', 'google/cloud-sdk:emulators', '-t', 'google/cloud-sdk:$TAG_NAME-emulators', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators', '-t', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', '-t', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators', '-t', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', '-t', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators', '-t', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', '-t', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators', 'emulators/']
   waitFor: ['-']
+- name: 'gcr.io/cloud-builders/docker'
+  id: multi_arch_debian_component_based
+  args: ['buildx', 'build', '--platform', 'linux/arm64,linux/amd64', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:debian_component_based', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-debian_component_based', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:debian_component_based', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-debian_component_based', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:debian_component_based', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-debian_component_based', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:debian_component_based', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-debian_component_based', 'debian_component_based/', '--push']
+  waitFor: ['multi_arch_step3']
 # END OF PROD BUILDING STEPS
 - name: 'gcr.io/cloud-builders/docker'
   id: dockersecret
