@@ -35,7 +35,11 @@ LABEL_FOR_IMAGE={
     'emulators': 'emulators'
     }
 
-def MakeGcrTags(label_without_tag, label_with_tag, maybe_hypen, include_old_name=True):
+def MakeGcrTags(label_without_tag,
+                label_with_tag,
+                maybe_hypen,
+                include_old_name=True,
+                include_rebrand_name=True):
     t = []
     for gcr_prefix in GCR_PREFIXES:
         if include_old_name:
@@ -45,7 +49,6 @@ def MakeGcrTags(label_without_tag, label_with_tag, maybe_hypen, include_old_name
                         gcrio_project=GCRIO_PROJECT,
                         old_name=OLD_NAME,
                         label=label_without_tag))
-        if include_old_name:
             t.append(
                 '\'{gcr_prefix}/{gcrio_project}/{old_name}:$TAG_NAME{maybe_hypen}{label}\''
                 .format(gcr_prefix=gcr_prefix,
@@ -53,19 +56,20 @@ def MakeGcrTags(label_without_tag, label_with_tag, maybe_hypen, include_old_name
                         old_name=OLD_NAME,
                         maybe_hypen=maybe_hypen,
                         label=label_with_tag))
-        t.append(
-            '\'{gcrprefix}/{gcrio_project}/{rebrand_name}:{label}\''
-            .format(gcrprefix=gcr_prefix,
-                    gcrio_project=GCRIO_PROJECT,
-                    rebrand_name=REBRAND_NAME,
-                    label=label_without_tag))
-        t.append(
-            '\'{gcr_prefix}/{gcrio_project}/{rebrand_name}:$TAG_NAME{maybe_hypen}{label}\''
-            .format(gcr_prefix=gcr_prefix,
-                    gcrio_project=GCRIO_PROJECT,
-                    rebrand_name=REBRAND_NAME,
-                    maybe_hypen=maybe_hypen,
-                    label=label_with_tag))
+        if include_rebrand_name:
+            t.append(
+                '\'{gcrprefix}/{gcrio_project}/{rebrand_name}:{label}\''
+                .format(gcrprefix=gcr_prefix,
+                        gcrio_project=GCRIO_PROJECT,
+                        rebrand_name=REBRAND_NAME,
+                        label=label_without_tag))
+            t.append(
+                '\'{gcr_prefix}/{gcrio_project}/{rebrand_name}:$TAG_NAME{maybe_hypen}{label}\''
+                .format(gcr_prefix=gcr_prefix,
+                        gcrio_project=GCRIO_PROJECT,
+                        rebrand_name=REBRAND_NAME,
+                        maybe_hypen=maybe_hypen,
+                        label=label_with_tag))
     return t
 
 # Make all the tags and save them
