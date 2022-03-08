@@ -26,6 +26,7 @@ DOCKERHUB_PREFIX='google'
 OLD_NAME='cloud-sdk'
 REBRAND_NAME='google-cloud-cli'
 IMAGES=['alpine', 'debian_slim', 'default', 'debian_component_based', 'emulators']
+MULTI_ARCH=[]
 LABEL_FOR_IMAGE={
     'alpine': 'alpine',
     'debian_slim': 'slim',
@@ -33,6 +34,37 @@ LABEL_FOR_IMAGE={
     'debian_component_based': 'debian_component_based',
     'emulators': 'emulators'
     }
+
+def MakeGcrTags(label_without_tag, label_with_tag, maybe_hypen):
+    t = []
+    for gcr_prefix in GCR_PREFIXES:
+        t.append(
+            '\'{gcrprefix}/{gcrio_project}/{old_name}:{label}\''
+            .format(gcrprefix=gcr_prefix,
+                    gcrio_project=GCRIO_PROJECT,
+                    old_name=OLD_NAME,
+                    label=label_without_tag))
+        t.append(
+            '\'{gcr_prefix}/{gcrio_project}/{old_name}:$TAG_NAME{maybe_hypen}{label}\''
+            .format(gcr_prefix=gcr_prefix,
+                    gcrio_project=GCRIO_PROJECT,
+                    old_name=OLD_NAME,
+                    maybe_hypen=maybe_hypen,
+                    label=label_with_tag))
+        t.append(
+            '\'{gcrprefix}/{gcrio_project}/{rebrand_name}:{label}\''
+            .format(gcrprefix=gcr_prefix,
+                    gcrio_project=GCRIO_PROJECT,
+                    rebrand_name=REBRAND_NAME,
+                    label=label_without_tag))
+        t.append(
+            '\'{gcr_prefix}/{gcrio_project}/{rebrand_name}:$TAG_NAME{maybe_hypen}{label}\''
+            .format(gcr_prefix=gcr_prefix,
+                    gcrio_project=GCRIO_PROJECT,
+                    rebrand_name=REBRAND_NAME,
+                    maybe_hypen=maybe_hypen,
+                    label=label_with_tag))
+    return t
 
 # Make all the tags and save them
 tags={}
@@ -57,33 +89,9 @@ for i in IMAGES:
                  maybe_hypen=maybe_hypen,
                  label=label_with_tag))
     # Make gcr tags for i
-    for gcr_prefix in GCR_PREFIXES:
-        tags[i].append(
-            '\'{gcrprefix}/{gcrio_project}/{old_name}:{label}\''
-            .format(gcrprefix=gcr_prefix,
-                    gcrio_project=GCRIO_PROJECT,
-                    old_name=OLD_NAME,
-                    label=label_without_tag))
-        tags[i].append(
-            '\'{gcr_prefix}/{gcrio_project}/{old_name}:$TAG_NAME{maybe_hypen}{label}\''
-            .format(gcr_prefix=gcr_prefix,
-                    gcrio_project=GCRIO_PROJECT,
-                    old_name=OLD_NAME,
-                    maybe_hypen=maybe_hypen,
-                    label=label_with_tag))
-        tags[i].append(
-            '\'{gcrprefix}/{gcrio_project}/{rebrand_name}:{label}\''
-            .format(gcrprefix=gcr_prefix,
-                    gcrio_project=GCRIO_PROJECT,
-                    rebrand_name=REBRAND_NAME,
-                    label=label_without_tag))
-        tags[i].append(
-            '\'{gcr_prefix}/{gcrio_project}/{rebrand_name}:$TAG_NAME{maybe_hypen}{label}\''
-            .format(gcr_prefix=gcr_prefix,
-                    gcrio_project=GCRIO_PROJECT,
-                    rebrand_name=REBRAND_NAME,
-                    maybe_hypen=maybe_hypen,
-                    label=label_with_tag))
+    if i not in MULTI_ARCH:
+        tags[i].extend(MakeGcrTags(label_without_tag, label_with_tag, maybe_hypen))
+
 build_steps=''
 for i in IMAGES:
     image_directory = '{}/'.format(i)
