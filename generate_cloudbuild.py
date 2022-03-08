@@ -26,7 +26,7 @@ DOCKERHUB_PREFIX='google'
 OLD_NAME='cloud-sdk'
 REBRAND_NAME='google-cloud-cli'
 IMAGES=['alpine', 'debian_slim', 'default', 'debian_component_based', 'emulators']
-MULTI_ARCH=[]
+MULTI_ARCH=['debian_component_based']
 LABEL_FOR_IMAGE={
     'alpine': 'alpine',
     'debian_slim': 'slim',
@@ -74,8 +74,11 @@ def MakeGcrTags(label_without_tag,
 
 # Make all the tags and save them
 tags={}
+multi_arch_tags={}
 for i in IMAGES:
     tags[i]=[]
+    if i in MULTI_ARCH:
+        multi_arch_tags[i]=[]
     label_name = LABEL_FOR_IMAGE[i]
     label_without_tag = label_name
     label_with_tag = label_name
@@ -97,6 +100,17 @@ for i in IMAGES:
     # Make gcr tags for i
     if i not in MULTI_ARCH:
         tags[i].extend(MakeGcrTags(label_without_tag, label_with_tag, maybe_hypen))
+    else:
+        # old gcr tags go into tags
+        tags[i].extend(MakeGcrTags(label_without_tag,
+                                   label_with_tag,
+                                   maybe_hypen,
+                                   include_rebrand_name=False))
+        # new gcr tags go into multiarch tags
+        multi_arch_tags[i].extend(MakeGcrTags(label_without_tag,
+                                           label_with_tag,
+                                           maybe_hypen,
+                                           include_old_name=False))
 
 build_steps=''
 for i in IMAGES:
