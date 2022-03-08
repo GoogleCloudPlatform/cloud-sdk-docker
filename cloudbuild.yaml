@@ -46,11 +46,11 @@ steps:
   id: emulators
   args: ['build', '-t', 'google/cloud-sdk:emulators', '-t', 'google/cloud-sdk:$TAG_NAME-emulators', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators', '-t', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', '-t', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators', '-t', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', '-t', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators', '-t', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', '-t', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators', 'emulators/']
   waitFor: ['-']
+# END OF PROD BUILDING STEPS
 - name: 'gcr.io/cloud-builders/docker'
   id: multi_arch_debian_component_based
   args: ['buildx', 'build', '--platform', 'linux/arm64,linux/amd64', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:debian_component_based', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-debian_component_based', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:debian_component_based', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-debian_component_based', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:debian_component_based', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-debian_component_based', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:debian_component_based', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-debian_component_based', 'debian_component_based/', '--push']
   waitFor: ['multi_arch_step3']
-# END OF PROD BUILDING STEPS
 - name: 'gcr.io/cloud-builders/docker'
   id: dockersecret
   entrypoint: 'bash'

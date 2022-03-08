@@ -27,8 +27,8 @@ steps:
   - '--bootstrap'
   waitFor: ['multi_arch_step2']
 {BUILDSTEPS}
-{MULTIARCH_BUILDSTEPS}
 # END OF PROD BUILDING STEPS
+{MULTIARCH_BUILDSTEPS}
 - name: 'gcr.io/cloud-builders/docker'
   id: dockersecret
   entrypoint: 'bash'
