@@ -37,13 +37,13 @@ Verify the install
 
 ```bash
 docker run gcr.io/google.com/cloudsdktool/google-cloud-cli:latest gcloud version
-Google Cloud CLI 366.0.0
+Google Cloud CLI 368.0.0
 ```
 
 or use a particular version number:
 
 ```bash
-docker run gcr.io/google.com/cloudsdktool/google-cloud-cli:366.0.0 gcloud version
+docker run gcr.io/google.com/cloudsdktool/google-cloud-cli:368.0.0 gcloud version
 ```
 
 You can authenticate `gcloud` with your user credentials by running [`gcloud auth login`](https://cloud.google.com/sdk/gcloud/reference/auth/login):
