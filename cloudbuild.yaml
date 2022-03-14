@@ -28,7 +28,7 @@ steps:
   waitFor: ['multi_arch_step2']
 - name: 'gcr.io/cloud-builders/docker'
   id: alpine
-  args: ['build', '-t', 'google/cloud-sdk:alpine', '-t', 'google/cloud-sdk:$TAG_NAME-alpine', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-alpine', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine', '-t', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', '-t', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-alpine', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine', '-t', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', '-t', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-alpine', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine', '-t', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', '-t', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-alpine', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine', 'alpine/']
+  args: ['build', '-t', 'google/cloud-sdk:alpine', '-t', 'google/cloud-sdk:$TAG_NAME-alpine', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-alpine', '-t', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', '-t', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-alpine', '-t', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', '-t', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-alpine', '-t', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:alpine', '-t', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-alpine', 'alpine/']
   waitFor: ['-']
 - name: 'gcr.io/cloud-builders/docker'
   id: debian_slim
@@ -50,6 +50,10 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   id: multi_arch_debian_component_based
   args: ['buildx', 'build', '--platform', 'linux/arm64,linux/amd64', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:debian_component_based', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-debian_component_based', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:debian_component_based', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-debian_component_based', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:debian_component_based', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-debian_component_based', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:debian_component_based', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-debian_component_based', 'debian_component_based/', '--push']
+  waitFor: ['multi_arch_step3']
+- name: 'gcr.io/cloud-builders/docker'
+  id: multi_arch_alpine
+  args: ['buildx', 'build', '--platform', 'linux/arm64,linux/amd64', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine', 'alpine/', '--push']
   waitFor: ['multi_arch_step3']
 - name: 'gcr.io/cloud-builders/docker'
   id: dockersecret
@@ -98,10 +102,8 @@ images:
 - 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:latest'
 - 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
 - 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME'
-- 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine'
 - 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators'
 - 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-slim'
-- 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine'
 - 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators'
 - 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:latest'
 - 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:slim'
@@ -116,10 +118,8 @@ images:
 - 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:latest'
 - 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
 - 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME'
-- 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine'
 - 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators'
 - 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-slim'
-- 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine'
 - 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators'
 - 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:latest'
 - 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:slim'
@@ -134,10 +134,8 @@ images:
 - 'gcr.io/google.com/cloudsdktool/cloud-sdk:latest'
 - 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
 - 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME'
-- 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine'
 - 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators'
 - 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-slim'
-- 'gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine'
 - 'gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators'
 - 'gcr.io/google.com/cloudsdktool/google-cloud-cli:latest'
 - 'gcr.io/google.com/cloudsdktool/google-cloud-cli:slim'
@@ -152,10 +150,8 @@ images:
 - 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:latest'
 - 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
 - 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME'
-- 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine'
 - 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators'
 - 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-slim'
-- 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine'
 - 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators'
 - 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:latest'
 - 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:slim'
