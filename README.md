@@ -1,15 +1,15 @@
-# Google Cloud SDK Docker
+# Google Cloud CLI Docker
 
-These are Docker images for the [Google Cloud SDK](https://cloud.google.com/sdk/).
+These are Docker images for the [Google Cloud CLI](https://cloud.google.com/cli).
 
 The `:latest` tag is Debian-based and includes default command
-line tools of Google Cloud SDK (`gcloud`, `gsutil`, `bq`) as well several 
+line tools of Google Cloud CLI (`gcloud`, `gsutil`, `bq`) as well several 
 [additional components](https://cloud.google.com/sdk/downloads#apt-get).
 
 ## Repositories
-The Google Cloud SDK Docker Image is hosted on [Container Registry](https://gcr.io/google.com/cloudsdktool/cloud-sdk).
+The Google Cloud CLI Docker Image is hosted on [Container Registry](https://gcr.io/google.com/cloudsdktool/google-cloud-cli).
 
-The full repository name for Container Registry is `gcr.io/google.com/cloudsdktool/cloud-sdk`.
+The full repository name for Container Registry is `gcr.io/google.com/cloudsdktool/google-cloud-cli`.
 
 ## Supported tags
 
@@ -23,49 +23,45 @@ The full repository name for Container Registry is `gcr.io/google.com/cloudsdkto
   :latest but component installer based)
 * `:emulators`, `:VERSION`: (as small as possible with all the emulators)
 
-&rarr; Check out [Container Registry](https://gcr.io/google.com/cloudsdktool/cloud-sdk) for available tags.
-
-[![Docker Pulls](https://img.shields.io/docker/pulls/google/cloud-sdk.svg)]()
-[![Docker Build Status](https://img.shields.io/docker/build/google/cloud-sdk.svg)]()
-[![Docker Automated buil](https://img.shields.io/docker/automated/google/cloud-sdk.svg)]()
+&rarr; Check out [Container Registry](https://gcr.io/google.com/cloudsdktool/google-cloud-cli) for available tags.
 
 ## Usage
 
-To use this image, pull from [Container Registry](https://gcr.io/google.com/cloudsdktool/cloud-sdk) and then run the following command:
+To use this image, pull from [Container Registry](https://gcr.io/google.com/cloudsdktool/google-cloud-cli) and then run the following command:
 
 ```
-docker pull gcr.io/google.com/cloudsdktool/cloud-sdk:latest
+docker pull gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
 ```
 
 Verify the install
 
 ```bash
-docker run gcr.io/google.com/cloudsdktool/cloud-sdk:latest gcloud version
-Google Cloud SDK 159.0.0
+docker run gcr.io/google.com/cloudsdktool/google-cloud-cli:latest gcloud version
+Google Cloud CLI 368.0.0
 ```
 
 or use a particular version number:
 
 ```bash
-docker run gcr.io/google.com/cloudsdktool/cloud-sdk:260.0.0 gcloud version
+docker run gcr.io/google.com/cloudsdktool/google-cloud-cli:368.0.0 gcloud version
 ```
 
 You can authenticate `gcloud` with your user credentials by running [`gcloud auth login`](https://cloud.google.com/sdk/gcloud/reference/auth/login):
 
 ```
-docker run -ti --name gcloud-config gcr.io/google.com/cloudsdktool/cloud-sdk gcloud auth login
+docker run -ti --name gcloud-config gcr.io/google.com/cloudsdktool/google-cloud-cli gcloud auth login
 ```
 
 If you need to authenticate any program that uses the Google Cloud APIs, you need to pass the `--update-adc` option:
 
 ```
-docker run -ti --name gcloud-config gcr.io/google.com/cloudsdktool/cloud-sdk gcloud auth login --update-adc
+docker run -ti --name gcloud-config gcr.io/google.com/cloudsdktool/google-cloud-cli gcloud auth login --update-adc
 ```
 
 If you want to use a specific project for future uses, you can set this inside the `gcloud-config` container:
 
 ```
-docker run -ti --name gcloud-config gcr.io/google.com/cloudsdktool/cloud-sdk /bin/bash -c 'gcloud auth login && gcloud config set project your-project'
+docker run -ti --name gcloud-config gcr.io/google.com/cloudsdktool/google-cloud-cli /bin/bash -c 'gcloud auth login && gcloud config set project your-project'
 ```
 
 Once you authenticate successfully, credentials are preserved in the volume of
@@ -75,7 +71,7 @@ To list compute instances using these credentials, run the container with
 `--volumes-from`:
 
 ```
-docker run --rm --volumes-from gcloud-config gcr.io/google.com/cloudsdktool/cloud-sdk gcloud compute instances list --project your_project
+docker run --rm --volumes-from gcloud-config gcr.io/google.com/cloudsdktool/google-cloud-cli gcloud compute instances list --project your_project
 NAME        ZONE           MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP      STATUS
 instance-1  us-central1-a  n1-standard-1               10.240.0.2   8.34.219.29      RUNNING
 ```
@@ -96,7 +92,7 @@ that will be present within the container as a separate volume mount.
 ```
 $ docker run -ti -e CLOUDSDK_CONFIG=/config/mygcloud \
                  -v `pwd`/mygcloud:/config/mygcloud \
-                 -v `pwd`:/certs  gcr.io/google.com/cloudsdktool/cloud-sdk:alpine /bin/bash
+                 -v `pwd`:/certs  gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine /bin/bash
 
 bash-4.4# gcloud config list
 [auth]
@@ -168,7 +164,7 @@ that uses the `cloud-sdk` image as the base image. For example, to add `kubectl`
 `app-engine-java` components:
 
 ```Dockerfile
-FROM gcr.io/google.com/cloudsdktool/cloud-sdk:alpine
+FROM gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine
 RUN apk --update add openjdk7-jre
 RUN gcloud components install app-engine-java kubectl
 ```
