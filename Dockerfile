@@ -11,7 +11,6 @@ RUN apt-get -qqy update && apt-get install -qqy \
         curl \
         python3-dev \
         python3-crcmod \
-        python-crcmod \
         apt-transport-https \
         lsb-release \
         openssh-client \
