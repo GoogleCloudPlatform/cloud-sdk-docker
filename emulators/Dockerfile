@@ -32,5 +32,6 @@ RUN ARCH=`cat /tmp/arch` && \
     gcloud components install beta `cat /tmp/additional_components` && \
     rm /google-cloud-sdk/data/cli/gcloud.json && \
     rm -rf /google-cloud-sdk/.install/.backup/ && \
-    find /google-cloud-sdk/ -name "__pycache__" -type d  | xargs -n 1 rm -rf
+    find /google-cloud-sdk/ -name "__pycache__" -type d  | xargs -n 1 rm -rf && \
+    rm -rf /var/lib/apt/lists
 
