@@ -1,6 +1,7 @@
 FROM docker:20.10.12 as static-docker-source
 
-FROM debian:buster
+
+FROM debian:bullseye
 ARG CLOUD_SDK_VERSION=392.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH "$PATH:/opt/google-cloud-sdk/bin/"
@@ -45,4 +46,3 @@ RUN pip3 install --upgrade pip
 RUN pip3 install pyopenssl
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config", "/root/.kube"]
-

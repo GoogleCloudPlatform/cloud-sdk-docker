@@ -1,5 +1,5 @@
-# debian:buster-slim is used instead of alpine because the cloud bigtable emulator requires glibc.
-FROM debian:buster-slim
+# debian:bullseye-slim is used instead of alpine because the cloud bigtable emulator requires glibc.
+FROM debian:bullseye-slim
 
 ARG CLOUD_SDK_VERSION=392.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
