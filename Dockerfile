@@ -36,6 +36,7 @@ RUN apt-get -qqy update && apt-get install -qqy \
         google-cloud-sdk-cbt=${CLOUD_SDK_VERSION}-0 \
         google-cloud-sdk-kpt=${CLOUD_SDK_VERSION}-0 \
         google-cloud-sdk-local-extract=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-sdk-gke-gcloud-auth-plugin=${CLOUD_SDK_VERSION}-0 \
         kubectl && \
     gcloud --version && \
     docker --version && kubectl version --client
