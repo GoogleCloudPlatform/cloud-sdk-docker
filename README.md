@@ -129,7 +129,6 @@ You can set any Cloud SDK property via an ENV,
 | Cloud SQL Proxy                                      |         |         |       |                         |            |
 | Cloud Spanner Emulator                               |    x    |         |       |                         |     x      |
 | Cloud Storage Command Line Tool                      |    x    |    x    |   x   |            x            |            |
-| Google Cloud Build Local Builder                     |         |         |       |                         |            |
 | Google Container Registry's Docker credential helper |         |         |       |                         |            |
 | Kustomize                                            |         |         |       |                         |            |
 | Minikube                                             |         |         |       |                         |            |
