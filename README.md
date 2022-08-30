@@ -1,6 +1,6 @@
 # Google Cloud CLI Docker
 
-These are Docker images for the [Google Cloud CLI](https://cloud.google.com/cli).
+The Google Cloud CLI Docker Images (comprising the :latest, :slim, :alpine, :emulators, and :debian-component-based images located within this repository) are a set of images enabling the usage of the Google Cloud CLI as well as its bundled components.
 
 The `:latest` tag is Debian-based and includes default command
 line tools of Google Cloud CLI (`gcloud`, `gsutil`, `bq`) as well several 
@@ -197,12 +197,22 @@ The full Dockerfile for that can be found
 You can also follow the Cloud SDK Release schedule here
 - [https://groups.google.com/forum/#!forum/google-cloud-sdk-announce](https://groups.google.com/forum/#!forum/google-cloud-sdk-announce)
 
+## Support
+
+The Google Cloud CLI Team works to ensure that the images within this repository provide fully functional installs of the Google Cloud CLI. This work includes addressing any bugs or issues that prevent the execution of the `gcloud` command line tool or components installed by default on each image. The team also works to ensure that third party packages necessary for the function of the Google Cloud CLI are using stable release versions, and that base OS images are updated to recent, stable releases in a timely manner. 
+
+For workflows separate from or unrelated to the execution of the Cloud CLI that require additional or different dependencies, the Cloud CLI team recommends creating your own image layer on top of the Cloud CLI Docker Image where you can remove and install dependencies as needed. The Cloud CLI Team will not address issues related to workflows or tools unrelated to the execution of the Google Cloud CLI. Similarly, the team will deny requests for additional packages or tooling unrelated to the intended functioning of the Google Cloud CLI. 
+
+### Identifying Vulnerabilities
+
+If you or your organization have detected vulnerabilities within any of the Cloud CLI Docker Images, please [file a bug](https://partnerissuetracker.corp.google.com/) that contains the type of each vulnerability and the location within the image where each is present.
+
 ### Pinning version
 
 Images tagged `:latest`, `:alpine`, `:slim` and `:debian_component_based` use
 the most recent version of Google Cloud SDK, which may change its behaviour in
 the future. List of components installed by default in each image can also
-change between versions. To avoid such change breaking the tool you are using,
+change between versions. To avoid such changes breaking the tool you are using,
 it is not recommended to use these tags in any production tools directly.
 Instead use a particular version as listed in [Supported tags](#supported-tags)
 and update it periodically.
