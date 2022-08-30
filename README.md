@@ -205,7 +205,7 @@ For workflows separate from or unrelated to the execution of the Cloud CLI that 
 
 ### Identifying Vulnerabilities
 
-If you or your organization have detected vulnerabilities within any of the Cloud CLI Docker Images, please [file a bug](https://partnerissuetracker.corp.google.com/) that contains the type of each vulnerability and the location within the image where each is present.
+If you or your organization have detected vulnerabilities within any of the Cloud CLI Docker Images, please [file a bug](https://issuetracker.google.com/issues/new?component=187143) that contains the type of each vulnerability and the location within the image where each is present.
 
 ### Pinning version
 
