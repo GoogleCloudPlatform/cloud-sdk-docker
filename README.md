@@ -1,6 +1,6 @@
 # Google Cloud CLI Docker
 
-The Google Cloud CLI Docker Images (comprising the :latest, :slim, :alpine, :emulators, and :debian-component-based images located within this repository) are a set of images enabling the usage of the Google Cloud CLI as well as its bundled components.
+The Google Cloud CLI Docker Images (comprising the `:latest`, `:slim`, `:alpine`, `:emulators`, and `:debian-component-based` images located within this repository) are a set of images enabling the usage of the Google Cloud CLI as well as its bundled components.
 
 The `:latest` tag is Debian-based and includes default command
 line tools of Google Cloud CLI (`gcloud`, `gsutil`, `bq`) as well several 
