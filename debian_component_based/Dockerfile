@@ -30,4 +30,5 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n " appctl nomos anthos-auth" >> /t
 RUN /google-cloud-sdk/install.sh --bash-completion=false --path-update=true --usage-reporting=false \
 	--additional-components `cat /tmp/additional_components` && rm -rf /google-cloud-sdk/.install/.backup
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
+RUN git config --system credential.'https://*.*.sourcemanager.dev'.helper gcloud.sh
 VOLUME ["/root/.config", "/root/.kube"]

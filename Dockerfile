@@ -45,4 +45,5 @@ RUN apt-get install -qqy \
 RUN pip3 install --upgrade pip
 RUN pip3 install pyopenssl
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
+RUN git config --system credential.'https://*.*.sourcemanager.dev'.helper gcloud.sh
 VOLUME ["/root/.config", "/root/.kube"]

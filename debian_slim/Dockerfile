@@ -30,5 +30,6 @@ RUN apt-get update -qqy && apt-get install -qqy \
     gcloud --version
 
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
+RUN git config --system credential.'https://*.*.sourcemanager.dev'.helper gcloud.sh
 
 VOLUME ["/root/.config"]
