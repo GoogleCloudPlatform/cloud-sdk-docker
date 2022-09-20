@@ -1,6 +1,6 @@
 # Google Cloud CLI Docker
 
-The Google Cloud CLI Docker Images (comprising the `:latest`, `:slim`, `:alpine`, `:emulators`, and `:debian-component-based` images located within this repository) are a set of images enabling the usage of the Google Cloud CLI as well as its bundled components.
+The Google Cloud CLI Docker Images (comprising the `:latest`, `:slim`, `:alpine`, `:emulators`, and `:debian_component_based` images located within this repository) are a set of images enabling the usage of the Google Cloud CLI as well as its bundled components.
 
 The `:latest` tag is Debian-based and includes default command
 line tools of Google Cloud CLI (`gcloud`, `gsutil`, `bq`) as well several 
@@ -117,32 +117,42 @@ You can set any Cloud SDK property via an ENV,
 |                    Component                         | :latest | :alpine | :slim | :debian_component_based | :emulators |
 |:----------------------------------------------------:|:-------:|:-------:|:-----:|:-----------------------:|:----------:|
 | App Engine Go Extensions                             |    x    |         |       |            x            |            |
-| Appctl                                               |         |         |       |                         |            |
-| BigQuery Command Line Tool                           |    x    |    x    |   x   |            x            |            |
+| Appctl                                               |         |         |       |            x            |            |
+| Artifact Registry Go Module Package Helper           |         |         |       |                         |            |
+| BigQuery Command Line Tool                           |    x    |    x    |   x   |            x            |     x      |
+| Bundled Python 3.9                                   |    x    |         |   x   |                         |            |
 | Cloud Bigtable Command Line Tool                     |    x    |         |       |            x            |            |
 | Cloud Bigtable Emulator                              |    x    |         |       |            x            |     x      |
 | Cloud Datalab Command Line Tool                      |    x    |         |       |            x            |            |
 | Cloud Datastore Emulator                             |    x    |         |       |            x            |     x      |
 | Cloud Firestore Emulator                             |    x    |         |       |                         |     x      |
 | Cloud Pub/Sub Emulator                               |    x    |         |       |            x            |     x      |
-| Cloud SDK Core Libraries                             |    x    |    x    |   x   |            x            |            |
+| Cloud Run Proxy                                      |         |         |       |                         |            |
 | Cloud SQL Proxy                                      |         |         |       |                         |            |
 | Cloud Spanner Emulator                               |    x    |         |       |                         |     x      |
-| Cloud Storage Command Line Tool                      |    x    |    x    |   x   |            x            |            |
+| Cloud Spanner Migration Tool                         |         |         |       |                         |            |
+| Cloud Storage Command Line Tool                      |    x    |    x    |   x   |            x            |     x      |
+| Google Cloud CLI Core Libraries                      |    x    |    x    |   x   |            x            |     x      |
+| Google Cloud CRC32C Hash Tool                        |    x    |    x    |   x   |            x            |     x      |
 | Google Container Registry's Docker credential helper |         |         |       |                         |            |
-| Kustomize                                            |         |         |       |                         |            |
-| Minikube                                             |         |         |       |                         |            |
-| Nomos CLI                                            |         |         |       |                         |            |
-| Skaffold                                             |         |         |       |                         |            |
-| anthos-auth                                          |         |         |       |                         |            |
+| Kustomize                                            |         |         |       |            x            |            |
+| Minikube                                             |         |         |       |            x            |            |
+| Nomos CLI                                            |         |         |       |            x            |            |
+| On-Demand Scanning API extraction helper             |    x    |         |       |            x            |            |
+| Skaffold                                             |         |         |       |            x            |            |
+| Terraform Tools                                      |         |         |       |                         |            |
+| anthos-auth                                          |         |         |       |            x            |            |
+| config-connector                                     |         |         |       |                         |            |
 | gcloud Alpha Commands                                |    x    |         |   x   |            x            |            |
 | gcloud Beta Commands                                 |    x    |         |   x   |            x            |     x      |
 | gcloud app Java Extensions                           |    x    |         |       |            x            |            |
 | gcloud app Python Extensions                         |    x    |         |       |            x            |            |
 | gcloud app Python Extensions (Extra Libraries)       |    x    |         |       |            x            |            |
+| gke-gcloud-auth-plugin                               |    x    |         |       |            x            |            |
 | kpt                                                  |    x    |         |       |            x            |            |
 | kubectl                                              |    x    |         |       |            x            |            |
-| local-extract                                        |    x    |         |       |            x            |            |
+| kubectl-oidc                                         |         |         |       |                         |            |
+| pkg                                                  |         |         |       |                         |            |
 
 
 ### Installing additional components
