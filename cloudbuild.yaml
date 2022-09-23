@@ -44,7 +44,7 @@ steps:
   waitFor: ['-']
 - name: 'gcr.io/cloud-builders/docker'
   id: emulators
-  args: ['build', '-t', 'google/cloud-sdk:emulators', '-t', 'google/cloud-sdk:$TAG_NAME-emulators', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators', '-t', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', '-t', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators', '-t', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', '-t', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators', '-t', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', '-t', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators', 'emulators/']
+  args: ['build', '-t', 'google/cloud-sdk:emulators', '-t', 'google/cloud-sdk:$TAG_NAME-emulators', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', '-t', 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators', '-t', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', '-t', 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators', '-t', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', '-t', 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators', '-t', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:emulators', '-t', 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-emulators', 'emulators/']
   waitFor: ['-']
 # END OF PROD BUILDING STEPS
 - name: 'gcr.io/cloud-builders/docker'
@@ -58,6 +58,10 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   id: multi_arch_alpine
   args: ['buildx', 'build', '--platform', 'linux/arm64,linux/amd64', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-alpine', 'alpine/', '--push']
+  waitFor: ['multi_arch_step3']
+- name: 'gcr.io/cloud-builders/docker'
+  id: multi_arch_emulators
+  args: ['buildx', 'build', '--platform', 'linux/arm64,linux/amd64', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators', '-t', 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators', '-t', 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators', '-t', 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators', '-t', 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators', 'emulators/', '--push']
   waitFor: ['multi_arch_step3']
 - name: 'gcr.io/cloud-builders/docker'
   id: dockersecret
@@ -106,8 +110,6 @@ images:
 - 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:latest'
 - 'asia.gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
 - 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME'
-- 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators'
-- 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators'
 - 'asia.gcr.io/google.com/cloudsdktool/google-cloud-cli:latest'
 - 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME'
 - 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-alpine'
@@ -120,8 +122,6 @@ images:
 - 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:latest'
 - 'eu.gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
 - 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME'
-- 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators'
-- 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators'
 - 'eu.gcr.io/google.com/cloudsdktool/google-cloud-cli:latest'
 - 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME'
 - 'gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-alpine'
@@ -134,8 +134,6 @@ images:
 - 'gcr.io/google.com/cloudsdktool/cloud-sdk:latest'
 - 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
 - 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME'
-- 'gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators'
-- 'gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators'
 - 'gcr.io/google.com/cloudsdktool/google-cloud-cli:latest'
 - 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME'
 - 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:$TAG_NAME-alpine'
@@ -148,8 +146,6 @@ images:
 - 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:latest'
 - 'us.gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
 - 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME'
-- 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:$TAG_NAME-emulators'
-- 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators'
 - 'us.gcr.io/google.com/cloudsdktool/google-cloud-cli:latest'
 secrets:
 - kmsKeyName: projects/google.com:cloudsdktool/locations/global/keyRings/docker/cryptoKeys/dockerhub-password
