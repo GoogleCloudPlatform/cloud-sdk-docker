@@ -1,4 +1,4 @@
-FROM docker:20.10.12 as static-docker-source
+FROM docker:20.10.21 as static-docker-source
 
 FROM debian:bullseye-slim
 ARG CLOUD_SDK_VERSION=409.0.0
