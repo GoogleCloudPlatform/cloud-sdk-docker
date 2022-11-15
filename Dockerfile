@@ -3,7 +3,7 @@ FROM docker:20.10.21 as static-docker-source
 FROM debian:bullseye
 ARG CLOUD_SDK_VERSION=410.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
-ENV PATH "$PATH:/opt/google-cloud-cli/bin/"
+ENV PATH "$PATH:/opt/google-cloud-sdk/bin/"
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
 RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
