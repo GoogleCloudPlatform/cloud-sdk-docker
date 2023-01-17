@@ -26,7 +26,6 @@ RUN apt-get -qqy update && apt-get install -qqy \
         google-cloud-cli-app-engine-python-extras=${CLOUD_SDK_VERSION}-0 \
         google-cloud-cli-app-engine-java=${CLOUD_SDK_VERSION}-0 \
         google-cloud-cli-app-engine-go=${CLOUD_SDK_VERSION}-0 \
-        google-cloud-cli-datalab=${CLOUD_SDK_VERSION}-0 \
         google-cloud-cli-datastore-emulator=${CLOUD_SDK_VERSION}-0 \
         google-cloud-cli-pubsub-emulator=${CLOUD_SDK_VERSION}-0 \
         google-cloud-cli-bigtable-emulator=${CLOUD_SDK_VERSION}-0 \
