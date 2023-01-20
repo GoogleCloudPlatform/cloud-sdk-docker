@@ -120,10 +120,9 @@ You can set any Cloud SDK property via an ENV,
 | Appctl                                               |         |         |       |            x            |            |
 | Artifact Registry Go Module Package Helper           |         |         |       |                         |            |
 | BigQuery Command Line Tool                           |    x    |    x    |   x   |            x            |     x      |
-| Bundled Python 3.9                                   |    x    |         |   x   |                         |            |
+| Bundled Python 3.9                                   |    x    |    x    |   x   |            x            |     x      |
 | Cloud Bigtable Command Line Tool                     |    x    |         |       |            x            |            |
 | Cloud Bigtable Emulator                              |    x    |         |       |            x            |     x      |
-| Cloud Datalab Command Line Tool                      |    x    |         |       |            x            |            |
 | Cloud Datastore Emulator                             |    x    |         |       |            x            |     x      |
 | Cloud Firestore Emulator                             |    x    |         |       |                         |     x      |
 | Cloud Pub/Sub Emulator                               |    x    |         |       |            x            |     x      |
@@ -136,6 +135,7 @@ You can set any Cloud SDK property via an ENV,
 | Google Cloud CRC32C Hash Tool                        |    x    |    x    |   x   |            x            |     x      |
 | Google Container Registry's Docker credential helper |         |         |       |                         |            |
 | Kustomize                                            |         |         |       |            x            |            |
+| Log Streaming                                        |         |         |       |                         |            |
 | Minikube                                             |         |         |       |            x            |            |
 | Nomos CLI                                            |         |         |       |            x            |            |
 | On-Demand Scanning API extraction helper             |    x    |         |       |            x            |            |
