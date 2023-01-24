@@ -1,7 +1,7 @@
 FROM docker:20.10.22 as static-docker-source
 
 FROM debian:bullseye
-ARG CLOUD_SDK_VERSION=414.0.0
+ARG CLOUD_SDK_VERSION=415.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH "$PATH:/opt/google-cloud-sdk/bin/"
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
