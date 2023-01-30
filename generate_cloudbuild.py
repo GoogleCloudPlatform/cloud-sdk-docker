@@ -4,7 +4,10 @@ options:
   env:
     - DOCKER_CLI_EXPERIMENTAL=enabled
 steps:
-- name: 'docker/binfmt:a7996909642ee92942dcd6cff44b9b95f08dad64'
+- name: 'tonistiigi/binfmt:qemu-v6.2.0'
+  args:
+  - '--install'
+  - 'all'
 - name: 'gcr.io/cloud-builders/docker'
   id: multi_arch_step1
   args:
@@ -46,7 +49,7 @@ secrets:
 timeout: 7200s"""
 
 GCRIO_PROJECT='google.com/cloudsdktool'
-GCR_PREFIXES = ['gcr.io', 'eu.gcr.io', 'asia.gcr.io', 'us.gcr.io']
+GCR_PREFIXES = [('us-docker.pkg.dev', 'us.gcr.io'), ('europe-docker.pkg.dev','eu.gcr.io'), ('asia-docker.pkg.dev', 'asia.gcr.io')]
 DOCKERHUB_PREFIX='google'
 OLD_NAME='cloud-sdk'
 REBRAND_NAME='google-cloud-cli'
@@ -66,33 +69,37 @@ def MakeGcrTags(label_without_tag,
                 include_old_name=True,
                 include_rebrand_name=True):
     t = []
-    for gcr_prefix in GCR_PREFIXES:
+    for gcr_prefix, gcr_suffix in GCR_PREFIXES:
         if include_old_name:
             t.append(
-                '\'{gcrprefix}/{gcrio_project}/{old_name}:{label}\''
+                '\'{gcrprefix}/{gcrio_project}/{gcrio_suffix}/{old_name}:{label}\''
                 .format(gcrprefix=gcr_prefix,
                         gcrio_project=GCRIO_PROJECT,
+                        gcrio_suffix=gcr_suffix,
                         old_name=OLD_NAME,
                         label=label_without_tag))
             t.append(
-                '\'{gcr_prefix}/{gcrio_project}/{old_name}:$TAG_NAME{maybe_hypen}{label}\''
+                '\'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{old_name}:$TAG_NAME{maybe_hypen}{label}\''
                 .format(gcr_prefix=gcr_prefix,
                         gcrio_project=GCRIO_PROJECT,
                         old_name=OLD_NAME,
+                        gcrio_suffix=gcr_suffix,
                         maybe_hypen=maybe_hypen,
                         label=label_with_tag))
         if include_rebrand_name:
             t.append(
-                '\'{gcrprefix}/{gcrio_project}/{rebrand_name}:{label}\''
+                '\'{gcrprefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:{label}\''
                 .format(gcrprefix=gcr_prefix,
                         gcrio_project=GCRIO_PROJECT,
+                        gcrio_suffix=gcr_suffix,
                         rebrand_name=REBRAND_NAME,
                         label=label_without_tag))
             t.append(
-                '\'{gcr_prefix}/{gcrio_project}/{rebrand_name}:$TAG_NAME{maybe_hypen}{label}\''
+                '\'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:$TAG_NAME{maybe_hypen}{label}\''
                 .format(gcr_prefix=gcr_prefix,
                         gcrio_project=GCRIO_PROJECT,
                         rebrand_name=REBRAND_NAME,
+                        gcrio_suffix=gcr_suffix,
                         maybe_hypen=maybe_hypen,
                         label=label_with_tag))
     return t
