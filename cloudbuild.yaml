@@ -1,8 +1,10 @@
 # PROD BUILDING STEPS
 options:
+  logging: GCS_ONLY
   machineType: 'E2_HIGHCPU_32'
   env:
     - DOCKER_CLI_EXPERIMENTAL=enabled
+logsBucket: 'gs://cloud-sdk-docker-build-logs'
 steps:
 - name: 'tonistiigi/binfmt:qemu-v6.2.0'
   args:
