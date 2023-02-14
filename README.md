@@ -4,7 +4,7 @@ The Google Cloud CLI Docker Images (comprising the `:latest`, `:slim`, `:alpine`
 
 The `:latest` tag is Debian-based and includes default command
 line tools of Google Cloud CLI (`gcloud`, `gsutil`, `bq`) as well several 
-[additional components](https://cloud.google.com/sdk/downloads#apt-get).
+[additional components](https://cloud.google.com/sdk/docs/install#deb).
 
 ## Repositories
 The Google Cloud CLI Docker Image is hosted on [Container Registry](https://gcr.io/google.com/cloudsdktool/google-cloud-cli).
@@ -110,7 +110,7 @@ project_id1          GCPAppID     1071284184432
 
 ```
 You can set any Cloud SDK property via an ENV,
-[please read](https://cloud.google.com/sdk/docs/properties#setting_properties_via_environment_variables) and [here.](https://cloud.google.com/sdk/gcloud/reference/config)
+[please read](https://cloud.google.com/sdk/docs/properties#setting_properties_using_environment_variables) and [here.](https://cloud.google.com/sdk/gcloud/reference/config)
 
 ### Components Installed in Each Tag
 
@@ -161,8 +161,8 @@ You can set any Cloud SDK property via an ENV,
 
 ```
 cd debian_slim/
-docker build --build-arg CLOUD_SDK_VERSION=159.0.0 \
-    --build-arg INSTALL_COMPONENTS="google-cloud-sdk-datastore-emulator" \
+docker build --build-arg CLOUD_SDK_VERSION=372.0.0 \
+    --build-arg INSTALL_COMPONENTS="google-cloud-cli-datastore-emulator=372.0.0-0" \
     -t my-cloud-sdk-docker:slim .
 ```
 
@@ -174,7 +174,7 @@ that uses the `cloud-sdk` image as the base image. For example, to add `kubectl`
 
 ```Dockerfile
 FROM gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine
-RUN apk --update add openjdk7-jre
+RUN apk --update add openjdk8-jre
 RUN gcloud components install app-engine-java kubectl
 ```
 
