@@ -9,7 +9,7 @@ RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
 ARG INSTALL_COMPONENTS
 RUN mkdir -p /usr/share/man/man1/
-RUN apt-get update -qqy && apt-get install -qqy \
+RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
         curl \
         gcc \
         python3-dev \
