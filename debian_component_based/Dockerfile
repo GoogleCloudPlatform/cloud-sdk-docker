@@ -7,7 +7,7 @@ ENV PATH /google-cloud-sdk/bin:$PATH
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
 RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
-RUN apt-get -qqy update && apt-get install -qqy \
+RUN apt-get -qqy update && apt-get -qqy upgrade && apt-get install -qqy \
         curl \
         gcc \
         python3-dev \
