@@ -1,8 +1,10 @@
 MAIN_TEMPLATE="""# PROD BUILDING STEPS
 options:
+  logging: GCS_ONLY
   machineType: 'E2_HIGHCPU_32'
   env:
     - DOCKER_CLI_EXPERIMENTAL=enabled
+logsBucket: 'gs://cloud-sdk-docker-build-logs'
 steps:
 - name: 'tonistiigi/binfmt:qemu-v6.2.0'
   args:
@@ -49,7 +51,7 @@ secrets:
 timeout: 7200s"""
 
 GCRIO_PROJECT='google.com/cloudsdktool'
-GCR_PREFIXES = [('us-docker.pkg.dev', 'us.gcr.io'), ('europe-docker.pkg.dev','eu.gcr.io'), ('asia-docker.pkg.dev', 'asia.gcr.io')]
+GCR_PREFIXES = [('us-docker.pkg.dev', 'gcr.io'), ('us-docker.pkg.dev', 'us.gcr.io'), ('europe-docker.pkg.dev','eu.gcr.io'), ('asia-docker.pkg.dev', 'asia.gcr.io')]
 DOCKERHUB_PREFIX='google'
 OLD_NAME='cloud-sdk'
 REBRAND_NAME='google-cloud-cli'
