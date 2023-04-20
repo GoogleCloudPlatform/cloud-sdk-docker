@@ -154,7 +154,7 @@ for i in IMAGES:
 
     build_step = """- name: 'gcr.io/cloud-builders/docker'
   id: {image_name}
-  args: ['build', '--build-arg', 'CLOUD_SDK_VERSION=$_VERSION', {tags}, '{image_directory}']
+  args: ['build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', {tags}, '{image_directory}']
   waitFor: ['-']"""
     output_build_step = build_step.format(
         image_name=i,
@@ -172,7 +172,7 @@ for i in MULTI_ARCH:
 
     multi_arch_build_step = """- name: 'gcr.io/cloud-builders/docker'
   id: multi_arch_{image_name}
-  args: ['buildx', 'build', '--build-arg', 'CLOUD_SDK_VERSION=$_VERSION', '--platform', 'linux/arm64,linux/amd64', {tags}, '{image_directory}', '--push']
+  args: ['buildx', 'build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '--platform', 'linux/arm64,linux/amd64', {tags}, '{image_directory}', '--push']
   waitFor: ['multi_arch_step3']"""
     output_build_step = multi_arch_build_step.format(
         image_name=i,
