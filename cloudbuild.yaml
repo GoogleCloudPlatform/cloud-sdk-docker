@@ -1,6 +1,6 @@
 # PROD BUILDING STEPS
 options:
-  logging: GCS_ONLY
+- logging: GCS_ONLY
   machineType: 'E2_HIGHCPU_32'
   env:
     - DOCKER_CLI_EXPERIMENTAL=enabled
