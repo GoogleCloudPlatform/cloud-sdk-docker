@@ -1,4 +1,4 @@
-FROM docker:24.0.5 as static-docker-source
+FROM docker:24.0.6 as static-docker-source
 
 FROM debian:bullseye
 ARG CLOUD_SDK_VERSION
