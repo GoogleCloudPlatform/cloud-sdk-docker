@@ -1,6 +1,6 @@
 FROM docker:24.0.7 as static-docker-source
 
-FROM debian:bullseye
+FROM debian:bookworm
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
@@ -17,9 +17,8 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
         git \
         make \
         gnupg && \
-    export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
-    echo "deb https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" > /etc/apt/sources.list.d/google-cloud-sdk.list && \
-    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
+    echo "deb [signed-by=/usr/share/keyrings/cloud.google.asc] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | tee /usr/share/keyrings/cloud.google.asc && \
     apt-get update && \
     apt-get install -y google-cloud-cli=${CLOUD_SDK_VERSION}-0 \
         google-cloud-cli-app-engine-python=${CLOUD_SDK_VERSION}-0 \

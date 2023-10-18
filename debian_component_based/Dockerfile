@@ -1,6 +1,6 @@
 FROM docker:24.0.7 as static-docker-source
 
-FROM debian:bullseye
+FROM debian:bookworm
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH /google-cloud-sdk/bin:$PATH
@@ -20,7 +20,7 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
         git \
         make \
         gnupg \
-        openjdk-11-jre-headless
+        openjdk-17-jre-headless
 RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch; fi;
 RUN ARCH=`cat /tmp/arch` && curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
     tar xzf google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
