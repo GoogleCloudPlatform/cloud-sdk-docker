@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "docker"
+    directory: "/alpine/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "docker"
+    directory: "/debian_component_based/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "docker"
+    directory: "/debian_slim/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "docker"
+    directory: "/emulators/"
+    schedule:
+      interval: "daily"
