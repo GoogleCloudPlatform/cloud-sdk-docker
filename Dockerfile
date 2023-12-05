@@ -17,8 +17,8 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
         git \
         make \
         gnupg && \
-    echo "deb [signed-by=/usr/share/keyrings/cloud.google.asc] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
-    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | tee /usr/share/keyrings/cloud.google.asc && \
+    echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg && \
     apt-get update && \
     apt-get install -y google-cloud-cli=${CLOUD_SDK_VERSION}-0 \
         google-cloud-cli-app-engine-python=${CLOUD_SDK_VERSION}-0 \
