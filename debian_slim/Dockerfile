@@ -1,6 +1,6 @@
 FROM docker:24.0.7 as static-docker-source
 
-FROM debian:bullseye-slim
+FROM debian:bookworm-slim
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
