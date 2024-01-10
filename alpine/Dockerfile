@@ -19,7 +19,7 @@ RUN ARCH=`cat /tmp/arch` && apk --no-cache upgrade && apk --no-cache add \
         openssh-client \
         git \
         gnupg \
-    && curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-0:${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
+    && curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
     tar xzf google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
     rm google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
     gcloud config set core/disable_usage_reporting true && \
