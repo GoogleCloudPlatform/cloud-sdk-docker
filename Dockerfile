@@ -21,20 +21,20 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
     echo "deb https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" > /etc/apt/sources.list.d/google-cloud-sdk.list && \
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
     apt-get update && \
-    apt-get install -y google-cloud-cli=0:${CLOUD_SDK_VERSION}-0 \
-        google-cloud-cli-app-engine-python=0:${CLOUD_SDK_VERSION}-0 \
-        google-cloud-cli-app-engine-python-extras=0:${CLOUD_SDK_VERSION}-0 \
-        google-cloud-cli-app-engine-java=0:${CLOUD_SDK_VERSION}-0 \
-        google-cloud-cli-app-engine-go=0:${CLOUD_SDK_VERSION}-0 \
-        google-cloud-cli-datastore-emulator=0:${CLOUD_SDK_VERSION}-0 \
-        google-cloud-cli-pubsub-emulator=0:${CLOUD_SDK_VERSION}-0 \
-        google-cloud-cli-bigtable-emulator=0:${CLOUD_SDK_VERSION}-0 \
-        google-cloud-cli-firestore-emulator=0:${CLOUD_SDK_VERSION}-0 \
-        google-cloud-cli-spanner-emulator=0:${CLOUD_SDK_VERSION}-0 \
-        google-cloud-cli-cbt=0:${CLOUD_SDK_VERSION}-0 \
-        google-cloud-cli-kpt=0:${CLOUD_SDK_VERSION}-0 \
-        google-cloud-cli-local-extract=0:${CLOUD_SDK_VERSION}-0 \
-        google-cloud-cli-gke-gcloud-auth-plugin=0:${CLOUD_SDK_VERSION}-0 \
+    apt-get install -y google-cloud-cli=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-cli-app-engine-python=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-cli-app-engine-python-extras=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-cli-app-engine-java=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-cli-app-engine-go=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-cli-datastore-emulator=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-cli-pubsub-emulator=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-cli-bigtable-emulator=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-cli-firestore-emulator=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-cli-spanner-emulator=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-cli-cbt=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-cli-kpt=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-cli-local-extract=${CLOUD_SDK_VERSION}-0 \
+        google-cloud-cli-gke-gcloud-auth-plugin=${CLOUD_SDK_VERSION}-0 \
         kubectl && \
     gcloud --version && \
     docker --version && kubectl version --client
