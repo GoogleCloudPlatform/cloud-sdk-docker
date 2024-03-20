@@ -1,4 +1,4 @@
-FROM docker:25.0.4 as static-docker-source
+FROM docker:25.0.5 as static-docker-source
 
 FROM debian:bookworm-slim
 ARG CLOUD_SDK_VERSION
