@@ -53,7 +53,7 @@ steps:
   waitFor: ['-']
 - name: 'gcr.io/cloud-builders/docker'
   id: stable
-  args: ['build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '-t', 'google/cloud-sdk:stable-beta', '-t', 'google/cloud-sdk:$TAG_NAME-stable-beta', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:stable-beta', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:$TAG_NAME-stable-beta', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:stable-beta', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:$TAG_NAME-stable-beta', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:stable-beta', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:$TAG_NAME-stable-beta', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:stable-beta', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:$TAG_NAME-stable-beta', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:stable-beta', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:$TAG_NAME-stable-beta', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:stable-beta', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:$TAG_NAME-stable-beta', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:stable-beta', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:$TAG_NAME-stable-beta', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:stable-beta', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:$TAG_NAME-stable-beta', 'stable/']
+  args: ['build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '-t', 'google/cloud-sdk:stable-alpha', '-t', 'google/cloud-sdk:$TAG_NAME-stable-alpha', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:stable-alpha', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:$TAG_NAME-stable-alpha', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:stable-alpha', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:$TAG_NAME-stable-alpha', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:stable-alpha', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:$TAG_NAME-stable-alpha', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:stable-alpha', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:$TAG_NAME-stable-alpha', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:stable-alpha', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:$TAG_NAME-stable-alpha', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:stable-alpha', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:$TAG_NAME-stable-alpha', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:stable-alpha', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:$TAG_NAME-stable-alpha', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:stable-alpha', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:$TAG_NAME-stable-alpha', 'stable/']
   waitFor: ['-']
 # END OF PROD BUILDING STEPS
 - name: 'gcr.io/cloud-builders/docker'
@@ -108,10 +108,10 @@ steps:
   args: ['push', 'google/cloud-sdk:$TAG_NAME-emulators']
   waitFor: ['dockersecret', 'emulators']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'google/cloud-sdk:stable-beta']
+  args: ['push', 'google/cloud-sdk:stable-alpha']
   waitFor: ['dockersecret', 'stable']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'google/cloud-sdk:$TAG_NAME-stable-beta']
+  args: ['push', 'google/cloud-sdk:$TAG_NAME-stable-alpha']
   waitFor: ['dockersecret', 'stable']
 images:
 - 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:$TAG_NAME'
@@ -119,65 +119,65 @@ images:
 - 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:$TAG_NAME-debian_component_based'
 - 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:$TAG_NAME-emulators'
 - 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:$TAG_NAME-slim'
-- 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:$TAG_NAME-stable-beta'
+- 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:$TAG_NAME-stable-alpha'
 - 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:alpine'
 - 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:debian_component_based'
 - 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:emulators'
 - 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:latest'
 - 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:slim'
-- 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:stable-beta'
+- 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:stable-alpha'
 - 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:$TAG_NAME'
-- 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:$TAG_NAME-stable-beta'
+- 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:$TAG_NAME-stable-alpha'
 - 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:latest'
-- 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:stable-beta'
+- 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:stable-alpha'
 - 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:$TAG_NAME'
 - 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:$TAG_NAME-alpine'
 - 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:$TAG_NAME-debian_component_based'
 - 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:$TAG_NAME-emulators'
 - 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:$TAG_NAME-slim'
-- 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:$TAG_NAME-stable-beta'
+- 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:$TAG_NAME-stable-alpha'
 - 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:alpine'
 - 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:debian_component_based'
 - 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:emulators'
 - 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:latest'
 - 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:slim'
-- 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:stable-beta'
+- 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:stable-alpha'
 - 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:$TAG_NAME'
-- 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:$TAG_NAME-stable-beta'
+- 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:$TAG_NAME-stable-alpha'
 - 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:latest'
-- 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:stable-beta'
+- 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:stable-alpha'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:$TAG_NAME'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:$TAG_NAME-alpine'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:$TAG_NAME-debian_component_based'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:$TAG_NAME-emulators'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:$TAG_NAME-slim'
-- 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:$TAG_NAME-stable-beta'
+- 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:$TAG_NAME-stable-alpha'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:alpine'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:debian_component_based'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:emulators'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:latest'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:slim'
-- 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:stable-beta'
+- 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:stable-alpha'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:$TAG_NAME'
-- 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:$TAG_NAME-stable-beta'
+- 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:$TAG_NAME-stable-alpha'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:latest'
-- 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:stable-beta'
+- 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:stable-alpha'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:$TAG_NAME'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:$TAG_NAME-alpine'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:$TAG_NAME-debian_component_based'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:$TAG_NAME-emulators'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:$TAG_NAME-slim'
-- 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:$TAG_NAME-stable-beta'
+- 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:$TAG_NAME-stable-alpha'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:alpine'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:debian_component_based'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:emulators'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:latest'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:slim'
-- 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:stable-beta'
+- 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:stable-alpha'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:$TAG_NAME'
-- 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:$TAG_NAME-stable-beta'
+- 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:$TAG_NAME-stable-alpha'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:latest'
-- 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:stable-beta'
+- 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:stable-alpha'
 secrets:
 - kmsKeyName: projects/google.com:cloudsdktool/locations/global/keyRings/docker/cryptoKeys/dockerhub-password
   secretEnv:
