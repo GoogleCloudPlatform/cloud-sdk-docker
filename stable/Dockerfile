@@ -32,7 +32,6 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
 RUN gcloud --version && \
     gcloud config set core/disable_usage_reporting false && \
     gcloud config set component_manager/disable_update_check true && \
-    gcloud config set metrics/environment docker_image_stable && \
     rm -rf /root/.cache/pip/ && \
     find / -name '*.pyc' -delete && \
     find / -name '*__pycache__*' -delete
