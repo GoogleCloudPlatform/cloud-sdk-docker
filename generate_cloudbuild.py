@@ -55,14 +55,15 @@ GCR_PREFIXES = [('us-docker.pkg.dev', 'gcr.io'), ('us-docker.pkg.dev', 'us.gcr.i
 DOCKERHUB_PREFIX='google'
 OLD_NAME='cloud-sdk'
 REBRAND_NAME='google-cloud-cli'
-IMAGES=['alpine', 'debian_slim', 'default', 'debian_component_based', 'emulators']
+IMAGES=['alpine', 'debian_slim', 'default', 'debian_component_based', 'emulators', 'stable']
 MULTI_ARCH=['debian_slim', 'debian_component_based', 'alpine', 'emulators']
 LABEL_FOR_IMAGE={
     'alpine': 'alpine',
     'debian_slim': 'slim',
     'default': '',
     'debian_component_based': 'debian_component_based',
-    'emulators': 'emulators'
+    'emulators': 'emulators',
+    'stable': 'stable-alpha'  # change it to stable when the image is ready to release.
     }
 
 def MakeGcrTags(label_without_tag,
