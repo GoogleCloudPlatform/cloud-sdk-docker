@@ -34,5 +34,5 @@ RUN gcloud --version && \
     gcloud config set component_manager/disable_update_check true && \
     rm -rf /root/.cache/pip/ && \
     find / -name '*.pyc' -delete && \
-    find / -name '*__pycache__*' -delete
+    find / -name '*__pycache__*' -exec rm -r {} \+
 VOLUME ["/root/.config"]
