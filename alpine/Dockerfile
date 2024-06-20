@@ -27,4 +27,5 @@ RUN ARCH=`cat /tmp/arch` && apk --no-cache upgrade && apk --no-cache add \
     gcloud config set metrics/environment github_docker_image && \
     gcloud --version
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
+RUN gcloud auth configure-docker --quiet --include-artifact-registry
 VOLUME ["/root/.config"]
