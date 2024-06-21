@@ -36,6 +36,9 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
         google-cloud-cli-local-extract=${CLOUD_SDK_VERSION}-0 \
         google-cloud-cli-gke-gcloud-auth-plugin=${CLOUD_SDK_VERSION}-0 \
         kubectl && \
+    gcloud config set core/disable_usage_reporting true && \
+    gcloud config set component_manager/disable_update_check true && \
+    gcloud config set metrics/environment github_docker_image_latest && \
     gcloud --version && \
     docker --version && kubectl version --client
 RUN apt-get install -qqy \
