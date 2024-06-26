@@ -22,6 +22,7 @@ The full repository name for Container Registry is `gcr.io/google.com/cloudsdkto
 * `:debian_component_based`, `:VERSION-debian_component_based`: (Similar to
   :latest but component installer based)
 * `:emulators`, `:VERSION`: (as small as possible with all the emulators)
+* `:stable-alpha`, `:VERSION-stable-alpha`: (minimul debian based image without any additional components installed)
 
 &rarr; Check out [Container Registry](https://gcr.io/google.com/cloudsdktool/google-cloud-cli) for available tags.
 
@@ -161,9 +162,17 @@ You can set any Cloud SDK property via an ENV,
 
 ```
 cd debian_slim/
-docker build --build-arg CLOUD_SDK_VERSION=372.0.0 \
-    --build-arg INSTALL_COMPONENTS="google-cloud-cli-datastore-emulator=372.0.0-0" \
+docker build --build-arg CLOUD_SDK_VERSION=382.0.0 \
+    --build-arg INSTALL_COMPONENTS="google-cloud-cli-datastore-emulator=382.0.0-0" \
     -t my-cloud-sdk-docker:slim .
+```
+
+#### Stable-alpha images
+```
+cd stable/
+docker build --build-arg CLOUD_SDK_VERSION=382.0.0 \
+    --build-arg INSTALL_COMPONENTS="google-cloud-cli-datastore-emulator=382.0.0-0" \
+    -t my-cloud-sdk-docker:stable-alpha .
 ```
 
 #### Alpine-based images
