@@ -171,7 +171,7 @@ docker build --build-arg CLOUD_SDK_VERSION=382.0.0 \
 ```
 cd stable/
 docker build --build-arg CLOUD_SDK_VERSION=382.0.0 \
-    --build-arg INSTALL_COMPONENTS="google-cloud-cli-datastore-emulator=382.0.0-0" \
+    --build-arg INSTALL_COMPONENTS="google-cloud-cli-bigtable-emulator=382.0.0-0" \
     -t my-cloud-sdk-docker:stable-alpha .
 ```
 
