@@ -7,7 +7,6 @@ following files:
 * `debian_slim/Dockerfile`
 * `alpine/Dockerfile`
 * `debian_component_based/Dockerfile`
-* `stable/Dockerfile`
 
 Commit, and tag the release:
 

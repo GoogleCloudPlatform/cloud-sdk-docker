@@ -26,7 +26,7 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
     apt-get update && apt-get install -y google-cloud-cli=${CLOUD_SDK_VERSION}-0 $INSTALL_COMPONENTS && \
     gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
-    gcloud config set metrics/environment github_docker_image_slim && \
+    gcloud config set metrics/environment docker_image_slim && \
     gcloud --version && \
     docker --version
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh

@@ -38,7 +38,7 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
         kubectl && \
     gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
-    gcloud config set metrics/environment github_docker_image_latest && \
+    gcloud config set metrics/environment docker_image_latest && \
     gcloud --version && \
     docker --version && kubectl version --client
 RUN apt-get install -qqy \
