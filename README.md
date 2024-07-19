@@ -1,9 +1,9 @@
 # Google Cloud CLI Docker
 
-The Google Cloud CLI Docker Images (comprising the `:latest`, `:slim`, `:alpine`, `:emulators`, and `:debian_component_based` images located within this repository) are a set of images enabling the usage of the Google Cloud CLI as well as its bundled components.
+The Google Cloud CLI Docker Images (comprising the `:stable`, `:latest`, `:slim`, `:alpine`, `:emulators`, and `:debian_component_based` images located within this repository) are a set of images enabling the usage of the Google Cloud CLI as well as its bundled components.
 
 The `:stable` tag is Debian-based and includes default command
-line tools of Google Cloud CLI (`gcloud`, `gsutil`, `bq`).
+line tools of Google Cloud CLI (`gcloud`, `gsutil`, `bq`). [Additional components](https://cloud.google.com/sdk/docs/install#deb) can also be installed using the INSTALL_COMPONENTS build argument.
 
 ## Repositories
 The Google Cloud CLI Docker Image is hosted on [Container Registry](https://gcr.io/google.com/cloudsdktool/google-cloud-cli).
