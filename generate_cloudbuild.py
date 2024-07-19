@@ -63,7 +63,7 @@ LABEL_FOR_IMAGE={
     'default': '',
     'debian_component_based': 'debian_component_based',
     'emulators': 'emulators',
-    'stable': 'stable-alpha'  # change it to stable when the image is ready to release.
+    'stable': 'stable'  # change it to stable when the image is ready to release.
     }
 
 def MakeGcrTags(label_without_tag,

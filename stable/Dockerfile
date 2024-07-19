@@ -14,7 +14,7 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && \
     echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg && \
     apt-get update && \
-    apt-get install -y google-cloud-cli=${CLOUD_SDK_VERSION}-0 $INSTALL_COMPONENTS &&\
+    apt-get install -y --no-install-recommends google-cloud-cli=${CLOUD_SDK_VERSION}-0 $INSTALL_COMPONENTS &&\
     rm -rf /root/.cache/pip/ && \
     find / -name '*.pyc' -delete && \
     find / -name '*__pycache__*' -delete
@@ -32,7 +32,7 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
 RUN gcloud --version && \
     gcloud config set core/disable_usage_reporting false && \
     gcloud config set component_manager/disable_update_check true && \
-    gcloud config set metrics/environment docker_image_stable_alpha && \
+    gcloud config set metrics/environment docker_image_stable && \
     rm -rf /root/.cache/pip/ && \
     find / -name '*.pyc' -delete && \
     find / -name '*__pycache__*' -exec rm -r {} \+
