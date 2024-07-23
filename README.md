@@ -12,7 +12,7 @@ The full repository name for Container Registry is `gcr.io/google.com/cloudsdkto
 
 ## Supported tags
 
-* `:stable`, `:VERSION-stable`: (default image with the basic version of gcloud without any pre-installed components, Debian-based)
+* `:stable`, `:VERSION-stable`: (default image with a standard gcloud installation, Debian-based)
 * `:latest`, `:VERSION`: (large image with
   additional components pre-installed, Debian-based)
 * `:slim`,  `:VERSION-slim`: (smaller image with
