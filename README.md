@@ -1,10 +1,9 @@
 # Google Cloud CLI Docker
 
-The Google Cloud CLI Docker Images (comprising the `:latest`, `:slim`, `:alpine`, `:emulators`, and `:debian_component_based` images located within this repository) are a set of images enabling the usage of the Google Cloud CLI as well as its bundled components.
+The Google Cloud CLI Docker Images (comprising the `:stable`, `:latest`, `:slim`, `:alpine`, `:emulators`, and `:debian_component_based` images located within this repository) are a set of images enabling the usage of the Google Cloud CLI as well as its bundled components.
 
-The `:latest` tag is Debian-based and includes default command
-line tools of Google Cloud CLI (`gcloud`, `gsutil`, `bq`) as well several 
-[additional components](https://cloud.google.com/sdk/docs/install#deb).
+The `:stable` tag is Debian-based and includes default command
+line tools of Google Cloud CLI (`gcloud`, `gsutil`, `bq`). [Additional components](https://cloud.google.com/sdk/docs/install#deb) can also be installed using the INSTALL_COMPONENTS build argument.
 
 ## Repositories
 The Google Cloud CLI Docker Image is hosted on [Container Registry](https://gcr.io/google.com/cloudsdktool/google-cloud-cli).
@@ -13,6 +12,7 @@ The full repository name for Container Registry is `gcr.io/google.com/cloudsdkto
 
 ## Supported tags
 
+* `:stable`, `:VERSION-stable`: (default image with a standard gcloud installation, Debian-based)
 * `:latest`, `:VERSION`: (large image with
   additional components pre-installed, Debian-based)
 * `:slim`,  `:VERSION-slim`: (smaller image with
@@ -30,20 +30,20 @@ The full repository name for Container Registry is `gcr.io/google.com/cloudsdkto
 To use this image, pull from [Container Registry](https://gcr.io/google.com/cloudsdktool/google-cloud-cli) and then run the following command:
 
 ```
-docker pull gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
+docker pull gcr.io/google.com/cloudsdktool/google-cloud-cli:stable
 ```
 
 Verify the install
 
 ```bash
-docker run gcr.io/google.com/cloudsdktool/google-cloud-cli:latest gcloud version
-Google Cloud CLI 368.0.0
+docker run gcr.io/google.com/cloudsdktool/google-cloud-cli:stable gcloud version
+Google Cloud CLI 485.0.0
 ```
 
-or use a particular version number:
+or use a particular version number (485.0.0 or greater for `:stable`):
 
 ```bash
-docker run gcr.io/google.com/cloudsdktool/google-cloud-cli:368.0.0 gcloud version
+docker run gcr.io/google.com/cloudsdktool/google-cloud-cli:stable-485.0.0 gcloud version
 ```
 
 You can authenticate `gcloud` with your user credentials by running [`gcloud auth login`](https://cloud.google.com/sdk/gcloud/reference/auth/login):
@@ -160,9 +160,16 @@ You can set any Cloud SDK property via an ENV,
 #### Debian-based images
 
 ```
+cd stable/
+docker build --build-arg CLOUD_SDK_VERSION=485.0.0 \
+    --build-arg INSTALL_COMPONENTS="google-cloud-cli-datastore-emulator=485.0.0-0" \
+    -t my-cloud-sdk-docker:stable .
+```
+
+```
 cd debian_slim/
-docker build --build-arg CLOUD_SDK_VERSION=382.0.0 \
-    --build-arg INSTALL_COMPONENTS="google-cloud-cli-datastore-emulator=382.0.0-0" \
+docker build --build-arg CLOUD_SDK_VERSION=485.0.0 \
+    --build-arg INSTALL_COMPONENTS="google-cloud-cli-datastore-emulator=485.0.0-0" \
     -t my-cloud-sdk-docker:slim .
 ```
 
