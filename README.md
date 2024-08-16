@@ -6,9 +6,9 @@ The `:stable` tag is Debian-based and includes default command
 line tools of Google Cloud CLI (`gcloud`, `gsutil`, `bq`). [Additional components](https://cloud.google.com/sdk/docs/install#deb) can also be installed using the INSTALL_COMPONENTS build argument.
 
 ## Repositories
-The Google Cloud CLI Docker Image is hosted on [Container Registry](https://gcr.io/google.com/cloudsdktool/google-cloud-cli).
+The Google Cloud CLI Docker Image is hosted on [Artifact Registry](https://pantheon.corp.google.com/artifacts/docker/google.com:cloudsdktool/us/gcr.io/google-cloud-cli).
 
-The full repository name for Container Registry is `gcr.io/google.com/cloudsdktool/google-cloud-cli`.
+The full repository name for Artifact Registry is `gcr.io/google.com/cloudsdktool/google-cloud-cli`.
 
 ## Supported tags
 
@@ -23,11 +23,11 @@ The full repository name for Container Registry is `gcr.io/google.com/cloudsdkto
   :latest but component installer based)
 * `:emulators`, `:VERSION`: (as small as possible with all the emulators)
 
-&rarr; Check out [Container Registry](https://gcr.io/google.com/cloudsdktool/google-cloud-cli) for available tags.
+&rarr; Check out [Artifact Registry](https://pantheon.corp.google.com/artifacts/docker/google.com:cloudsdktool/us/gcr.io/google-cloud-cli) for available tags.
 
 ## Usage
 
-To use this image, pull from [Container Registry](https://gcr.io/google.com/cloudsdktool/google-cloud-cli) and then run the following command:
+To use this image, pull from [Artifact Registry](https://pantheon.corp.google.com/artifacts/docker/google.com:cloudsdktool/us/gcr.io/google-cloud-cli) and then run the following command:
 
 ```
 docker pull gcr.io/google.com/cloudsdktool/google-cloud-cli:stable
