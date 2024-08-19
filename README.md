@@ -6,7 +6,7 @@ The `:stable` tag is Debian-based and includes default command
 line tools of Google Cloud CLI (`gcloud`, `gsutil`, `bq`). [Additional components](https://cloud.google.com/sdk/docs/install#deb) can also be installed using the INSTALL_COMPONENTS build argument.
 
 ## Repositories
-The Google Cloud CLI Docker Image is hosted on [Artifact Registry](https://pantheon.corp.google.com/artifacts/docker/google.com:cloudsdktool/us/gcr.io/google-cloud-cli).
+The Google Cloud CLI Docker Image is hosted on [Artifact Registry](https://console.cloud.google.com/artifacts/docker/google.com:cloudsdktool/us/gcr.io/google-cloud-cli).
 
 The full repository name for Artifact Registry is `gcr.io/google.com/cloudsdktool/google-cloud-cli`.
 
@@ -23,7 +23,7 @@ The full repository name for Artifact Registry is `gcr.io/google.com/cloudsdktoo
   :latest but component installer based)
 * `:emulators`, `:VERSION`: (as small as possible with all the emulators)
 
-&rarr; Check out [Artifact Registry](https://pantheon.corp.google.com/artifacts/docker/google.com:cloudsdktool/us/gcr.io/google-cloud-cli) for available tags.
+&rarr; Check out [Artifact Registry](https://console.cloud.corp.google.com/artifacts/docker/google.com:cloudsdktool/us/gcr.io/google-cloud-cli) for available tags.
 
 ## Usage
 
