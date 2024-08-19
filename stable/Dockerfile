@@ -37,3 +37,8 @@ RUN gcloud --version && \
     find / -name '*.pyc' -delete && \
     find / -name '*__pycache__*' -exec rm -r {} \+
 VOLUME ["/root/.config"]
+
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+
+# Set the entrypoint to the preprocessing script
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
