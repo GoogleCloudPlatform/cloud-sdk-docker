@@ -1,6 +1,6 @@
 FROM docker:27.1.2 as static-docker-source
 
-FROM alpine:3.20
+FROM alpine:3.19
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH /google-cloud-sdk/bin:$PATH
