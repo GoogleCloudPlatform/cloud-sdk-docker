@@ -89,6 +89,14 @@ def MakeGcrTags(label_without_tag,
                         gcrio_suffix=gcr_suffix,
                         maybe_hypen=maybe_hypen,
                         label=label_with_tag))
+            t.append(
+                '\'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{old_name}:$TAG_NAME{maybe_hypen}{label}-$_DATE\''
+                .format(gcr_prefix=gcr_prefix,
+                        gcrio_project=GCRIO_PROJECT,
+                        old_name=OLD_NAME,
+                        gcrio_suffix=gcr_suffix,
+                        maybe_hypen=maybe_hypen,
+                        label=label_with_tag))
         if include_rebrand_name:
             t.append(
                 '\'{gcrprefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:{label}\''
@@ -99,6 +107,14 @@ def MakeGcrTags(label_without_tag,
                         label=label_without_tag))
             t.append(
                 '\'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:$TAG_NAME{maybe_hypen}{label}\''
+                .format(gcr_prefix=gcr_prefix,
+                        gcrio_project=GCRIO_PROJECT,
+                        rebrand_name=REBRAND_NAME,
+                        gcrio_suffix=gcr_suffix,
+                        maybe_hypen=maybe_hypen,
+                        label=label_with_tag))
+            t.append(
+                '\'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:$TAG_NAME{maybe_hypen}{label}-$_DATE\''
                 .format(gcr_prefix=gcr_prefix,
                         gcrio_project=GCRIO_PROJECT,
                         rebrand_name=REBRAND_NAME,
