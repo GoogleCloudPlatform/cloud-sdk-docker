@@ -1,6 +1,8 @@
-# Google Cloud CLI Docker
 
-The Google Cloud CLI Docker image lets you pull a specific version of gcloud CLI as a Docker image from [Artifact Registry](https://cloud.google.com/artifact-registry) and quickly execute Google Cloud CLI commands in an isolated, correctly configured container.
+
+The Google Cloud CLI Docker image lets you pull a specific version of gcloud CLI as a Docker image from [Artifact Registry](https://cloud.google.com/artifact-registry) and quickly execute Google Cloud CLI commands in an isolated, correctly configured container. You can refer to the image's [documentation page](https://cloud.google.com/sdk/docs/downloads-docker)for complete details.
+
+# Google Cloud CLI Docker
 
 The Google Cloud CLI Docker image is the gcloud CLI installed on top of a Debian or Alpine image. The Google Cloud CLI Docker Images enable the usage of gcloud as well as its bundled components without having to manually install gcloud in your local machine.
 
@@ -61,6 +63,4 @@ using the `us.gcr.io`, `eu.gcr.io`, and `asia.gcr.io` repositories.
   ```none
   docker run --rm gcr.io/google.com/cloudsdktool/google-cloud-cli:stable gcloud version
   ```
-
-A more detailed documentation for the Google Cloud CLI docker images are available [here](https://cloud.google.com/sdk/docs/downloads-docker)
 
