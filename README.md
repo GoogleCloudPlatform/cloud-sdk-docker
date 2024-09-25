@@ -64,3 +64,18 @@ using the `us.gcr.io`, `eu.gcr.io`, and `asia.gcr.io` repositories.
   docker run --rm gcr.io/google.com/cloudsdktool/google-cloud-cli:stable gcloud version
   ```
 
+### Legacy image (Google App Engine based)
+
+The original image in this repository was based off of
+
+> FROM gcr.io/google_appengine/base
+
+The full Dockerfile for that can be found
+[here](google_appengine_base/Dockerfile) for archival as well as in image tag
+`google/cloud-sdk-docker:legacy`
+
+### Cloud SDK Release Tracking
+
+You can also follow the Cloud SDK Release schedule here
+- [https://groups.google.com/forum/#!forum/google-cloud-sdk-announce](https://groups.google.com/forum/#!forum/google-cloud-sdk-announce)
+
