@@ -51,7 +51,7 @@ using the `us.gcr.io`, `eu.gcr.io`, and `asia.gcr.io` repositories.
   docker pull gcr.io/google.com/cloudsdktool/google-cloud-cli:489.0.0-stable
   ```
 
-1. Verify the installation by running:
+2. Verify the installation by running:
 
   ```none
   docker run --rm gcr.io/google.com/cloudsdktool/google-cloud-cli:489.0.0-stable gcloud version
