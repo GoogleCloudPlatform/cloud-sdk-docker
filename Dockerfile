@@ -1,6 +1,6 @@
 FROM docker:27.3.1 as static-docker-source
 
-FROM debian:bullseye
+FROM marketplace.gcr.io/google/debian12:latest
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
