@@ -56,7 +56,7 @@ DOCKERHUB_PREFIX='google'
 OLD_NAME='cloud-sdk'
 REBRAND_NAME='google-cloud-cli'
 IMAGES=['alpine', 'debian_slim', 'default', 'debian_component_based', 'emulators', 'stable']
-MULTI_ARCH=['debian_slim', 'debian_component_based', 'alpine', 'emulators']
+MULTI_ARCH=['debian_slim', 'debian_component_based', 'alpine', 'emulators', 'stable']
 LABEL_FOR_IMAGE={
     'alpine': 'alpine',
     'debian_slim': 'slim',

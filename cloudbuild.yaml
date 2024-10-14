@@ -53,7 +53,7 @@ steps:
   waitFor: ['-']
 - name: 'gcr.io/cloud-builders/docker'
   id: stable
-  args: ['build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '-t', 'google/cloud-sdk:stable', '-t', 'google/cloud-sdk:$TAG_NAME-stable', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:stable', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:$TAG_NAME-stable', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:$TAG_NAME-stable-$_DATE', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:stable', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:$TAG_NAME-stable', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:$TAG_NAME-stable-$_DATE', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:stable', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:$TAG_NAME-stable', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:$TAG_NAME-stable-$_DATE', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:stable', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:$TAG_NAME-stable', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:$TAG_NAME-stable-$_DATE', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:stable', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:$TAG_NAME-stable', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:$TAG_NAME-stable-$_DATE', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:stable', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:$TAG_NAME-stable', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:$TAG_NAME-stable-$_DATE', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:stable', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:$TAG_NAME-stable', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:$TAG_NAME-stable-$_DATE', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:stable', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:$TAG_NAME-stable', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:$TAG_NAME-stable-$_DATE', 'stable/']
+  args: ['build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '-t', 'google/cloud-sdk:stable', '-t', 'google/cloud-sdk:$TAG_NAME-stable', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:stable', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:$TAG_NAME-stable', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:$TAG_NAME-stable-$_DATE', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:stable', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:$TAG_NAME-stable', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:$TAG_NAME-stable-$_DATE', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:stable', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:$TAG_NAME-stable', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:$TAG_NAME-stable-$_DATE', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:stable', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:$TAG_NAME-stable', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:$TAG_NAME-stable-$_DATE', 'stable/']
   waitFor: ['-']
 # END OF PROD BUILDING STEPS
 - name: 'gcr.io/cloud-builders/docker'
@@ -71,6 +71,10 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   id: multi_arch_emulators
   args: ['buildx', 'build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '--platform', 'linux/arm64,linux/amd64', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:emulators', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:$TAG_NAME-emulators', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:$TAG_NAME-emulators-$_DATE', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:emulators', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:$TAG_NAME-emulators', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:$TAG_NAME-emulators-$_DATE', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:emulators', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:$TAG_NAME-emulators', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:$TAG_NAME-emulators-$_DATE', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:emulators', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:$TAG_NAME-emulators', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:$TAG_NAME-emulators-$_DATE', 'emulators/', '--push']
+  waitFor: ['multi_arch_step3']
+- name: 'gcr.io/cloud-builders/docker'
+  id: multi_arch_stable
+  args: ['buildx', 'build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '--platform', 'linux/arm64,linux/amd64', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:stable', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:$TAG_NAME-stable', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:$TAG_NAME-stable-$_DATE', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:stable', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:$TAG_NAME-stable', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:$TAG_NAME-stable-$_DATE', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:stable', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:$TAG_NAME-stable', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:$TAG_NAME-stable-$_DATE', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:stable', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:$TAG_NAME-stable', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:$TAG_NAME-stable-$_DATE', 'stable/', '--push']
   waitFor: ['multi_arch_step3']
 - name: 'gcr.io/cloud-builders/docker'
   id: dockersecret
@@ -134,10 +138,7 @@ images:
 - 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:stable'
 - 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:$TAG_NAME'
 - 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:$TAG_NAME-$_DATE'
-- 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:$TAG_NAME-stable'
-- 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:$TAG_NAME-stable-$_DATE'
 - 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:latest'
-- 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:stable'
 - 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:$TAG_NAME'
 - 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:$TAG_NAME-$_DATE'
 - 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:$TAG_NAME-alpine'
@@ -158,10 +159,7 @@ images:
 - 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:stable'
 - 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:$TAG_NAME'
 - 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:$TAG_NAME-$_DATE'
-- 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:$TAG_NAME-stable'
-- 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:$TAG_NAME-stable-$_DATE'
 - 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:latest'
-- 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:stable'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:$TAG_NAME'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:$TAG_NAME-$_DATE'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:$TAG_NAME-alpine'
@@ -182,10 +180,7 @@ images:
 - 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:stable'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:$TAG_NAME'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:$TAG_NAME-$_DATE'
-- 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:$TAG_NAME-stable'
-- 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:$TAG_NAME-stable-$_DATE'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:latest'
-- 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:stable'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:$TAG_NAME'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:$TAG_NAME-$_DATE'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:$TAG_NAME-alpine'
@@ -206,10 +201,7 @@ images:
 - 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:stable'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:$TAG_NAME'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:$TAG_NAME-$_DATE'
-- 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:$TAG_NAME-stable'
-- 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:$TAG_NAME-stable-$_DATE'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:latest'
-- 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:stable'
 secrets:
 - kmsKeyName: projects/google.com:cloudsdktool/locations/global/keyRings/docker/cryptoKeys/dockerhub-password
   secretEnv:
