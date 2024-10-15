@@ -1,4 +1,4 @@
-# debian:buster-slim is used instead of alpine because the cloud bigtable emulator requires glibc.
+# debian12 is used instead of alpine because the cloud bigtable emulator requires glibc.
 FROM marketplace.gcr.io/google/debian12:latest
 
 ARG CLOUD_SDK_VERSION
@@ -21,7 +21,8 @@ RUN ARCH=`cat /tmp/arch` && \
         curl \
         python3 \
         python3-crcmod \
-        bash && \
+        bash \
+        openjdk-17-jre-headless && \
     curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
     tar xzf google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
     rm google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
