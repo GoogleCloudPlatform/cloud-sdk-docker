@@ -22,8 +22,6 @@ steps:
   - '--bootstrap' # Bootstrap in the same step
 {BUILDSTEPS}
 # END OF PROD BUILDING STEPS
-{MULTIARCH_ARM_BUILDSTEPS}
-{MULTIARCH_AMD_BUILDSTEPS}
 {MULTIARCH_BUILDSTEPS}
 - name: 'gcr.io/cloud-builders/docker'
   id: dockersecret
@@ -202,8 +200,7 @@ for i in IMAGES:
     build_steps+=output_build_step
 
 multi_arch_build_steps=''
-multi_arch_amd_build_steps=''
-multi_arch_arm_build_steps=''
+counter = 1
 for i in MULTI_ARCH:
     image_directory = '{}/'.format(i)
     if i == 'default':
@@ -212,38 +209,36 @@ for i in MULTI_ARCH:
     multi_arch_arm_build_step = """- name: 'gcr.io/cloud-builders/docker'
   id: multi_arch_{image_name}_arm
   args: ['buildx', 'build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '--platform', 'linux/arm64', {tags}, '{image_directory}', '--push']
-  waitFor: ['multi_arch_step1']"""
+  waitFor: ['multi_arch_step{counter}']"""
     output_build_arm_step = multi_arch_arm_build_step.format(
         image_name=i,
         tags=', '.join(['\'-t\', {}'.format(t) for t in multi_arch_arm_tags[i]]),
-        image_directory=image_directory)
-    if len(multi_arch_arm_build_steps) > 0:
-        multi_arch_arm_build_steps+='\n'
-    multi_arch_arm_build_steps+=output_build_arm_step
-
+        image_directory=image_directory,
+        counter=counter)
+    counter+=1
+    if len(multi_arch_build_steps) > 0:
+        multi_arch_build_steps+='\n'
+    
     multi_arch_amd_build_step = """- name: 'gcr.io/cloud-builders/docker'
   id: multi_arch_{image_name}_amd
   args: ['buildx', 'build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '--platform', 'linux/amd64', {tags}, '{image_directory}', '--push']
-  waitFor: ['multi_arch_step1']"""
+  waitFor: ['multi_arch_{image_name}_arm']"""
     output_build_amd_step = multi_arch_amd_build_step.format(
         image_name=i,
         tags=', '.join(['\'-t\', {}'.format(t) for t in multi_arch_amd_tags[i]]),
         image_directory=image_directory)
-    if len(multi_arch_amd_build_steps) > 0:
-        multi_arch_amd_build_steps+='\n'
-    multi_arch_amd_build_steps+=output_build_amd_step
-
+    
     multi_arch_build_step = """- name: 'gcr.io/cloud-builders/docker'
-  id: multi_arch_{image_name}
-  args: ['buildx', 'build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '--platform', 'linux/arm64,linux/amd64', {tags}, '{image_directory}', '--push']
+  id: multi_arch_step{counter}
+  args: ['buildx', 'build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '--platform', 'linux/amd64,linux/arm64', {tags}, '{image_directory}', '--push']
   waitFor: ['multi_arch_{image_name}_amd', 'multi_arch_{image_name}_arm']"""
     output_build_step = multi_arch_build_step.format(
         image_name=i,
         tags=', '.join(['\'-t\', {}'.format(t) for t in multi_arch_tags[i]]),
-        image_directory=image_directory)
-    if len(multi_arch_build_steps) > 0:
-        multi_arch_build_steps+='\n'
-    multi_arch_build_steps+=output_build_step
+        image_directory=image_directory,
+        counter=counter)
+    
+    multi_arch_build_steps+=output_build_arm_step + '\n' +  output_build_amd_step + '\n' + output_build_step 
 
 docker_push_steps=''
 for i in IMAGES:
@@ -267,8 +262,6 @@ for tag in sorted(all_images_tags):
 
 print(MAIN_TEMPLATE.format(
     BUILDSTEPS=build_steps,
-    MULTIARCH_ARM_BUILDSTEPS=multi_arch_arm_build_steps,
-    MULTIARCH_AMD_BUILDSTEPS=multi_arch_amd_build_steps,
     MULTIARCH_BUILDSTEPS=multi_arch_build_steps,
     DOCKER_PUSHSTEPS=docker_push_steps,
     GCR_IO_TAGS_SORTED=all_gcr_io_tags_for_images
