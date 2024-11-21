@@ -1,3 +1,10 @@
+import sys
+
+IS_HOTFIX = False
+if 'is_hotfix' in sys.argv:
+  print('# IT IS A HOTFIX')
+  IS_HOTFIX = True
+
 MAIN_TEMPLATE="""# PROD BUILDING STEPS
 options:
   logging: GCS_ONLY
@@ -81,14 +88,15 @@ def MakeGcrTags(label_without_tag,
                         gcrio_suffix=gcr_suffix,
                         old_name=OLD_NAME,
                         label=label_without_tag))
-            t.append(
-                '\'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{old_name}:$TAG_NAME{maybe_hypen}{label}\''
-                .format(gcr_prefix=gcr_prefix,
-                        gcrio_project=GCRIO_PROJECT,
-                        old_name=OLD_NAME,
-                        gcrio_suffix=gcr_suffix,
-                        maybe_hypen=maybe_hypen,
-                        label=label_with_tag))
+            if not IS_HOTFIX:
+                t.append(
+                    '\'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{old_name}:$TAG_NAME{maybe_hypen}{label}\''
+                    .format(gcr_prefix=gcr_prefix,
+                            gcrio_project=GCRIO_PROJECT,
+                            old_name=OLD_NAME,
+                            gcrio_suffix=gcr_suffix,
+                            maybe_hypen=maybe_hypen,
+                            label=label_with_tag))
             t.append(
                 '\'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{old_name}:$TAG_NAME{maybe_hypen}{label}-$_DATE\''
                 .format(gcr_prefix=gcr_prefix,
@@ -105,14 +113,15 @@ def MakeGcrTags(label_without_tag,
                         gcrio_suffix=gcr_suffix,
                         rebrand_name=REBRAND_NAME,
                         label=label_without_tag))
-            t.append(
-                '\'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:$TAG_NAME{maybe_hypen}{label}\''
-                .format(gcr_prefix=gcr_prefix,
-                        gcrio_project=GCRIO_PROJECT,
-                        rebrand_name=REBRAND_NAME,
-                        gcrio_suffix=gcr_suffix,
-                        maybe_hypen=maybe_hypen,
-                        label=label_with_tag))
+            if not IS_HOTFIX:
+                t.append(
+                    '\'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:$TAG_NAME{maybe_hypen}{label}\''
+                    .format(gcr_prefix=gcr_prefix,
+                            gcrio_project=GCRIO_PROJECT,
+                            rebrand_name=REBRAND_NAME,
+                            gcrio_suffix=gcr_suffix,
+                            maybe_hypen=maybe_hypen,
+                            label=label_with_tag))
             t.append(
                 '\'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:$TAG_NAME{maybe_hypen}{label}-$_DATE\''
                 .format(gcr_prefix=gcr_prefix,
@@ -143,11 +152,18 @@ for i in IMAGES:
          .format(dockerhub_prefix=DOCKERHUB_PREFIX,
                  old_name=OLD_NAME,
                  label=label_without_tag))
-    tags[i].append('\'{dockerhub_prefix}/{old_name}:$TAG_NAME{maybe_hypen}{label}\''
-         .format(dockerhub_prefix=DOCKERHUB_PREFIX,
-                 old_name=OLD_NAME,
-                 maybe_hypen=maybe_hypen,
-                 label=label_with_tag))
+    if IS_HOTFIX:
+        tags[i].append('\'{dockerhub_prefix}/{old_name}:$TAG_NAME{maybe_hypen}{label}-$_DATE\''
+            .format(dockerhub_prefix=DOCKERHUB_PREFIX,
+                    old_name=OLD_NAME,
+                    maybe_hypen=maybe_hypen,
+                    label=label_with_tag))
+    else:
+        tags[i].append('\'{dockerhub_prefix}/{old_name}:$TAG_NAME{maybe_hypen}{label}\''
+            .format(dockerhub_prefix=DOCKERHUB_PREFIX,
+                    old_name=OLD_NAME,
+                    maybe_hypen=maybe_hypen,
+                    label=label_with_tag))
     # Make gcr tags for i
     if i not in MULTI_ARCH:
         tags[i].extend(MakeGcrTags(label_without_tag, label_with_tag, maybe_hypen))
