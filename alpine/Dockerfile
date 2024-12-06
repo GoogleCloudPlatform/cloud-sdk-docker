@@ -1,6 +1,6 @@
 FROM docker:27.3.1 as static-docker-source
 
-FROM alpine:3.20 as build_image
+FROM alpine:3.21 as build_image
 # install python 3.11
 RUN apk --no-cache upgrade && apk --no-cache add \
         curl \
@@ -34,7 +34,7 @@ RUN python3 --version && \
     find / -name '*.pyc' -delete && \
     find / -name '*__pycache__*' -exec rm -r {} \+
 
-FROM alpine:3.20 
+FROM alpine:3.21 
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH /google-cloud-sdk/bin:$PATH
