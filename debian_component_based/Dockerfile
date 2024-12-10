@@ -1,4 +1,4 @@
-FROM docker:27.3.1 as static-docker-source
+FROM docker:27.4.0 as static-docker-source
 
 FROM marketplace.gcr.io/google/debian12:latest
 ARG CLOUD_SDK_VERSION
