@@ -1,4 +1,4 @@
-FROM docker:27.3.1 as static-docker-source
+FROM docker:27.4.0 as static-docker-source
 
 FROM alpine:3.20 as build_image
 # install python 3.11
