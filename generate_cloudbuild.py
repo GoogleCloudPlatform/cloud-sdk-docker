@@ -11,6 +11,7 @@ options:
   machineType: 'E2_HIGHCPU_32'
   env:
     - DOCKER_CLI_EXPERIMENTAL=enabled
+    - BUILDX_NO_DEFAULT_ATTESTATIONS=1 
 logsBucket: 'gs://cloud-sdk-docker-build-logs'
 steps:
 - name: 'tonistiigi/binfmt:qemu-v6.2.0'
@@ -22,22 +23,10 @@ steps:
   args:
   - 'buildx'
   - 'create'
+  - '--use' # Create and use builder in one step
   - '--name'
   - 'mybuilder'
-- name: 'gcr.io/cloud-builders/docker'
-  id: multi_arch_step2
-  args:
-  - 'buildx'
-  - 'use'
-  - 'mybuilder'
-  waitFor: ['multi_arch_step1']
-- name: 'gcr.io/cloud-builders/docker'
-  id: multi_arch_step3
-  args:
-  - 'buildx'
-  - 'inspect'
-  - '--bootstrap'
-  waitFor: ['multi_arch_step2']
+  - '--bootstrap' # Bootstrap in the same step
 {BUILDSTEPS}
 # END OF PROD BUILDING STEPS
 {MULTIARCH_BUILDSTEPS}
@@ -70,14 +59,15 @@ LABEL_FOR_IMAGE={
     'default': '',
     'debian_component_based': 'debian_component_based',
     'emulators': 'emulators',
-    'stable': 'stable'  # change it to stable when the image is ready to release.
+    'stable': 'stable'
     }
 
 def MakeGcrTags(label_without_tag,
                 label_with_tag,
                 maybe_hypen,
                 include_old_name=True,
-                include_rebrand_name=True):
+                include_rebrand_name=True,
+                arch=''):
     t = []
     for gcr_prefix, gcr_suffix in GCR_PREFIXES:
         if include_old_name:
@@ -130,15 +120,29 @@ def MakeGcrTags(label_without_tag,
                         gcrio_suffix=gcr_suffix,
                         maybe_hypen=maybe_hypen,
                         label=label_with_tag))
+        if arch:
+            t.append(
+                '\'{gcrprefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:$TAG_NAME{maybe_hypen}{label}-$_DATE-{arch}\''
+                .format(gcrprefix=gcr_prefix,
+                        gcrio_project=GCRIO_PROJECT,
+                        gcrio_suffix=gcr_suffix,
+                        rebrand_name=REBRAND_NAME,
+                        maybe_hypen=maybe_hypen,
+                        label=label_without_tag,
+                        arch=arch))
     return t
 
 # Make all the tags and save them
 tags={}
 multi_arch_tags={}
+multi_arch_arm_tags={}
+multi_arch_amd_tags={}
 for i in IMAGES:
     tags[i]=[]
     if i in MULTI_ARCH:
         multi_arch_tags[i]=[]
+        multi_arch_arm_tags[i]=[]
+        multi_arch_amd_tags[i]=[]
     label_name = LABEL_FOR_IMAGE[i]
     label_without_tag = label_name
     label_with_tag = label_name
@@ -178,6 +182,20 @@ for i in IMAGES:
                                            label_with_tag,
                                            maybe_hypen,
                                            include_old_name=False))
+        # new gcr tags go into multiarch arm tags
+        multi_arch_arm_tags[i].extend(MakeGcrTags(label_without_tag,
+                                           label_with_tag,
+                                           maybe_hypen,
+                                           include_old_name=False,
+                                           include_rebrand_name=False,
+                                           arch='arm'))
+        # new gcr tags go into multiarch amd tags
+        multi_arch_amd_tags[i].extend(MakeGcrTags(label_without_tag,
+                                           label_with_tag,
+                                           maybe_hypen,
+                                           include_old_name=False,
+                                           include_rebrand_name=False,
+                                           arch='amd'))
 
 build_steps=''
 for i in IMAGES:
@@ -198,22 +216,45 @@ for i in IMAGES:
     build_steps+=output_build_step
 
 multi_arch_build_steps=''
+counter = 1
 for i in MULTI_ARCH:
     image_directory = '{}/'.format(i)
     if i == 'default':
         image_directory = '.'
 
+    multi_arch_arm_build_step = """- name: 'gcr.io/cloud-builders/docker'
+  id: multi_arch_{image_name}_arm
+  args: ['buildx', 'build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '--platform', 'linux/arm64', {tags}, '{image_directory}', '--push']
+  waitFor: ['multi_arch_step{counter}']"""
+    output_build_arm_step = multi_arch_arm_build_step.format(
+        image_name=i,
+        tags=', '.join(['\'-t\', {}'.format(t) for t in multi_arch_arm_tags[i]]),
+        image_directory=image_directory,
+        counter=counter)
+    counter+=1
+    if len(multi_arch_build_steps) > 0:
+        multi_arch_build_steps+='\n'
+    
+    multi_arch_amd_build_step = """- name: 'gcr.io/cloud-builders/docker'
+  id: multi_arch_{image_name}_amd
+  args: ['buildx', 'build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '--platform', 'linux/amd64', {tags}, '{image_directory}', '--push']
+  waitFor: ['multi_arch_{image_name}_arm']"""
+    output_build_amd_step = multi_arch_amd_build_step.format(
+        image_name=i,
+        tags=', '.join(['\'-t\', {}'.format(t) for t in multi_arch_amd_tags[i]]),
+        image_directory=image_directory)
+    
     multi_arch_build_step = """- name: 'gcr.io/cloud-builders/docker'
-  id: multi_arch_{image_name}
-  args: ['buildx', 'build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '--platform', 'linux/arm64,linux/amd64', {tags}, '{image_directory}', '--push']
-  waitFor: ['multi_arch_step3']"""
+  id: multi_arch_step{counter}
+  args: ['buildx', 'build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '--platform', 'linux/amd64,linux/arm64', {tags}, '{image_directory}', '--push']
+  waitFor: ['multi_arch_{image_name}_amd', 'multi_arch_{image_name}_arm']"""
     output_build_step = multi_arch_build_step.format(
         image_name=i,
         tags=', '.join(['\'-t\', {}'.format(t) for t in multi_arch_tags[i]]),
-        image_directory=image_directory)
-    if len(multi_arch_build_steps) > 0:
-        multi_arch_build_steps+='\n'
-    multi_arch_build_steps+=output_build_step
+        image_directory=image_directory,
+        counter=counter)
+    
+    multi_arch_build_steps+=output_build_arm_step + '\n' +  output_build_amd_step + '\n' + output_build_step 
 
 docker_push_steps=''
 for i in IMAGES:
@@ -241,3 +282,4 @@ print(MAIN_TEMPLATE.format(
     DOCKER_PUSHSTEPS=docker_push_steps,
     GCR_IO_TAGS_SORTED=all_gcr_io_tags_for_images
     ))
+
