@@ -33,3 +33,11 @@ RUN /google-cloud-sdk/install.sh --bash-completion=false --path-update=true --us
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config", "/root/.kube"]
 RUN gcloud config set metrics/environment docker_image_debian_component_based
+
+COPY test-components.sh /usr/local/bin/test-components.sh
+COPY emulator-testing.sh /usr/local/bin/emulator-testing.sh
+COPY test-dcb-emulators.sh /usr/local/bin/test-all-emulators.sh
+
+RUN cd /usr/local/bin && ./test-components.sh
+
+
