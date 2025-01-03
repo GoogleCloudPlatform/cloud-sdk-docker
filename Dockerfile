@@ -49,5 +49,8 @@ COPY emulators/emulator-testing.sh /usr/local/bin/emulator-testing.sh
 COPY emulators/test-all-emulators.sh /usr/local/bin/test-all-emulators.sh
 COPY test-latest.sh /usr/local/bin/test-latest.sh
 RUN cd /usr/local/bin && ./test-latest.sh
+RUN rm /usr/local/bin/emulator-testing.sh
+RUN rm /usr/local/bin/test-all-emulators.sh
+RUN rm /usr/local/bin/test-latest.sh
 
 VOLUME ["/root/.config", "/root/.kube"]

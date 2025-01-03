@@ -37,3 +37,5 @@ RUN ARCH=`cat /tmp/arch` && \
 COPY emulator-testing.sh /usr/local/bin/emulator-testing.sh
 COPY test-all-emulators.sh /usr/local/bin/test-all-emulators.sh
 RUN cd /usr/local/bin && ./test-all-emulators.sh
+RUN rm /usr/local/bin/emulator-testing.sh
+RUN rm /usr/local/bin/test-all-emulators.sh
