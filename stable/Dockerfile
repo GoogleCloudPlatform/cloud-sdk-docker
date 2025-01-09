@@ -16,8 +16,8 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && \
     apt-get update && \
     apt-get install -y --no-install-recommends google-cloud-cli=${CLOUD_SDK_VERSION}-0 $INSTALL_COMPONENTS &&\
     rm -rf /root/.cache/pip/ && \
-    find / -name '*.pyc' -delete && \
-    find / -name '*__pycache__*' -delete
+    find /usr/lib/google-cloud-sdk -name '*.pyc' -delete && \
+    find /usr/lib/google-cloud-sdk -name '*__pycache__*' -delete
 FROM marketplace.gcr.io/google/debian12:latest as runtime_image
 COPY --from=build_image /usr/lib/google-cloud-sdk /usr/lib/google-cloud-sdk
 
@@ -34,8 +34,8 @@ RUN gcloud --version && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment docker_image_stable && \
     rm -rf /root/.cache/pip/ && \
-    find / -name '*.pyc' -delete && \
-    find / -name '*__pycache__*' -exec rm -r {} \+
+    find /usr/lib/google-cloud-sdk -name '*.pyc' -delete && \
+    find /usr/lib/google-cloud-sdk -name '*__pycache__*' -exec rm -r {} \+
 VOLUME ["/root/.config"]
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
