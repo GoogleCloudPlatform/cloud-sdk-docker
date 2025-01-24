@@ -28,6 +28,6 @@ RUN ARCH=`cat /tmp/arch` && apk --no-cache upgrade && apk --no-cache add \
     gcloud --version && \
     gsutil version && \
     bq version && \
-    gcloud-crc32c /usr/bin/gcloud
+    gcloud-crc32c /google-cloud-sdk/bin/gcloud
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config"]
