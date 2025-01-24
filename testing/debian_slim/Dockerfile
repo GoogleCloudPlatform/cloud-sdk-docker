@@ -30,7 +30,7 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
     gcloud --version && \
     gsutil version && \
     bq version && \
-    gcloud-crc32c /usr/bin/gcloud
+    gcloud-crc32c /usr/bin/gcloud && \
     docker --version
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config"]
