@@ -33,3 +33,9 @@ RUN ARCH=`cat /tmp/arch` && \
     rm -rf /google-cloud-sdk/.install/.backup/ && \
     find /google-cloud-sdk/ -name "__pycache__" -type d  | xargs -n 1 rm -rf && \
     rm -rf /var/lib/apt/lists tmp/*
+
+COPY emulator-testing.sh /usr/local/bin/emulator-testing.sh
+COPY test-all-emulators.sh /usr/local/bin/test-all-emulators.sh
+RUN cd /usr/local/bin && ./test-all-emulators.sh
+RUN rm /usr/local/bin/emulator-testing.sh
+RUN rm /usr/local/bin/test-all-emulators.sh
