@@ -25,6 +25,9 @@ RUN ARCH=`cat /tmp/arch` && apk --no-cache upgrade && apk --no-cache add \
     gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment docker_image_alpine && \
-    gcloud --version
+    gcloud --version && \
+    gsutil version -l && \	
+    bq version && \
+    gcloud-crc32c /google-cloud-sdk/bin/gcloud
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config"]
