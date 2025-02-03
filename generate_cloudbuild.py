@@ -38,6 +38,7 @@ steps:
   - 'inspect'
   - '--bootstrap'
   waitFor: ['multi_arch_step2']
+{STAGINGSTEPS}
 {BUILDSTEPS}
 # END OF PROD BUILDING STEPS
 {MULTIARCH_BUILDSTEPS}
@@ -59,19 +60,34 @@ timeout: 7200s"""
 
 GCRIO_PROJECT='google.com/cloudsdktool'
 GCR_PREFIXES = [('us-docker.pkg.dev', 'gcr.io'), ('us-docker.pkg.dev', 'us.gcr.io'), ('europe-docker.pkg.dev','eu.gcr.io'), ('asia-docker.pkg.dev', 'asia.gcr.io')]
+STAGING_PREFIXES = [('us-docker.pkg.dev', 'staging')]
 DOCKERHUB_PREFIX='google'
 OLD_NAME='cloud-sdk'
 REBRAND_NAME='google-cloud-cli'
 IMAGES=['alpine', 'debian_slim', 'default', 'debian_component_based', 'emulators', 'stable']
 MULTI_ARCH=['debian_slim', 'debian_component_based', 'alpine', 'emulators', 'stable']
+STAGING_IMAGES=['all_components']
 LABEL_FOR_IMAGE={
     'alpine': 'alpine',
     'debian_slim': 'slim',
     'default': '',
     'debian_component_based': 'debian_component_based',
     'emulators': 'emulators',
-    'stable': 'stable'  # change it to stable when the image is ready to release.
+    'stable': 'stable',
+    'all_components': 'all_components'
     }
+
+def MakeStagingTags (label):
+    t = []
+    for gcr_prefix, gcr_suffix in STAGING_PREFIXES:
+        t.append(
+                '\'{gcrprefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:{label}\''
+                .format(gcrprefix=gcr_prefix,
+                        gcrio_project=GCRIO_PROJECT,
+                        gcrio_suffix=gcr_suffix,
+                        rebrand_name=REBRAND_NAME,
+                        label=label))
+    return t
 
 def MakeGcrTags(label_without_tag,
                 label_with_tag,
@@ -178,6 +194,32 @@ for i in IMAGES:
                                            label_with_tag,
                                            maybe_hypen,
                                            include_old_name=False))
+# Make staging tags and save them
+staging_tags={}
+for i in STAGING_IMAGES:
+    staging_tags[i]=[]
+    label_name = LABEL_FOR_IMAGE[i]
+    if i == 'default':
+        label_name = 'latest'
+    staging_tags[i].extend(MakeStagingTags(label_name))
+
+staging_steps=''
+for i in STAGING_IMAGES:
+    image_directory = '{}/'.format(i)
+    if i == 'default':
+        image_directory = '.'
+
+    staging_step = """- name: 'gcr.io/cloud-builders/docker'
+  id: staging_{image_name}
+  args: ['build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', {staging_tags}, '{image_directory}']
+  waitFor: ['-']"""
+    output_staging_step = staging_step.format(
+        image_name=i,
+        staging_tags=', '.join(['\'-t\', {}'.format(t) for t in staging_tags[i]]),
+        image_directory=image_directory)
+    if len(staging_steps) > 0:
+        staging_steps+='\n'
+    staging_steps+=output_staging_step
 
 build_steps=''
 for i in IMAGES:
@@ -230,12 +272,15 @@ all_gcr_io_tags_for_images=''
 all_images_tags=[]
 for i in IMAGES:
     all_images_tags.extend([t for t in tags[i] if not t.startswith('\'google/cloud-sdk')])
+for i in STAGING_IMAGES:
+    all_images_tags.extend(t for t in staging_tags[i])
 for tag in sorted(all_images_tags):
     if len(all_gcr_io_tags_for_images) > 0:
         all_gcr_io_tags_for_images+='\n'
     all_gcr_io_tags_for_images+='- {}'.format(tag)
 
 print(MAIN_TEMPLATE.format(
+    STAGINGSTEPS=staging_steps,
     BUILDSTEPS=build_steps,
     MULTIARCH_BUILDSTEPS=multi_arch_build_steps,
     DOCKER_PUSHSTEPS=docker_push_steps,
