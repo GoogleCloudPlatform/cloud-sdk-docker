@@ -60,7 +60,7 @@ timeout: 7200s"""
 
 GCRIO_PROJECT='google.com/cloudsdktool'
 GCR_PREFIXES = [('us-docker.pkg.dev', 'gcr.io'), ('us-docker.pkg.dev', 'us.gcr.io'), ('europe-docker.pkg.dev','eu.gcr.io'), ('asia-docker.pkg.dev', 'asia.gcr.io')]
-STAGING_PREFIXES = [('us-docker.pkg.dev', 'staging')]
+STAGING_PREFIXES = [('us-docker.pkg.dev', 'scanning')]
 DOCKERHUB_PREFIX='google'
 OLD_NAME='cloud-sdk'
 REBRAND_NAME='google-cloud-cli'
