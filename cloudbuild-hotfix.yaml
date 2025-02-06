@@ -33,7 +33,7 @@ steps:
   - '--bootstrap'
   waitFor: ['multi_arch_step2']
 - name: 'gcr.io/cloud-builders/docker'
-  id: staging_all_components
+  id: scanning_all_components
   args: ['build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/scanning/google-cloud-cli:all_components', 'all_components/']
   waitFor: ['-']
 - name: 'gcr.io/cloud-builders/docker'
