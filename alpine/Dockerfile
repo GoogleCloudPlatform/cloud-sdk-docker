@@ -1,7 +1,3 @@
-ARG GOOGLE_APPLICATION_CREDENTIALS
-
-RUN --mount=type=secret,id=credentials \
-      gcloud auth list
 FROM us-docker.pkg.dev/artifact-foundry-prod/docker-3p-trusted/docker@sha256:0336b60f3134d98d26a069856780f9e58dbc3219cde49ca85be14c8e3c3446e2 as static-docker-source
 
 FROM us-docker.pkg.dev/artifact-foundry-prod/docker-3p-trusted/alpine:latest
