@@ -1,7 +1,3 @@
-ARG GOOGLE_APPLICATION_CREDENTIALS
-
-RUN --mount=type=secret,id=credentials \
-      gcloud auth list
 FROM us-docker.pkg.dev/artifact-foundry-prod/docker-3p-trusted/docker@sha256:de81f2423e1e71b32f71bbd36d07070a407bb8df11358f41ea90415cf89268c1 as static-docker-source
 
 FROM marketplace.gcr.io/google/debian12:latest
