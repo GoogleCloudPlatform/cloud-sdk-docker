@@ -25,7 +25,7 @@ The Google Cloud CLI Docker image is the gcloud CLI installed on top of a Debian
 > <code>docker-buildx</code> with the latest gcloud versions,
 > build and host your own Docker image using a custom Dockerfile.
 > Here are some examples:
-> <a href="https://cloud.devsite.corp.google.com/sdk/docs/dockerfile_example">Dockerfile Examples</a>.</p>
+> <a href="https://cloud.google.com/sdk/docs/dockerfile_example">Dockerfile Examples</a>.</p>
 > </aside>
 
 
