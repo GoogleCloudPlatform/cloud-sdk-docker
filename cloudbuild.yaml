@@ -17,7 +17,6 @@ steps:
   - 'create'
   - '--name'
   - 'mybuilder'
-  - 'network=cloudbuild'
 - name: 'gcr.io/cloud-builders/docker'
   id: multi_arch_step2
   args:
