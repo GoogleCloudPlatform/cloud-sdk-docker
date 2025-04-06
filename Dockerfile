@@ -8,7 +8,7 @@ RUN apt-get update && \
 
 RUN apt-get update && apt-get install apt-transport-artifact-registry
 
-FROM docker:28.0.1 as static-docker-source
+FROM docker:28.0.4 as static-docker-source
 
 FROM marketplace.gcr.io/google/debian12:latest
 ARG CLOUD_SDK_VERSION

@@ -1,4 +1,4 @@
-FROM docker:28.0.1 as static-docker-source
+FROM docker:28.0.4 as static-docker-source
 
 FROM us-docker.pkg.dev/artifact-foundry-prod/docker-3p-trusted/alpine:3.20
 ARG CLOUD_SDK_VERSION
