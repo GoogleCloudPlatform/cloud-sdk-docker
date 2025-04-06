@@ -35,14 +35,12 @@ ARG GOOGLE_APPLICATION_CREDENTIALS
 
 # Use a secret mount to access your long lived credentials, without the risk of leaking them in any of the docker layers
 # Make sure the distribution is correct; in this case, it is trying to access Debian Bookworm repository
-RUN --mount=type=secret,id=credentials \
-    echo 'deb ar+https://us-apt.pkg.dev/remote/artifact-foundry-prod/debian-3p-remote-bookworm bookworm main' | \
+RUN echo 'deb ar+https://us-apt.pkg.dev/remote/artifact-foundry-prod/debian-3p-remote-bookworm bookworm main' | \
     tee -a  /etc/apt/sources.list.d/artifact-registry.list && \
     apt-get update
 # RUN echo 'deb ar+https://us-apt.pkg.dev/remote/artifact-foundry-prod/debian-3p-remote-bookworm bookworm main' | \
 #    tee -a  /etc/apt/sources.list.d/artifact-registry.list
-RUN --mount=type=secret,id=credentials \ 
-    apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
+RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
         curl \
         python3-dev \
         python3-crcmod \
