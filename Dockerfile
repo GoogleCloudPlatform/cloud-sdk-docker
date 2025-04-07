@@ -4,7 +4,7 @@ RUN apt-get update && \
     apt-get install --no-install-recommends -y --allow-change-held-packages \
         gnupg curl ca-certificates apt-utils && \
     curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
-    echo 'deb http://packages.cloud.google.com/apt apt-transport-artifact-registry-stable main' | tee -a /etc/apt/sources.list.d/artifact-registry.list
+    echo 'deb [trusted=yes] http://packages.cloud.google.com/apt apt-transport-artifact-registry-stable main' | tee -a /etc/apt/sources.list.d/artifact-registry.list
 
 RUN apt-get update && apt-get install apt-transport-artifact-registry
 
@@ -36,7 +36,7 @@ ARG GOOGLE_APPLICATION_CREDENTIALS
 # Use a secret mount to access your long lived credentials, without the risk of leaking them in any of the docker layers
 # Make sure the distribution is correct; in this case, it is trying to access Debian Bookworm repository
 RUN --mount=type=secret,id=credentials \
-    echo 'deb ar+https://us-apt.pkg.dev/remote/artifact-foundry-prod/debian-3p-remote-bookworm bookworm main' | \
+    echo 'deb [trusted=yes] ar+https://us-apt.pkg.dev/remote/artifact-foundry-prod/debian-3p-remote-bookworm bookworm main' | \
     tee -a  /etc/apt/sources.list.d/artifact-registry.list && \
     apt-get update
 # RUN echo 'deb ar+https://us-apt.pkg.dev/remote/artifact-foundry-prod/debian-3p-remote-bookworm bookworm main' | \
@@ -55,7 +55,7 @@ RUN --mount=type=secret,id=credentials \
 	gcc \
         gnupg && \
     export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
-    echo "deb https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" > /etc/apt/sources.list.d/google-cloud-sdk.list && \
+    echo "deb [trusted=yes] https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" > /etc/apt/sources.list.d/google-cloud-sdk.list && \
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
     # --mount=type=secret,id=credentials \
     apt-get update && \
