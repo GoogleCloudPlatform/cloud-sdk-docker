@@ -31,31 +31,67 @@ The Google Cloud CLI Docker image is the gcloud CLI installed on top of a Debian
 
 ## Docker image options
 
-There are six Google Cloud Docker images. We recommend that you install
-the following stable image:
+There are six Google Cloud CLI Docker images, and all will install the
+`gcloud`, `gsutil` and `bq` command-line tools. We recommend that you install
+the `:stable` image for a minimal environment. You can also
+use the stable image as the base image for your own deployments which gives you
+the flexibility of installing only the components and packages that you need in
+your image:
 
-* `:stable`, `:VERSION-stable`: Default, Smallest (Debian-based) image with a
-standard gcloud installation.
+* `:stable`, `:VERSION-stable`: Provides a gcloud installation
+with `gsutil` and `bq` components. The image is built upon the latest
+[Google-Provided](/software-supply-chain-security/docs/base-images#google-provided_base_images)
+Debian 12 base image. This image supports both `linux/amd` and `linux/arm`
+platforms. To install specific gcloud versions, use
+the `:VERSION-stable` tag.
 
 If you want to use an Alpine-based image, you can install the following
 image:
 
-* `:alpine`, `:VERSION-alpine`: Smaller (Alpine-based) image with no additional
-components installed. This image supports linux/arm.
+* `:alpine`, `:VERSION-alpine`: Similar to stable but built upon the latest
+[Alpine 3.20](https://github.com/alpinelinux/docker-alpine/tree/v3.20)
+base image. This image supports both `linux/amd` and `linux/arm` platforms. To
+install specific gcloud versions, use the `:VERSION-alpine` tag.
 
-If you want images with additional packages or gcloud components pre-installed,
+If you want images with additional
+[components](#components_installed_in_each_tag) or packages pre-installed,
 you can install one of the following options:
 
-* `:emulators`, `:VERSION-emulators`: Smaller (Debian-based) image with emulator
-components pre-installed.
-* `:latest`, `:VERSION`: Large (Debian-based) image with additional components
-pre-installed.
-* `:slim`, `:VERSION-slim`: Smaller (Debian-based) image with no components
-pre-installed.
-* `:debian_component_based`, `:VERSION-debian_component_based`: Large (Debian-based)
-image with additional components pre-installed. As opposed to `:latest` which
-used deb packages, this image uses the component manager to install components.
-This image supports linux/arm.
+* `:emulators`, `:VERSION-emulators`: Similar to stable, with the
+addition of all the emulator components. The image is build upon the latest
+[Google-Provided](/software-supply-chain-security/docs/base-images#google-provided_base_images)
+Debian 12 base image and uses component manager to install the components. This
+image supports both `linux/amd` and `linux/arm` platforms. To install specific
+gcloud versions, use the `:VERSION-emulators`
+tag.
+
+* `:latest`, `:VERSION`: Similar to stable, with additional components
+(List of components installed in the image are listed
+[below](#components_installed_in_each_tag)) pre-installed. The image is build
+upon the latest
+[Google-Provided](/software-supply-chain-security/docs/base-images#google-provided_base_images)
+Debian 12 base image and uses deb packages to install the components. To install
+specific gcloud versions, use the `:VERSION`
+tag.
+
+* `:slim`, `:VERSION-slim`: Similar to stable but includes the additional
+third party packages like `curl`, `python3-crcmod`, `apt-transport-https`,
+`lsb-release`, `openssh-client`, `git`, `make`, and `gnupg`. This image is
+built upon the latest
+[Google-Provided](/software-supply-chain-security/docs/base-images#google-provided_base_images)
+Debian 12 base image. This image supports both `linux/amd` and `linux/arm`
+platforms. To install specific gcloud versions, use
+the `:VERSION-slim` tag.
+
+* `:debian_component_based`, `:VERSION-debian_component_based`: Similar to
+stable, with additional components
+(List of components installed in the image are listed
+[below](#components_installed_in_each_tag)) pre-installed. The image is build
+upon the latest
+[Google-Provided](/software-supply-chain-security/docs/base-images#google-provided_base_images)
+Debian 12 base image and uses component manager to install the components. This
+image supports both `linux/amd` and `linux/arm` platforms. To install specific
+gcloud versions, use the `:VERSION-debian_component_based` tag.
 
 ## Installing a Docker image
 
