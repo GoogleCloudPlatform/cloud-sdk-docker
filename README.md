@@ -6,6 +6,29 @@ You can refer to the image's [documentation page](https://cloud.google.com/sdk/d
 
 The Google Cloud CLI Docker image is the gcloud CLI installed on top of a Debian or Alpine image. The Google Cloud CLI Docker Images enable the usage of gcloud as well as its bundled components without having to manually install gcloud in your local machine.
 
+## What's new / Important updates
+
+***April 08, 2025***
+
+> [!WARNING]  
+> <p> To enhance security, we will be removing the
+> <code>docker-buildx</code> dependency from the gcloud Docker images (<code>:latest</code>,
+> <code>:alpine</code>, <code>:slim</code>, <code>:emulators</code>,
+> <code>:debian_component_based</code>). Starting with
+> the gcloud version 519.0.0 (scheduled for release on April 22,
+> 2025), the <code>docker-buildx</code> dependency will be removed from the
+> <code>:alpine</code> and <code>:debian_component_based</code> images.</p>
+>
+> <p>If your workflows rely on <code>docker-buildx</code>
+> within these image types, you will need to pin your workflow to
+> gcloud version 518.0.0 or earlier. For continued use of
+> <code>docker-buildx</code> with the latest gcloud versions,
+> build and host your own Docker image using a custom Dockerfile.
+> Here are some examples:
+> <a href="https://cloud.google.com/sdk/docs/dockerfile_example">Dockerfile Examples</a>.</p>
+> </aside>
+
+
 ## Docker image options
 
 There are six Google Cloud Docker images. We recommend that you install
