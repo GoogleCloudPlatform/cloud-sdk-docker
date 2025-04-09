@@ -39,6 +39,8 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   id: scanning_all_components
   args: ['build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/scanning/google-cloud-cli:all_components', 'all_components/']
+  env:
+  - DOCKER_BUILDKIT=1
   waitFor: ['-']
 - name: 'gcr.io/cloud-builders/docker'
   id: alpine
