@@ -20,7 +20,7 @@ steps:
   # - '--driver'
   # - 'docker-container'
   # - '--driver-opt'
-  # - 'network=cloudbuild'
+  - 'network=cloudbuild'
   # - '--use'
 - name: 'gcr.io/cloud-builders/docker'
   id: multi_arch_step2
