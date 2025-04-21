@@ -5,7 +5,6 @@ ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH /google-cloud-sdk/bin:$PATH
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
-COPY --from=static-docker-source /usr/local/libexec/docker/cli-plugins/docker-buildx /usr/local/libexec/docker/cli-plugins/docker-buildx
 RUN addgroup -g 1000 -S cloudsdk && \
     adduser -u 1000 -S cloudsdk -G cloudsdk
 RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch; fi;
