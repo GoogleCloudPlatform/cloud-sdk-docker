@@ -8,7 +8,7 @@ The Google Cloud CLI Docker image is the gcloud CLI installed on top of a Debian
 
 ## What's new / Important updates
 
-***April 08, 2025***
+***April 23, 2025***
 
 > [!WARNING]  
 > <p> To enhance security, we will be removing the
@@ -16,7 +16,7 @@ The Google Cloud CLI Docker image is the gcloud CLI installed on top of a Debian
 > <code>:alpine</code>, <code>:slim</code>, <code>:emulators</code>,
 > <code>:debian_component_based</code>). Starting with
 > the gcloud version 519.0.0 (scheduled for release on April 22,
-> 2025), the <code>docker-buildx</code> dependency will be removed from the
+> 2025), the <code>docker-buildx</code> dependency has been removed from the
 > <code>:alpine</code> and <code>:debian_component_based</code> images.</p>
 >
 > <p>If your workflows rely on <code>docker-buildx</code>
