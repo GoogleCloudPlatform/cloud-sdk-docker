@@ -21,7 +21,7 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
 RUN ARCH=`cat /tmp/arch` && curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
     tar xzf google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
     rm google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz
-RUN echo -n "app-engine-java app-engine-python alpha beta pubsub-emulator cloud-datastore-emulator app-engine-go bigtable cbt app-engine-python-extras kubectl gke-gcloud-auth-plugin kustomize minikube skaffold kpt local-extract appctl cloud-sql-proxy docker-credential-gcr package-go-module cloud-firestore-emulator cloud-run-proxy cloud-spanner-emulator log-streaming managed-flink-client spanner-migration-tool terraform-tools config-connector enterprise-certificate-proxy istioctl kubectl-oidc pkg" > /tmp/additional_components
+RUN echo -n "anthoscli app-engine-java app-engine-python alpha beta pubsub-emulator cloud-datastore-emulator app-engine-go bigtable cbt app-engine-python-extras kubectl gke-gcloud-auth-plugin kustomize minikube skaffold kpt local-extract appctl cloud-sql-proxy docker-credential-gcr package-go-module cloud-firestore-emulator cloud-run-proxy cloud-spanner-emulator log-streaming managed-flink-client spanner-migration-tool terraform-tools config-connector enterprise-certificate-proxy istioctl kubectl-oidc pkg" > /tmp/additional_components
 # These components are not available on ARM right now.
 RUN if [ `uname -m` = 'x86_64' ]; then echo -n " appctl nomos anthos-auth" >> /tmp/additional_components; fi;
 RUN /google-cloud-sdk/install.sh --bash-completion=false --path-update=true --usage-reporting=false \
