@@ -18,7 +18,7 @@ timeline](https://github.com/GoogleCloudPlatform/cloud-sdk-docker/edit/master/RE
 pin to the respective `Pin-To` {{gcloud_name}} version or earlier.
 Alternatively, you could build your own docker image and include
 `docker-buildx` using a custom Dockerfile. Here are some examples:
-[Dockerfile Examples]("/sdk/docs/dockerfile_example").
+[Dockerfile Examples](https://cloud.google.com/sdk/docs/dockerfile_example).
 
 ### Update Timeline
 
