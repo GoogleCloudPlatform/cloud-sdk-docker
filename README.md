@@ -22,7 +22,7 @@ Alternatively, you could build your own docker image and include
 
 ### Update Timeline
 
-|  <img width=100/> Date  | Removed in gcloud version | `Pin to` gcloud versions to continue using `docker-buildx` | `docker-buildx` removed from images |
+|  <img width=100/> Date  | Removed in gcloud version | `Pin to` gcloud version to continue using `docker-buildx` | `docker-buildx` removed from images |
 |:----------:|:-------------------------------------------:|:--------------------:|:----------:|
 | Apr 22, 2025 | 519.0.0 | 518.0.0 | `:alpine` and `:debian_component_based` |
 | May 20, 2025 | 523.0.0 | 522.0.0 | `:latest` and `:slim` |
