@@ -1,5 +1,5 @@
 # debian12 is used instead of alpine because the cloud bigtable emulator requires glibc.
-FROM marketplace.gcr.io/google/debian12:latest
+FROM us-docker.pkg.dev/artifact-foundry-prod/docker-3p-trusted/debian:12
 
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION

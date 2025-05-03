@@ -1,6 +1,6 @@
 FROM docker:28.1.1 as static-docker-source
 
-FROM alpine:3.20
+FROM us-docker.pkg.dev/artifact-foundry-prod/docker-3p-trusted/alpine:latest
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH /google-cloud-sdk/bin:$PATH
