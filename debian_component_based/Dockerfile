@@ -1,6 +1,6 @@
 FROM docker:28.1.1 as static-docker-source
 
-FROM marketplace.gcr.io/google/debian12:latest
+FROM us-docker.pkg.dev/artifact-foundry-prod/docker-3p-trusted/debian:12
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH /google-cloud-sdk/bin:$PATH
