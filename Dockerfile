@@ -30,19 +30,17 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
         google-cloud-cli-pubsub-emulator=${CLOUD_SDK_VERSION}-0 \
         google-cloud-cli-bigtable-emulator=${CLOUD_SDK_VERSION}-0 \
         google-cloud-cli-firestore-emulator=${CLOUD_SDK_VERSION}-0 \
-        google-cloud-cli-spanner-emulator=${CLOUD_SDK_VERSION}-0 \
         google-cloud-cli-cbt=${CLOUD_SDK_VERSION}-0 \
         google-cloud-cli-kpt=${CLOUD_SDK_VERSION}-0 \
         google-cloud-cli-local-extract=${CLOUD_SDK_VERSION}-0 \
         google-cloud-cli-gke-gcloud-auth-plugin=${CLOUD_SDK_VERSION}-0 \
-        kubectl && \
-    gcloud config set core/disable_usage_reporting true && \
-    gcloud config set component_manager/disable_update_check true && \
-    gcloud config set metrics/environment docker_image_latest && \
-    gcloud --version && \
-    docker --version && kubectl version --client
+        kubectl 
+RUN if [ `uname -m` = 'x86_64' ]; then apt-get install -y google-cloud-cli-spanner-emulator=${CLOUD_SDK_VERSION}-0; fi;
 RUN apt-get install -qqy \
         gcc \
         python3-pip
+RUN gcloud config set core/disable_usage_reporting true && \
+    gcloud config set component_manager/disable_update_check true && \
+    gcloud config set metrics/environment docker_image_latest 
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config", "/root/.kube"]
