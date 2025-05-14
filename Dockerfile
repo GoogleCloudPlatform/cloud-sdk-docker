@@ -39,7 +39,8 @@ RUN if [ `uname -m` = 'x86_64' ]; then apt-get install -y google-cloud-cli-spann
 RUN apt-get install -qqy \
         gcc \
         python3-pip
-RUN gcloud config set core/disable_usage_reporting true && \
+RUN gcloud version && \ 
+    gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment docker_image_latest 
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
