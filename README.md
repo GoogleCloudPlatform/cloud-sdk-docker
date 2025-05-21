@@ -11,14 +11,16 @@ The Google Cloud CLI Docker image is the gcloud CLI installed on top of a Debian
 ***May 1, 2025***
 
 > [!WARNING]  
-> We are removing the `docker-buildx` dependency from all
+> We have removed the `docker-buildx` dependency from all
 Google Cloud CLI Docker images to mitigate customers' exposure to vulnerabilities
 found in this component and its dependencies according to the [following
 timeline](#update-timeline). If your workflows rely on `docker-buildx`, you will need to
 pin to the respective `Pin-To` gcloud version or earlier.
 Alternatively, you could build your own docker image and include
 `docker-buildx` using a custom Dockerfile. Here are some examples:
-[Dockerfile Examples](https://cloud.google.com/sdk/docs/dockerfile_example).
+[Dockerfile Examples](https://cloud.google.com/sdk/docs/dockerfile_example). For any questions or
+concerns about the change, reach out to the
+[gcloud support team](https://issuetracker.google.com/issues/new?component=187143).
 
 ### Update Timeline
 
