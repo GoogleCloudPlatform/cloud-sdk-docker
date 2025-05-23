@@ -2,7 +2,7 @@ ARG FINAL_STAGE=prod
 FROM marketplace.gcr.io/google/debian12:latest AS prod
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
-ENV PATH /google-cloud-sdk/bin:$PATH
+ENV PATH=/google-cloud-sdk/bin:$PATH
 RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
 RUN echo 'deb http://deb.debian.org/debian/ trixie main' >> /etc/apt/sources.list && \
