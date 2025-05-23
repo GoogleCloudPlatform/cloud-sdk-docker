@@ -3,7 +3,7 @@ FROM docker:28.2.2 AS static-docker-source
 FROM alpine:3.22
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
-ENV PATH /google-cloud-sdk/bin:$PATH
+ENV PATH=/google-cloud-sdk/bin:$PATH
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
 RUN addgroup -g 1000 -S cloudsdk && \
     adduser -u 1000 -S cloudsdk -G cloudsdk
