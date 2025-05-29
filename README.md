@@ -21,7 +21,7 @@ versions prior to 21. To fix this, users of the `:latest`, `:emulators` and
 `:debian_component_based` images can use their own Dockerfile to upgrade to
 Java 21 or later to continue using the latest firestore and
 datastore emulators
-([examples](/sdk/docs/dockerfile_example#build-your-own-gcloud-docker-image-for-java21)).
+([examples](https://cloud.google.com/sdk/docs/dockerfile_example#build-your-own-gcloud-docker-image-for-java21)).
 Alternatively the users can pin-to gcloud version `527.0.0` or
 earlier where the prior java versions were supported. For any questions or
 concerns about the change, reach out to the
@@ -39,7 +39,7 @@ timeline](#update-timeline). If your workflows rely on `docker-buildx`, you will
 pin to the respective `Pin-To` gcloud version or earlier.
 Alternatively, you could build your own docker image and include
 `docker-buildx` using a custom Dockerfile. Here are some examples:
-[Dockerfile Examples](https://cloud.google.com/sdk/docs/dockerfile_example). For any questions or
+[Dockerfile Examples](https://cloud.google.com/sdk/docs/dockerfile_example#build-your-own-gcloud-docker-image-for-docker-buildx). For any questions or
 concerns about the change, reach out to the
 [gcloud support team](https://issuetracker.google.com/issues/new?component=187143).
 
