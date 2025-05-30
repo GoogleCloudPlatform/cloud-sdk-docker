@@ -8,7 +8,28 @@ The Google Cloud CLI Docker image is the gcloud CLI installed on top of a Debian
 
 ## What's new / Important updates
 
+***May 28, 2025***
+
+**Support for gcloud firestore and datastore emulators with Java 17 or earlier is ending on June 24, 2025**
+
+> [!WARNING]  
+> The firestore & datastore emulators will require
+Java 21 or later starting with the gcloud release 528.0.0
+(June 24, 2025). After this change, the firestore
+and datastore emulators will fail to start in environments with Java
+versions prior to 21. To fix this, users of the `:latest`, `:emulators` and
+`:debian_component_based` images can use their own Dockerfile to upgrade to
+Java 21 or later to continue using the latest firestore and
+datastore emulators
+([examples](https://cloud.google.com/sdk/docs/dockerfile_example#build-your-own-gcloud-docker-image-for-java21)).
+Alternatively the users can pin-to gcloud version `527.0.0` or
+earlier where the prior java versions were supported. For any questions or
+concerns about the change, reach out to the
+[gcloud support team](https://issuetracker.google.com/issues/new?component=187143).
+
 ***May 21, 2025***
+
+**`docker-buildx` package removed from the {{gcloud_name_abbr}} docker images**
 
 > [!WARNING]  
 > We have removed the `docker-buildx` dependency from all
@@ -18,7 +39,7 @@ timeline](#update-timeline). If your workflows rely on `docker-buildx`, you will
 pin to the respective `Pin-To` gcloud version or earlier.
 Alternatively, you could build your own docker image and include
 `docker-buildx` using a custom Dockerfile. Here are some examples:
-[Dockerfile Examples](https://cloud.google.com/sdk/docs/dockerfile_example). For any questions or
+[Dockerfile Examples](https://cloud.google.com/sdk/docs/dockerfile_example#build-your-own-gcloud-docker-image-for-docker-buildx). For any questions or
 concerns about the change, reach out to the
 [gcloud support team](https://issuetracker.google.com/issues/new?component=187143).
 
