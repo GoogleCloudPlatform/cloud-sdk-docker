@@ -8,6 +8,26 @@ The Google Cloud CLI Docker image is the gcloud CLI installed on top of a Debian
 
 ## What's new / Important updates
 
+***Jun 04, 2025***
+
+**`docker` package removed from the gcloud docker images**
+
+> [!WARNING]  
+> We are removing the `docker` dependency from all
+Google Cloud CLI Docker images to mitigate customers' exposure to vulnerabilities
+found in this component and its dependencies according to the [following
+timeline](#update_timeline). If your workflows rely on `docker`, you will need to
+pin to the respective `Pin-To` gcloud version or earlier.
+Alternatively, you could build your own docker image and include
+`docker` using a custom Dockerfile. Here are some examples:
+[Dockerfile Examples](https://cloud.google.com/sdk/docs/dockerfile_example#build-your-own-gcloud-docker-image-for-docker-buildx).
+For any questions or
+concerns about the change, reach out to the
+[gcloud support team](https://issuetracker.google.com/issues/new?component=187143).
+We have previously removed the `docker-buildx` package from the
+gcloud CLI docker images. For more information about already
+removed packages, see the [announcements on GitHub](https://github.com/GoogleCloudPlatform/cloud-sdk-docker/discussions/categories/announcements?discussions_q=is%3Aopen+category%3AAnnouncements+label%3A3pPackageRemoval).
+
 ***May 28, 2025***
 
 **Support for gcloud firestore and datastore emulators with Java 17 or earlier is ending on June 24, 2025**
@@ -27,28 +47,15 @@ earlier where the prior java versions were supported. For any questions or
 concerns about the change, reach out to the
 [gcloud support team](https://issuetracker.google.com/issues/new?component=187143).
 
-***May 21, 2025***
-
-**`docker-buildx` package removed from the {{gcloud_name_abbr}} docker images**
-
-> [!WARNING]  
-> We have removed the `docker-buildx` dependency from all
-Google Cloud CLI Docker images to mitigate customers' exposure to vulnerabilities
-found in this component and its dependencies according to the [following
-timeline](#update-timeline). If your workflows rely on `docker-buildx`, you will need to
-pin to the respective `Pin-To` gcloud version or earlier.
-Alternatively, you could build your own docker image and include
-`docker-buildx` using a custom Dockerfile. Here are some examples:
-[Dockerfile Examples](https://cloud.google.com/sdk/docs/dockerfile_example#build-your-own-gcloud-docker-image-for-docker-buildx). For any questions or
-concerns about the change, reach out to the
-[gcloud support team](https://issuetracker.google.com/issues/new?component=187143).
 
 ### Update Timeline
 
-|  <img width=100/> Date  | Removed in gcloud version | `Pin-to` gcloud version to continue using `docker-buildx` | `docker-buildx` removed from images |
-|:----------:|:-------------------------------------------:|:--------------------:|:----------:|
-| Apr 22, 2025 | 519.0.0 | 518.0.0 | `:alpine` and `:debian_component_based` |
-| May 20, 2025 | 523.0.0 | 522.0.0 | `:slim` and `:latest` |
+|  <img width=105/> Date  | Package | Removed in gcloud version | `Pin-to` gcloud version to continue using the package | Package removed from images |
+|:----------:|:----------:|:-------------------------------------------:|:--------------------:|:----------:|
+| Apr 22, 2025 | `docker-buildx` | 519.0.0 | 518.0.0 | `:alpine` and `:debian_component_based` |
+| May 20, 2025 | `docker-buildx` | 523.0.0 | 522.0.0 | `:slim` and `:latest` |
+| Jul 01, 2025 | `docker` | 529.0.0 | 528.0.0 | `:alpine` and `:debian_component_based` |
+| Jul 22, 2025 | `docker-buildx` | 531.0.0 | 530.0.0 | `:slim` and `:latest` |
 
 
 ## Docker image options
