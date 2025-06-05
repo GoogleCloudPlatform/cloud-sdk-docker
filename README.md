@@ -55,7 +55,7 @@ concerns about the change, reach out to the
 | Apr 22, 2025 | `docker-buildx` | 519.0.0 | 518.0.0 | `:alpine` and `:debian_component_based` |
 | May 20, 2025 | `docker-buildx` | 523.0.0 | 522.0.0 | `:slim` and `:latest` |
 | Jul 01, 2025 | `docker` | 529.0.0 | 528.0.0 | `:alpine` and `:debian_component_based` |
-| Jul 22, 2025 | `docker-buildx` | 531.0.0 | 530.0.0 | `:slim` and `:latest` |
+| Jul 22, 2025 | `docker` | 531.0.0 | 530.0.0 | `:slim` and `:latest` |
 
 
 ## Docker image options
