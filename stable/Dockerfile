@@ -1,4 +1,4 @@
-FROM marketplace.gcr.io/google/debian12:latest as build_image
+FROM marketplace.gcr.io/google/debian12:latest AS build_image
 
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
@@ -18,7 +18,7 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && \
     rm -rf /root/.cache/pip/ && \
     find /usr/lib/google-cloud-sdk -name '*.pyc' -delete && \
     find /usr/lib/google-cloud-sdk -name '*__pycache__*' -delete
-FROM marketplace.gcr.io/google/debian12:latest as runtime_image
+FROM marketplace.gcr.io/google/debian12:latest AS runtime_image
 COPY --from=build_image /usr/lib/google-cloud-sdk /usr/lib/google-cloud-sdk
 
 ENV PATH=$PATH:/usr/lib/google-cloud-sdk/bin
