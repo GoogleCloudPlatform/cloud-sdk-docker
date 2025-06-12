@@ -10,17 +10,17 @@ The Google Cloud CLI Docker image is the gcloud CLI installed on top of a Debian
 
 ***Jun 04, 2025***
 
-**`docker` package removed from the gcloud docker images**
+**`docker` and `make` package to be removed from the gcloud docker images**
 
 > [!WARNING]  
-> We are removing the `docker` dependency from all
+> We are removing the `docker` and `make` dependencies from all
 Google Cloud CLI Docker images to mitigate customers' exposure to vulnerabilities
 found in this component and its dependencies according to the [following
-timeline](#update_timeline). If your workflows rely on `docker`, you will need to
+timeline](#update_timeline). If your workflows rely on the `docker` or the `make` packages, you will need to
 pin to the respective `Pin-To` gcloud version or earlier.
-Alternatively, you could build your own docker image and include
-`docker` using a custom Dockerfile. Here are some examples:
-[Dockerfile Examples](https://cloud.google.com/sdk/docs/dockerfile_example#build-your-own-gcloud-docker-image-for-docker-buildx).
+Alternatively, you could build your own docker image and include the
+`docker` or the `make` packages using a custom Dockerfile. Here are some examples:
+[Dockerfile Examples](https://cloud.google.com/sdk/docs/dockerfile_example).
 For any questions or
 concerns about the change, reach out to the
 [gcloud support team](https://issuetracker.google.com/issues/new?component=187143).
@@ -52,10 +52,9 @@ concerns about the change, reach out to the
 
 |  <img width=105/> Date  | Package | Removed in gcloud version | `Pin-to` gcloud version to continue using the package | Package removed from images |
 |:----------:|:----------:|:-------------------------------------------:|:--------------------:|:----------:|
-| Apr 22, 2025 | `docker-buildx` | 519.0.0 | 518.0.0 | `:alpine` and `:debian_component_based` |
-| May 20, 2025 | `docker-buildx` | 523.0.0 | 522.0.0 | `:slim` and `:latest` |
 | Jul 01, 2025 | `docker` | 529.0.0 | 528.0.0 | `:alpine` and `:debian_component_based` |
 | Jul 22, 2025 | `docker` | 531.0.0 | 530.0.0 | `:slim` and `:latest` |
+| Aug 05, 2025 | `make` | 533.0.0 | 532.0.0 | `:latest` and `:debian_component_based` |
 
 
 ## Docker image options
