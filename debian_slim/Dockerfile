@@ -4,6 +4,7 @@ FROM marketplace.gcr.io/google/debian12:latest
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
+COPY --from=static-docker-source /usr/local/libexec/docker/cli-plugins /usr/local/libexec/docker/cli-plugins
 RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
 ARG INSTALL_COMPONENTS
