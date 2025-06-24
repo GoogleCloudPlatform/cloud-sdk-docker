@@ -15,15 +15,14 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
 
 RUN ARCH=`cat /tmp/arch` && \
     mkdir -p /usr/share/man/man1/ && \
-    echo 'deb http://deb.debian.org/debian/ sid main' >> /etc/apt/sources.list && \
     apt-get update && \
     apt-get -qqy upgrade && \
     apt-get -y install \
         curl \
         python3 \
         python3-crcmod \
-        bash && \
-    apt-get -y -t sid install openjdk-21-jre-headless && \
+        bash \
+        openjdk-17-jre-headless && \
     curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
     tar xzf google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
     rm google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
