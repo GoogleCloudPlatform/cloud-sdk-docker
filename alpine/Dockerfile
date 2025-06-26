@@ -1,10 +1,7 @@
-FROM docker:28.2.2 as static-docker-source
-
 FROM alpine:3.20
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH /google-cloud-sdk/bin:$PATH
-COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
 RUN addgroup -g 1000 -S cloudsdk && \
     adduser -u 1000 -S cloudsdk -G cloudsdk
 RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch; fi;
