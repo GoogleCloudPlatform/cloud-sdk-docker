@@ -6,8 +6,8 @@ ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
 RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
-RUN echo 'deb http://deb.debian.org/debian/ sid main' >> /etc/apt/sources.list && \
-	apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
+
+RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
         curl \
         python3-dev \
         python3-crcmod \
@@ -16,7 +16,11 @@ RUN echo 'deb http://deb.debian.org/debian/ sid main' >> /etc/apt/sources.list &
         openssh-client \
         git \
         make \
-        gnupg && \
+	gcc \
+	python3-pip \
+        gnupg
+RUN echo 'deb http://deb.debian.org/debian/ sid main' >> /etc/apt/sources.list && \
+    apt-get update -qqy && apt-get -qqy upgrade && \
     apt-get -y -t sid install openjdk-21-jre-headless
 RUN apt-get update -qqy 
 RUN export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
@@ -48,8 +52,5 @@ RUN apt-get update && \
     gcloud config set metrics/environment docker_image_latest && \
     gcloud --version && \
     docker --version && kubectl version --client
-RUN apt-get install -qqy \
-        gcc \
-        python3-pip
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config", "/root/.kube"]

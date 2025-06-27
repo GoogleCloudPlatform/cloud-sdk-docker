@@ -7,8 +7,7 @@ ENV PATH /google-cloud-sdk/bin:$PATH
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
 RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
-RUN echo 'deb http://deb.debian.org/debian/ sid main' >> /etc/apt/sources.list && \
-    apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
+RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
         curl \
         gcc \
         python3-dev \
@@ -19,7 +18,9 @@ RUN echo 'deb http://deb.debian.org/debian/ sid main' >> /etc/apt/sources.list &
         openssh-client \
         git \
         make \
-        gnupg && \
+        gnupg
+RUN RUN echo 'deb http://deb.debian.org/debian/ sid main' >> /etc/apt/sources.list && \
+    apt-get update -qqy && apt-get -qqy upgrade && \
     apt-get -y -t sid install openjdk-21-jre-headless
 RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch; fi;
 RUN ARCH=`cat /tmp/arch` && curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
