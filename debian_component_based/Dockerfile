@@ -19,7 +19,7 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
         git \
         make \
         gnupg
-RUN RUN echo 'deb http://deb.debian.org/debian/ sid main' >> /etc/apt/sources.list && \
+RUN echo 'deb http://deb.debian.org/debian/ sid main' >> /etc/apt/sources.list && \
     apt-get update -qqy && apt-get -qqy upgrade && \
     apt-get -y -t sid install openjdk-21-jre-headless
 RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch; fi;
