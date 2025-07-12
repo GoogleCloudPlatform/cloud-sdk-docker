@@ -37,8 +37,7 @@ removed packages, see the [announcements on GitHub](https://github.com/GoogleClo
 Java 21 or later starting with the gcloud release 529.0.0
 (July 01, 2025). After this change, the firestore
 and datastore emulators will fail to start in environments with Java
-versions prior to 21. To fix this, users of the `:latest`, `:emulators` and
-`:debian_component_based` images can use their own Dockerfile to upgrade to
+versions prior to 21. To fix this, users of the `:latest` images can use their own Dockerfile to upgrade to
 Java 21 or later to continue using the latest firestore and
 datastore emulators
 ([examples](https://cloud.google.com/sdk/docs/dockerfile_example#build-your-own-gcloud-docker-image-for-java21)).
