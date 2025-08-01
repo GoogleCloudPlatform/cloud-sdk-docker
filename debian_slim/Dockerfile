@@ -1,10 +1,6 @@
-FROM docker:28.1.1 as static-docker-source
-
 FROM marketplace.gcr.io/google/debian12:latest
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
-COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
-COPY --from=static-docker-source /usr/local/libexec/docker/cli-plugins/docker-buildx /usr/local/libexec/docker/cli-plugins/docker-buildx
 RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
 ARG INSTALL_COMPONENTS
@@ -30,7 +26,6 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
     gcloud --version && \
     gsutil version -l && \
     bq version && \
-    gcloud-crc32c /usr/bin/gcloud && \
-    docker --version
+    gcloud-crc32c /usr/bin/gcloud 
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config"]

@@ -21,8 +21,10 @@ RUN ARCH=`cat /tmp/arch` && \
         curl \
         python3 \
         python3-crcmod \
-        bash \
-        openjdk-17-jre-headless && \
+        bash && \
+    echo 'deb http://deb.debian.org/debian/ sid main' >> /etc/apt/sources.list && \
+    apt-get update && apt-get -qqy upgrade && \
+    apt-get -y -t sid install openjdk-21-jre-headless && \
     curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
     tar xzf google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
     rm google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
