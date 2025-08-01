@@ -12,7 +12,6 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
         lsb-release \
         openssh-client \
         git \
-        make \
 	gcc \
 	python3-pip \
         gnupg && \
