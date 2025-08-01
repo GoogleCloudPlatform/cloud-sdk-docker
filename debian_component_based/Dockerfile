@@ -14,7 +14,6 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
         lsb-release \
         openssh-client \
         git \
-        make \
         gnupg
 RUN echo 'deb http://deb.debian.org/debian/ sid main' >> /etc/apt/sources.list && \
     apt-get update -qqy && apt-get -qqy upgrade && \
