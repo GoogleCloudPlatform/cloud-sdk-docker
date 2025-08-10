@@ -8,7 +8,7 @@ The Google Cloud CLI Docker image is the gcloud CLI installed on top of a Debian
 
 ## What's new / Important updates
 
-***Jun 04, 2025***
+***Aug 10, 2025***
 
 **`docker` and `make` package to be removed from the gcloud docker images**
 
