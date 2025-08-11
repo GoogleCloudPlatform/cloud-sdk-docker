@@ -8,14 +8,14 @@ The Google Cloud CLI Docker image is the gcloud CLI installed on top of a Debian
 
 ## What's new / Important updates
 
-***Jun 04, 2025***
+***Aug 10, 2025***
 
 **`docker` and `make` package to be removed from the gcloud docker images**
 
 > [!WARNING]  
-> We are removing the `docker` and `make` dependencies from all
+> We have removed the `docker` and `make` dependencies from all
 Google Cloud CLI Docker images to mitigate customers' exposure to vulnerabilities
-found in this component and its dependencies according to the [following
+found in these components and their dependencies according to the [following
 timeline](#update_timeline). If your workflows rely on the `docker` or the `make` packages, you will need to
 pin to the respective `Pin-To` gcloud version or earlier.
 Alternatively, you could build your own docker image and include the
@@ -27,26 +27,6 @@ concerns about the change, reach out to the
 We have previously removed the `docker-buildx` package from the
 gcloud CLI docker images. For more information about already
 removed packages, see the [announcements on GitHub](https://github.com/GoogleCloudPlatform/cloud-sdk-docker/discussions/categories/announcements?discussions_q=is%3Aopen+category%3AAnnouncements+label%3A3pPackageRemoval).
-
-***Jul 14, 2025***
-
-**Support for gcloud firestore and datastore emulators with Java 17 or earlier has ended on July 01, 2025**
-
-> [!WARNING]  
-> The firestore & datastore emulators requires
-Java 21 or later starting with the gcloud release 529.0.0
-(July 01, 2025). The firestore
-and datastore emulators will fail to start in environments with Java
-versions prior to 21. To fix this, users of the `:latest` image can migrate
-to the `:emulators` Docker image which is dedicated for the gcloud
-emulators. Alternatively they can use their own Dockerfile to upgrade to
-Java 21 or later to continue using the latest firestore and
-datastore emulators
-([examples](https://cloud.google.com/sdk/docs/dockerfile_example#build-your-own-gcloud-docker-image-for-java21)) or can pin-to gcloud version `528.0.0` or
-earlier where the prior java versions were supported. For any questions or
-concerns about the change, reach out to the
-[gcloud support team](https://issuetracker.google.com/issues/new?component=187143).
-
 
 ### Update Timeline
 
