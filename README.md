@@ -47,9 +47,8 @@ tag.
 [below](#components_installed_in_each_tag)) pre-installed. The image is build
 upon the latest
 [Google-Provided](/software-supply-chain-security/docs/base-images#google-provided_base_images)
-Debian 12 base image and uses deb packages to install the components. To install
-specific gcloud versions, use the `:VERSION`
-tag.
+Debian 12 base image and uses deb packages to install the components. This image supports both `linux/amd` and `linux/arm` platforms.
+To install specific gcloud versions, use the `:VERSION` tag.
 
 * `:slim`, `:VERSION-slim`: Similar to stable but includes the additional
 third party packages like `curl`, `python3-crcmod`, `apt-transport-https`,
