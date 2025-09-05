@@ -6,28 +6,6 @@ You can refer to the image's [documentation page](https://cloud.google.com/sdk/d
 
 The Google Cloud CLI Docker image is the gcloud CLI installed on top of a Debian or Alpine image. The Google Cloud CLI Docker Images enable the usage of gcloud as well as its bundled components without having to manually install gcloud in your local machine.
 
-## What's new / Important updates
-
-***Aug 10, 2025***
-
-**`docker` and `make` package to be removed from the gcloud docker images**
-
-> [!WARNING]  
-> We have removed the `docker` and `make` dependencies from all
-Google Cloud CLI Docker images to mitigate customers' exposure to vulnerabilities
-found in these components and their dependencies according to the [following
-timeline](#update_timeline). If your workflows rely on the `docker` or the `make` packages, you will need to
-pin to the respective `Pin-To` gcloud version or earlier.
-Alternatively, you could build your own docker image and include the
-`docker` or the `make` packages using a custom Dockerfile. Here are some examples:
-[Dockerfile Examples](https://cloud.google.com/sdk/docs/dockerfile_example).
-For any questions or
-concerns about the change, reach out to the
-[gcloud support team](https://issuetracker.google.com/issues/new?component=187143).
-We have previously removed the `docker-buildx` package from the
-gcloud CLI docker images. For more information about already
-removed packages, see the [announcements on GitHub](https://github.com/GoogleCloudPlatform/cloud-sdk-docker/discussions/categories/announcements?discussions_q=is%3Aopen+category%3AAnnouncements+label%3A3pPackageRemoval).
-
 ### Update Timeline
 
 |  <img width=105/> Date  | Package | Removed in gcloud version | `Pin-to` gcloud version to continue using the package | Package removed from images |
