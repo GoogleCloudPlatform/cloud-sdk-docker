@@ -17,10 +17,12 @@ RUN ARCH=`cat /tmp/arch` && apk --no-cache upgrade && apk --no-cache add \
         git \
         gnupg \
     && if [ "$INSTALL_COMPONENTS_TEST" = "true" ]; then \
+        COPY release/ /tmp/cloud-sdk-release && \
+        cp "/tmp/cloud-sdk-release/linux_${ARCH}_components-2.json" "/tmp/cloud-sdk-release/components-2.json" && \
         curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-${ARCH}.tar.gz && \
         tar xzf google-cloud-cli-linux-${ARCH}.tar.gz && \
         rm google-cloud-cli-linux-${ARCH}.tar.gz && \
-        export CLOUDSDK_COMPONENT_MANAGER_SNAPSHOT_URL="file:///tmp/cloud-sdk-release/components-2.json" && \
+        export CLOUDSDK_COMPONENT_MANAGER_SNAPSHOT_URL="file:///tmp/cloud-sdk-release/components-2.json,file:///tmp/cloud-sdk-release/components-2-TESTING.json" && \
         gcloud components update && \
         gcloud components install TESTING; \
     else \
