@@ -19,7 +19,7 @@ RUN echo 'deb http://deb.debian.org/debian/ sid main' >> /etc/apt/sources.list &
         make \
         gnupg && \
     apt-get -y -t sid install openjdk-21-jre-headless
-RUN if [ `uname -m` = 'x_86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch; fi; \
+RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch; fi; \
     ARCH=`cat /tmp/arch` && \
     if [ -z "$CLOUD_SDK_VERSION" ]; then \
         SDK_URL="https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-${ARCH}.tar.gz"; \
