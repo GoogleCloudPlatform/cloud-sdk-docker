@@ -34,11 +34,11 @@ steps:
   waitFor: ['multi_arch_step2']
 - name: 'gcr.io/cloud-builders/docker'
   id: scanning_all_components
-  args: ['build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/scanning/google-cloud-cli:all_components', 'all_components/']
+  args: ['build', '--target', 'prod', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/scanning/google-cloud-cli:all_components', 'all_components/']
   waitFor: ['-']
 - name: 'gcr.io/cloud-builders/docker'
   id: alpine
-  args: ['build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '-t', 'google/cloud-sdk:alpine', '-t', 'google/cloud-sdk:$TAG_NAME-alpine-$_DATE', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:alpine', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:$TAG_NAME-alpine-$_DATE', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:alpine', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:$TAG_NAME-alpine-$_DATE', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:alpine', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:$TAG_NAME-alpine-$_DATE', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:alpine', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:$TAG_NAME-alpine-$_DATE', 'alpine/']
+  args: ['build', '--target', 'prod', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '-t', 'google/cloud-sdk:alpine', '-t', 'google/cloud-sdk:$TAG_NAME-alpine-$_DATE', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:alpine', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:$TAG_NAME-alpine-$_DATE', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:alpine', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:$TAG_NAME-alpine-$_DATE', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:alpine', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/cloud-sdk:$TAG_NAME-alpine-$_DATE', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:alpine', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/cloud-sdk:$TAG_NAME-alpine-$_DATE', 'alpine/']
   waitFor: ['-']
 - name: 'gcr.io/cloud-builders/docker'
   id: debian_slim
