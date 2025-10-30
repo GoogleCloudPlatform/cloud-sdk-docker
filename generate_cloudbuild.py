@@ -211,7 +211,7 @@ for i in SCANNING_IMAGES:
 
     scanning_step = """- name: 'gcr.io/cloud-builders/docker'
   id: scanning_{image_name}
-  args: ['build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', {scanning_tags}, '{image_directory}']
+  args: ['build', '--target', 'prod', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', {scanning_tags}, '{image_directory}']
   waitFor: ['-']"""
     output_scanning_step = scanning_step.format(
         image_name=i,
@@ -229,10 +229,12 @@ for i in IMAGES:
 
     build_step = """- name: 'gcr.io/cloud-builders/docker'
   id: {image_name}
-  args: ['build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', {tags}, '{image_directory}']
+  args: ['build', {target_flag}'--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', {tags}, '{image_directory}']
   waitFor: ['-']"""
+    target_flag = "'--target', 'prod', " if i == 'alpine' else ""
     output_build_step = build_step.format(
         image_name=i,
+        target_flag=target_flag,
         tags=', '.join(['\'-t\', {}'.format(t) for t in tags[i]]),
         image_directory=image_directory)
     if len(build_steps) > 0:
