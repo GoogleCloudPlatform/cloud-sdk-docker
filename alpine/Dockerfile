@@ -5,8 +5,8 @@ ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH /google-cloud-sdk/bin:$PATH
 RUN addgroup -g 1000 -S cloudsdk && \
     adduser -u 1000 -S cloudsdk -G cloudsdk
-RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch; fi;
-RUN ARCH=`cat /tmp/arch` && apk --no-cache upgrade && apk --no-cache add \
+RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch; fi; \
+    ARCH=`cat /tmp/arch` && apk --no-cache upgrade && apk --no-cache add \
         curl \
         python3 \
         py3-crcmod \
@@ -17,7 +17,6 @@ RUN ARCH=`cat /tmp/arch` && apk --no-cache upgrade && apk --no-cache add \
         git \
         gnupg \
     && if [ "$INSTALL_COMPONENTS_TEST" = "true" ]; then \
-        COPY release/ /tmp/cloud-sdk-release && \
         cp "/tmp/cloud-sdk-release/linux_${ARCH}_components-2.json" "/tmp/cloud-sdk-release/components-2.json" && \
         curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-${ARCH}.tar.gz && \
         tar xzf google-cloud-cli-linux-${ARCH}.tar.gz && \
