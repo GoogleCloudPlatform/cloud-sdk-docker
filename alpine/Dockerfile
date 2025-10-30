@@ -24,7 +24,7 @@ RUN ARCH=`cat /tmp/arch` && apk --no-cache upgrade && apk --no-cache add \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment docker_image_alpine && \
     if [ "$USE_GCLOUD_HEAD" = "true" ]; then \
-        /google-cloud-sdk/bin/gcloud components update
+        /google-cloud-sdk/bin/gcloud components update -q; \
         /google-cloud-sdk/bin/gcloud components install TESTING -q; \
     fi && \
     gcloud --version && \
