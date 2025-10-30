@@ -31,7 +31,7 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
     curl -O "${SDK_URL}" && \
     tar xzf "${SDK_TAR}" && \
     rm "${SDK_TAR}" && \
-    echo -n "anthoscli app-engine-java app-engine-python alpha beta pubsub-emulator cloud-datastore-emulator app-engine-go bigtable cbt app-engine-python-extras kubectl gke-gcloud-auth-plugin kustomize minikube skaffold kpt local-extract cloud-sql-proxy docker-credential-gcr package-go-module cloud-firestore-emulator cloud-run-proxy log-streaming managed-flink-client terraform-tools config-connector enterprise-certificate-proxy istioctl kubectl-oidc pkg" > /tmp/additional_components && \
+    echo -n "anthoscli app-engine-java app-engine-python alpha beta pubsub-emulator cloud-datastore-emulator app-engine-go bigtable cbt app-engine-python-extras kubectl gke-gcloud-auth-plugin kustomize minikube skaffold kpt local-extract cloud-sql-proxy docker-credential-gcr package-go-module cloud-firestore-emulator cloud-run-proxy log-streaming managed-flink-client terraform-tools config-connector enterprise-certificate-proxy istioctl kubectl-oidc pkg" > /tmp/additional_components && \ # These components are not available on ARM right now.
     if [ `uname -m` = 'x86_64' ]; then echo -n " nomos anthos-auth cloud-spanner-emulator spanner-migration-tool" >> /tmp/additional_components; fi && \
     /google-cloud-sdk/install.sh --bash-completion=false --path-update=true --usage-reporting=false --additional-components `cat /tmp/additional_components` && \
     rm -rf /google-cloud-sdk/.install/.backup
@@ -42,13 +42,13 @@ FROM prod AS test
 ARG INSTALL_COMPONENTS_TEST=false
 COPY release/ /tmp/cloud-sdk-release
 RUN if [ "$INSTALL_COMPONENTS_TEST" = "true" ]; then \
-    ARCH=`cat /tmp/arch` && \
-    cp "/tmp/cloud-sdk-release/linux_${ARCH}_components-2.json" "/tmp/cloud-sdk-release/components-2.json" && \
-    cp "/tmp/cloud-sdk-release/linux_${ARCH}_components-vHEAD.json" "/tmp/cloud-sdk-release/components-vHEAD.json" && \
-    export CLOUDSDK_COMPONENT_MANAGER_SNAPSHOT_URL="file:///tmp/cloud-sdk-release/components-2.json,file:///tmp/cloud-sdk-release/components-2-TESTING.json" && \
-    /google-cloud-sdk/install.sh --bash-completion=false --path-update=true --usage-reporting=false && \
-    gcloud components update && \
-    gcloud components install TESTING; \
+        ARCH=`cat /tmp/arch` && \
+        cp "/tmp/cloud-sdk-release/linux_${ARCH}_components-2.json" "/tmp/cloud-sdk-release/components-2.json" && \
+        cp "/tmp/cloud-sdk-release/linux_${ARCH}_components-vHEAD.json" "/tmp/cloud-sdk-release/components-vHEAD.json" && \
+        export CLOUDSDK_COMPONENT_MANAGER_SNAPSHOT_URL="file:///tmp/cloud-sdk-release/components-2.json,file:///tmp/cloud-sdk-release/components-2-TESTING.json" && \
+        /google-cloud-sdk/install.sh --bash-completion=false --path-update=true --usage-reporting=false && \
+        gcloud components update && \
+        gcloud components install TESTING; \
     fi
 
 FROM ${FINAL_STAGE}
