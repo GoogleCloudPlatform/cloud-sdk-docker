@@ -1,4 +1,5 @@
-FROM alpine:3.20 AS base
+ARG FINAL_STAGE=prod
+FROM alpine:3.20 AS prod
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH /google-cloud-sdk/bin:$PATH
@@ -36,7 +37,7 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config"]
 
-FROM base AS test
+FROM prod AS test
 ARG INSTALL_COMPONENTS_TEST=false
 COPY release/ /tmp/cloud-sdk-release
 RUN if [ "$INSTALL_COMPONENTS_TEST" = "true" ]; then \
@@ -47,3 +48,5 @@ RUN if [ "$INSTALL_COMPONENTS_TEST" = "true" ]; then \
     gcloud components update && \
     gcloud components install TESTING; \
     fi
+
+FROM ${FINAL_STAGE}
