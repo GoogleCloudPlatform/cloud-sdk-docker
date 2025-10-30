@@ -1,7 +1,6 @@
 FROM alpine:3.20
 ARG CLOUD_SDK_VERSION
-FROM alpine:3.20
-ARG CLOUD_SDK_VERSION
+ARG INSTALL_COMPONENTS_TEST=false
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH /google-cloud-sdk/bin:$PATH
 RUN addgroup -g 1000 -S cloudsdk && \
@@ -17,16 +16,21 @@ RUN ARCH=`cat /tmp/arch` && apk --no-cache upgrade && apk --no-cache add \
         openssh-client \
         git \
         gnupg \
-    && curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
-    tar xzf google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
-    rm google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
+    && if [ "$INSTALL_COMPONENTS_TEST" = "true" ]; then \
+        curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-${ARCH}.tar.gz && \
+        tar xzf google-cloud-cli-linux-${ARCH}.tar.gz && \
+        rm google-cloud-cli-linux-${ARCH}.tar.gz && \
+        export CLOUDSDK_COMPONENT_MANAGER_SNAPSHOT_URL="file:///tmp/cloud-sdk-release/components-2.json" && \
+        gcloud components update && \
+        gcloud components install TESTING; \
+    else \
+        curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
+        tar xzf google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
+        rm google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz; \
+    fi && \
     gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment docker_image_alpine && \
-    if [ "$USE_GCLOUD_HEAD" = "true" ]; then \
-        /google-cloud-sdk/bin/gcloud components update -q; \
-        /google-cloud-sdk/bin/gcloud components install TESTING -q; \
-    fi && \
     gcloud --version && \
     gsutil version -l && \
     bq version && \
