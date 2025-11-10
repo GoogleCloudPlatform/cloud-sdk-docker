@@ -34,6 +34,7 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
     gsutil version -l && \
     bq version && \
     gcloud-crc32c /google-cloud-sdk/bin/gcloud
+RUN pip install --no-cache-dir grpcio
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config"]
 
