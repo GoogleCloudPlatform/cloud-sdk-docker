@@ -9,6 +9,7 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
     ARCH=`cat /tmp/arch` && apk --no-cache upgrade && apk --no-cache add \
         curl \
         python3 \
+        py3-pip \
         py3-crcmod \
         py3-openssl \
         bash \
