@@ -2,16 +2,17 @@ ARG FINAL_STAGE=prod
 FROM alpine:3.20 AS prod
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
-ENV PATH /google-cloud-sdk/bin:$PATH
+ENV PATH=/google-cloud-sdk/bin:$PATH
 RUN addgroup -g 1000 -S cloudsdk && \
     adduser -u 1000 -S cloudsdk -G cloudsdk
 RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch; fi; \
     ARCH=`cat /tmp/arch` && apk --no-cache upgrade && apk --no-cache add \
         curl \
         python3 \
-        py3-pip \
+        # py3-pip \
         py3-crcmod \
         py3-openssl \
+        py3-grpcio \
         bash \
         libc6-compat \
         openssh-client \
@@ -28,6 +29,7 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
     curl -O "${SDK_URL}" && \
     tar xzf "${SDK_TAR}" && \
     rm "${SDK_TAR}" && \
+    rm -rf /google-cloud-sdk/platform/bundledpythonunix && \
     gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment docker_image_alpine && \
@@ -35,7 +37,10 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
     gsutil version -l && \
     bq version && \
     gcloud-crc32c /google-cloud-sdk/bin/gcloud
-RUN pip install --no-cache-dir grpcio
+# ENV VIRTUAL_ENV=/opt/venv
+# RUN python3 -m venv $VIRTUAL_ENV
+# ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+# RUN pip install --no-cache-dir grpcio
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config"]
 
