@@ -2,7 +2,8 @@ ARG FINAL_STAGE=prod
 FROM alpine:3.20 AS prod
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
-ENV PATH /google-cloud-sdk/bin:$PATH
+ENV PATH=/google-cloud-sdk/bin:$PATH
+ENV CLOUDSDK_PYTHON_SITEPACKAGES=1
 RUN addgroup -g 1000 -S cloudsdk && \
     adduser -u 1000 -S cloudsdk -G cloudsdk
 RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch; fi; \
@@ -11,6 +12,7 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
         python3 \
         py3-crcmod \
         py3-openssl \
+        py3-grpcio \
         bash \
         libc6-compat \
         openssh-client \
