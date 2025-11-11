@@ -29,6 +29,7 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
     curl -O "${SDK_URL}" && \
     tar xzf "${SDK_TAR}" && \
     rm "${SDK_TAR}" && \
+    rm -rf /google-cloud-sdk/platform/bundledpythonunix && \
     gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment docker_image_alpine && \
