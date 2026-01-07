@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Checking gsutil version" 
+echo "Checking gcloud version" 
 gcloud -v
 
 echo "Checking kpt version"

@@ -34,7 +34,6 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment docker_image_alpine && \
     gcloud --version && \
-    gcloud -v && \
     bq version && \
     gcloud-crc32c /google-cloud-sdk/bin/gcloud
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
