@@ -24,7 +24,7 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment docker_image_slim && \
     gcloud --version && \
-    gsutil version -l && \
+    gcloud -v && \
     bq version && \
     gcloud-crc32c /usr/bin/gcloud 
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh

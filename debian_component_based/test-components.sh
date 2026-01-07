@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Checking gsutil version" 
-gsutil version
+gcloud -v
 
 echo "Checking kpt version"
 kpt version
@@ -29,4 +29,3 @@ kubectl version
 
 echo "Checking the emulators"
 ./test-all-emulators.sh
-
