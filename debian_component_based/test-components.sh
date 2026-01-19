@@ -29,3 +29,4 @@ kubectl version
 
 echo "Checking the emulators"
 ./test-all-emulators.sh
+
