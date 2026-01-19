@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Checking gsutil version" 
-gsutil -v
+gsutil version
 
 echo "Checking kpt version"
 kpt version
