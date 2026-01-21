@@ -9,14 +9,14 @@ The Google Cloud CLI Docker image is the gcloud CLI installed on top of a Debian
 ## Docker image options
 
 There are six Google Cloud CLI Docker images, and all will install the
-`gcloud`, `gsutil` and `bq` command-line tools. We recommend that you install
+`gcloud`, and `bq` command-line tools. We recommend that you install
 the `:stable` image for a minimal environment. You can also
 use the stable image as the base image for your own deployments which gives you
 the flexibility of installing only the components and packages that you need in
 your image:
 
 * `:stable`, `:VERSION-stable`: Provides a gcloud installation
-with `gsutil` and `bq` components. The image is built upon the latest
+with `bq` components. The image is built upon the latest
 [Google-Provided](/software-supply-chain-security/docs/base-images#google-provided_base_images)
 Debian 12 base image. This image supports both `linux/amd` and `linux/arm`
 platforms. To install specific gcloud versions, use
