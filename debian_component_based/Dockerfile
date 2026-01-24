@@ -28,5 +28,6 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n " nomos anthos-auth" >> /tmp/addi
 RUN /google-cloud-sdk/install.sh --bash-completion=false --path-update=true --usage-reporting=false \
 	--additional-components `cat /tmp/additional_components` && rm -rf /google-cloud-sdk/.install/.backup
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
+RUN gcloud auth configure-docker --quiet --include-artifact-registry
 VOLUME ["/root/.config", "/root/.kube"]
 RUN gcloud config set metrics/environment docker_image_debian_component_based

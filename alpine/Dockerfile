@@ -38,6 +38,7 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
     bq version && \
     gcloud-crc32c /google-cloud-sdk/bin/gcloud
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
+RUN gcloud auth configure-docker --quiet --include-artifact-registry
 VOLUME ["/root/.config"]
 
 FROM prod AS test
