@@ -35,7 +35,7 @@ RUN ARCH=`cat /tmp/arch` && \
     gcloud components install beta `cat /tmp/additional_components` && \
     rm -rf /google-cloud-sdk/.install/.backup/ && \
     find /google-cloud-sdk/ -name "__pycache__" -type d  | xargs -n 1 rm -rf && \
-    rm -rf /var/lib/apt/lists tmp/*
+    rm -rf /var/lib/apt/lists
 
 FROM prod AS test
 ARG INSTALL_COMPONENTS_TEST=false
