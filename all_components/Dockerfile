@@ -5,7 +5,7 @@ ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH /google-cloud-sdk/bin:$PATH
 RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
-RUN echo 'deb http://deb.debian.org/debian/ sid main' >> /etc/apt/sources.list && \
+RUN echo 'deb http://deb.debian.org/debian/ bookworm-backports main' >> /etc/apt/sources.list && \
     apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
         curl \
         gcc \
