@@ -18,7 +18,7 @@ RUN echo 'deb http://deb.debian.org/debian/ bookworm-backports main' >> /etc/apt
         git \
         make \
         gnupg && \
-    apt-get -y -t sid install openjdk-21-jre-headless
+    apt-get -y -t bookworm-backports install openjdk-21-jre-headless
 RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch; fi; \
     ARCH=`cat /tmp/arch` && \
     if [ -z "$CLOUD_SDK_VERSION" ]; then \
