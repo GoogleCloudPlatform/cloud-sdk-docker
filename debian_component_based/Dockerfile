@@ -1,4 +1,5 @@
-FROM marketplace.gcr.io/google/debian12:latest
+ARG FINAL_STAGE=prod
+FROM marketplace.gcr.io/google/debian12:latest AS prod
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH /google-cloud-sdk/bin:$PATH
@@ -30,3 +31,18 @@ RUN /google-cloud-sdk/install.sh --bash-completion=false --path-update=true --us
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config", "/root/.kube"]
 RUN gcloud config set metrics/environment docker_image_debian_component_based
+
+FROM prod AS test
+ARG INSTALL_COMPONENTS_TEST=false
+COPY release/ /tmp/cloud-sdk-release
+RUN if [ "$INSTALL_COMPONENTS_TEST" = "true" ]; then \
+        ARCH=`cat /tmp/arch` && \
+        cp "/tmp/cloud-sdk-release/linux_${ARCH}_components-2.json" "/tmp/cloud-sdk-release/components-2.json" && \
+        cp "/tmp/cloud-sdk-release/linux_${ARCH}_components-vHEAD.json" "/tmp/cloud-sdk-release/components-vHEAD.json" && \
+        export CLOUDSDK_COMPONENT_MANAGER_SNAPSHOT_URL="file:///tmp/cloud-sdk-release/components-2.json,file:///tmp/cloud-sdk-release/components-2-TESTING.json" && \
+        /google-cloud-sdk/install.sh --bash-completion=false --path-update=true --usage-reporting=false && \
+        gcloud components update && \
+        gcloud components install TESTING; \
+    fi
+
+FROM ${FINAL_STAGE}
