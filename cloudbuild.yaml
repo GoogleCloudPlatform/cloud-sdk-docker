@@ -181,6 +181,7 @@ images:
 - 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:slim'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/cloud-sdk:stable'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/scanning/google-cloud-cli:all_components'
+- 'us-docker.pkg.dev/google.com/cloudsdktool/scanning/google-cloud-cli:$TAG_NAME-all_components'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:$TAG_NAME'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:$TAG_NAME-$_DATE'
 - 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/cloud-sdk:$TAG_NAME-alpine'
