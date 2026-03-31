@@ -79,7 +79,11 @@ LABEL_FOR_IMAGE={
 
 def MakeScanningTags (label):
     t = []
+    # For labels that are not 'latest' include a hyphen before the label when
+    # composing $TAG_NAME variants (e.g. $TAG_NAME-all_components)
+    maybe_hypen = '-' if label != 'latest' else '' 
     for gcr_prefix, gcr_suffix in SCANNING_PREFIXES:
+        # base tag (no version)
         t.append(
                 '\'{gcrprefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:{label}\''
                 .format(gcrprefix=gcr_prefix,
@@ -87,6 +91,25 @@ def MakeScanningTags (label):
                         gcrio_suffix=gcr_suffix,
                         rebrand_name=REBRAND_NAME,
                         label=label))
+        # versioned tag: include $TAG_NAME unless this is a hotfix
+        if not IS_HOTFIX:
+            t.append(
+                '\'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:$TAG_NAME{maybe_hypen}{label}\''
+                .format(gcr_prefix=gcr_prefix,
+                        gcrio_project=GCRIO_PROJECT,
+                        gcrio_suffix=gcr_suffix,
+                        rebrand_name=REBRAND_NAME,
+                        maybe_hypen=maybe_hypen,
+                        label=label))
+        # always add the $TAG_NAME...-$_DATE variant for reproducible snapshots
+        t.append(
+            '\'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:$TAG_NAME{maybe_hypen}{label}-$_DATE\''
+            .format(gcr_prefix=gcr_prefix,
+                    gcrio_project=GCRIO_PROJECT,
+                    gcrio_suffix=gcr_suffix,
+                    rebrand_name=REBRAND_NAME,
+                    maybe_hypen=maybe_hypen,
+                    label=label))
     return t
 
 def MakeGcrTags(label_without_tag,
