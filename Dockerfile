@@ -1,4 +1,4 @@
-FROM marketplace.gcr.io/google/debian12:latest
+FROM debian:trixie-slim
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 RUN groupadd -r -g 1000 cloudsdk && \

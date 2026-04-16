@@ -1,12 +1,11 @@
 ARG FINAL_STAGE=prod
-FROM marketplace.gcr.io/google/debian12:latest AS prod
+FROM debian:trixie-slim AS prod
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH=/google-cloud-sdk/bin:$PATH
 RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
-RUN echo 'deb http://deb.debian.org/debian/ trixie main' >> /etc/apt/sources.list && \
-    apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
+RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
         curl \
         gcc \
         python3-dev \
@@ -17,8 +16,8 @@ RUN echo 'deb http://deb.debian.org/debian/ trixie main' >> /etc/apt/sources.lis
         openssh-client \
         git \
         make \
-        gnupg && \
-    apt-get -y -t trixie install openjdk-21-jre-headless
+        gnupg \
+        openjdk-21-jre-headless
 RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch; fi; \
     ARCH=`cat /tmp/arch` && \
     if [ -z "$CLOUD_SDK_VERSION" ]; then \
