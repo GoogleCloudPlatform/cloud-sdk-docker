@@ -1,5 +1,5 @@
 ARG FINAL_STAGE=prod
-FROM alpine:3.20 AS prod
+FROM alpine:3.23 AS prod
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH=/google-cloud-sdk/bin:$PATH
@@ -10,6 +10,7 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
     ARCH=`cat /tmp/arch` && apk --no-cache upgrade && apk --no-cache add \
         curl \
         python3 \
+        py3-pip \
         py3-crcmod \
         py3-openssl \
         py3-grpcio \
@@ -19,6 +20,7 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
         git \
         gnupg \
     && \
+    pip3 install --force-reinstall "pyOpenSSL==24.2.1" --break-system-packages && \
     if [ -z "$CLOUD_SDK_VERSION" ]; then \
         SDK_URL="https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-${ARCH}.tar.gz"; \
         SDK_TAR="google-cloud-cli-linux-${ARCH}.tar.gz"; \
