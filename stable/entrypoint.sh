@@ -15,8 +15,8 @@ if [ ! -z "$COMPONENTS" ]; then
                 lsb-release \
                 gnupg 
       export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
-      echo "deb https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" > /etc/apt/sources.list.d/google-cloud-sdk.list
-      curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+      curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg  | gpg --dearmor -o /etc/apt/keyrings/google-cloud-cli.gpg
+      echo "deb [signed-by=/etc/apt/keyrings/google-cloud-cli.gpg] https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" > /etc/apt/sources.list.d/google-cloud-sdk.list
       
       echo $components
       apt-get update && apt-get install -qqy $components
