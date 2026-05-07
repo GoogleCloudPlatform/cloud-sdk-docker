@@ -20,7 +20,7 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
         git \
         gnupg \
     && \
-    pip3 install --force-reinstall "pyOpenSSL==24.2.1" --break-system-packages && \
+    pip3 install --force-reinstall "pyOpenSSL==26.0.0" --break-system-packages && \
     if [ -z "$CLOUD_SDK_VERSION" ]; then \
         SDK_URL="https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-${ARCH}.tar.gz"; \
         SDK_TAR="google-cloud-cli-linux-${ARCH}.tar.gz"; \
