@@ -1,5 +1,5 @@
 ARG FINAL_STAGE=prod
-FROM python:3.14.4-alpine3.23 AS prod
+FROM python:3.15.0b1-alpine3.23 AS prod
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH=/google-cloud-sdk/bin:$PATH
