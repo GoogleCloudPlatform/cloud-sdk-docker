@@ -1,6 +1,6 @@
 ARG TARGETARCH=amd64
 FROM debian:trixie-slim AS base-amd64
-FROM python:3.14.4-slim-trixie AS base-arm64
+FROM python:3.15.0b1-slim-trixie AS base-arm64
 FROM base-${TARGETARCH}
 ARG TARGETARCH
 ARG CLOUD_SDK_VERSION
