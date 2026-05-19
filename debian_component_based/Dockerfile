@@ -29,6 +29,12 @@ RUN echo -n "app-engine-java app-engine-python alpha beta pubsub-emulator cloud-
 # These components are not available on ARM right now.
 RUN if [ "$TARGETARCH" = "amd64" ]; then echo -n " nomos anthos-auth" >> /tmp/additional_components; fi;
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
+        ls -la /google-cloud-sdk/ && \
+        ls -la /google-cloud-sdk/platform/ && \
+        ls -la /google-cloud-sdk/platform/bundledpythonunix/bin/ && \
+        file /google-cloud-sdk/platform/bundledpythonunix/bin/python3 || true; \
+    fi
+RUN if [ "$TARGETARCH" = "amd64" ]; then \
         export CLOUDSDK_PYTHON=/google-cloud-sdk/platform/bundledpythonunix/bin/python3; \
     fi && \
     /google-cloud-sdk/install.sh --bash-completion=false --path-update=true --usage-reporting=false \
