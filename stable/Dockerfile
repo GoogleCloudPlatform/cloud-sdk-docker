@@ -40,7 +40,10 @@ ENV PATH=$PATH:/usr/lib/google-cloud-sdk/bin
 # Create a non-root user
 RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
-RUN gcloud --version && \
+RUN if [ "$TARGETARCH" = "amd64" ]; then \
+        export CLOUDSDK_PYTHON=/usr/lib/google-cloud-sdk/platform/bundledpythonunix/bin/python3; \
+    fi && \
+    gcloud --version && \
     gsutil version -l && \
     bq version && \
     gcloud-crc32c /usr/lib/google-cloud-sdk/bin/gcloud && \
