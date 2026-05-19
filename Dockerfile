@@ -1,25 +1,20 @@
-ARG TARGETARCH=amd64
-FROM debian:trixie-slim AS base-amd64
-FROM python:3.14.4-slim-trixie AS base-arm64
-FROM base-${TARGETARCH}
-ARG TARGETARCH
+FROM debian:trixie-slim
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
 
-RUN apt-get update -qqy && apt-get -qqy upgrade && \
-    apt-get install -qqy \
+RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
         curl \
+        python3-dev \
+        python3-crcmod \
         apt-transport-https \
         lsb-release \
         openssh-client \
         git \
 	gcc \
+	python3-pip \
         gnupg && \
-    if [ "$TARGETARCH" = "arm64" ]; then \
-        pip3 install --no-cache-dir crcmod; \
-    fi && \
     export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
     echo "deb [signed-by=/etc/apt/keyrings/google-cloud-cli.gpg] https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" \
         > /etc/apt/sources.list.d/google-cloud-sdk.list && \
@@ -39,11 +34,8 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && \
         google-cloud-cli-local-extract=${CLOUD_SDK_VERSION}-0 \
         google-cloud-cli-gke-gcloud-auth-plugin=${CLOUD_SDK_VERSION}-0 \
         kubectl
-RUN if [ "$TARGETARCH" = "amd64" ]; then apt-get install -y google-cloud-cli-spanner-emulator=${CLOUD_SDK_VERSION}-0; fi;
-RUN if [ "$TARGETARCH" = "amd64" ]; then \
-        export CLOUDSDK_PYTHON=/usr/lib/google-cloud-sdk/platform/bundledpythonunix/bin/python3; \
-    fi && \
-    gcloud config set core/disable_usage_reporting true && \
+RUN if [ `uname -m` = 'x86_64' ]; then apt-get install -y google-cloud-cli-spanner-emulator=${CLOUD_SDK_VERSION}-0; fi;
+RUN gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment docker_image_latest && \
     gcloud --version && \

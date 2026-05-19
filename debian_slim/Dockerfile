@@ -1,34 +1,26 @@
-ARG TARGETARCH=amd64
-FROM debian:trixie-slim AS base-amd64
-FROM python:3.14.4-slim-trixie AS base-arm64
-FROM base-${TARGETARCH}
-ARG TARGETARCH
+FROM debian:trixie-slim
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
 ARG INSTALL_COMPONENTS
 RUN mkdir -p /usr/share/man/man1/
-RUN apt-get update -qqy && apt-get -qqy upgrade && \
-    apt-get install -qqy \
+RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
         curl \
         gcc \
+        python3-dev \
+        python3-crcmod \
+        python3-pip \
         apt-transport-https \
         lsb-release \
         openssh-client \
         git \
         gnupg && \
-    if [ "$TARGETARCH" = "arm64" ]; then \
-        pip3 install --no-cache-dir crcmod; \
-    fi && \
     export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
     echo "deb [signed-by=/etc/apt/keyrings/google-cloud-cli.gpg] https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" \
         > /etc/apt/sources.list.d/google-cloud-sdk.list && \
     curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg  | gpg --dearmor -o /etc/apt/keyrings/google-cloud-cli.gpg && \
     apt-get update && apt-get install -y google-cloud-cli=${CLOUD_SDK_VERSION}-0 $INSTALL_COMPONENTS && \
-    if [ "$TARGETARCH" = "amd64" ]; then \
-        export CLOUDSDK_PYTHON=/usr/lib/google-cloud-sdk/platform/bundledpythonunix/bin/python3; \
-    fi && \
     gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment docker_image_slim && \
