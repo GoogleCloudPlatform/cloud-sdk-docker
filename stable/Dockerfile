@@ -1,7 +1,3 @@
-ARG TARGETARCH=amd64
-FROM debian:trixie-slim AS base-amd64
-FROM python:3.14.4-slim-trixie AS base-arm64
-
 FROM debian:trixie-slim AS build_image
 
 ARG CLOUD_SDK_VERSION
@@ -23,23 +19,17 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && \
     rm -rf /root/.cache/pip/ && \
     find /usr/lib/google-cloud-sdk -name '*.pyc' -delete && \
     find /usr/lib/google-cloud-sdk -name '*__pycache__*' -delete
-FROM base-amd64 AS prep-amd64
+FROM debian:trixie-slim AS runtime_image
 COPY --from=build_image /usr/lib/google-cloud-sdk /usr/lib/google-cloud-sdk
-RUN echo -n "x86_64" > /tmp/arch
 
-FROM base-arm64 AS prep-arm64
-COPY --from=build_image /usr/lib/google-cloud-sdk /usr/lib/google-cloud-sdk
-RUN apt-get update -qqy && apt-get install -qqy gcc && \
-    echo -n "arm" > /tmp/arch && \
-    pip3 install --no-cache-dir crcmod && \
-    apt-get remove -y gcc && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
-
-ARG TARGETARCH
-FROM prep-${TARGETARCH}
 ENV PATH=$PATH:/usr/lib/google-cloud-sdk/bin
 # Create a non-root user
 RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
+RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch && \
+    apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
+        python3-dev \
+        python3-crcmod; fi;
 RUN gcloud --version && \
     gsutil version -l && \
     bq version && \
@@ -49,7 +39,7 @@ RUN gcloud --version && \
     gcloud config set metrics/environment docker_image_stable && \
     rm -rf /root/.cache/pip/ && \
     find /usr/lib/google-cloud-sdk -name '*.pyc' -delete && \
-    find /usr/lib/google-cloud-sdk -name '*__pycache__*' -exec rm -rf {} \+
+    find /usr/lib/google-cloud-sdk -name '*__pycache__*' -exec rm -r {} \+
 VOLUME ["/root/.config"]
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
