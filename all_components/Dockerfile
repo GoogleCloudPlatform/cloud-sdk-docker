@@ -1,8 +1,17 @@
 ARG FINAL_STAGE=prod
-FROM debian:trixie-slim AS prod
+ARG TARGETARCH=amd64
+
+FROM debian:trixie-slim AS base-amd64
+ENV CLOUDSDK_PYTHON=/google-cloud-sdk/platform/bundledpythonunix/bin/python3
+
+FROM debian:trixie-slim AS base-arm64
+RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
+        python3 \
+        python3-crcmod && \
+    rm -rf /var/lib/apt/lists/*
+
+FROM debian:trixie-slim AS build_image
 ARG CLOUD_SDK_VERSION
-ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
-ENV PATH=/google-cloud-sdk/bin:$PATH
 RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
 RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
@@ -31,12 +40,39 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
     tar xzf "${SDK_TAR}" && \
     rm "${SDK_TAR}" && \
     echo -n "anthoscli app-engine-java app-engine-python alpha beta pubsub-emulator cloud-datastore-emulator app-engine-go bigtable cbt app-engine-python-extras kubectl gke-gcloud-auth-plugin kustomize minikube skaffold kpt local-extract cloud-sql-proxy docker-credential-gcr package-go-module cloud-firestore-emulator cloud-run-proxy log-streaming config-connector enterprise-certificate-proxy istioctl kubectl-oidc pkg" > /tmp/additional_components
-# These components are not available on ARM right now.
 RUN if [ `uname -m` = 'x86_64' ]; then echo -n " nomos anthos-auth cloud-spanner-emulator spanner-migration-tool" >> /tmp/additional_components; fi && \
     /google-cloud-sdk/install.sh --bash-completion=false --path-update=true --usage-reporting=false --additional-components `cat /tmp/additional_components` && \
     rm -rf /google-cloud-sdk/.install/.backup
+RUN cp /tmp/arch /google-cloud-sdk/arch
+
+ARG TARGETARCH
+FROM base-${TARGETARCH} AS prod
+ARG TARGETARCH
+COPY --from=build_image /google-cloud-sdk /google-cloud-sdk
+RUN if [ "$TARGETARCH" = "amd64" ]; then \
+        ln -sf /google-cloud-sdk/platform/bundledpythonunix/bin/python3 /usr/bin/python3; \
+    fi && \
+    ln -sf /usr/bin/python3 /usr/bin/python
+ENV PATH=/google-cloud-sdk/bin:$PATH
+RUN groupadd -r -g 1000 cloudsdk && \
+    useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
+
+RUN apt-get update -qqy && apt-get install -qqy \
+        curl \
+        apt-transport-https \
+        lsb-release \
+        openssh-client \
+        git \
+        make \
+        gnupg \
+        openjdk-21-jre-headless && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN cp /google-cloud-sdk/arch /tmp/arch
+
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config", "/root/.kube"]
+RUN gcloud config set metrics/environment docker_image_all_components
 
 FROM prod AS test
 ARG INSTALL_COMPONENTS_TEST=false
@@ -52,3 +88,4 @@ RUN if [ "$INSTALL_COMPONENTS_TEST" = "true" ]; then \
     fi
 
 FROM ${FINAL_STAGE}
+
