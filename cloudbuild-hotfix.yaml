@@ -7,7 +7,8 @@ options:
     - DOCKER_CLI_EXPERIMENTAL=enabled
 logsBucket: 'gs://cloud-sdk-docker-build-logs'
 steps:
-- name: 'tonistiigi/binfmt:qemu-v6.2.0'
+# Pin to qemu-v10.2.3-68 for stability and security
+- name: 'tonistiigi/binfmt@sha256:400a4873b838d1b89194d982c45e5fb3cda4593fbfd7e08a02e76b03b21166f0'
   args:
   - '--install'
   - 'all'

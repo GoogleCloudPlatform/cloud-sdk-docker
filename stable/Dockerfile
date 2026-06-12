@@ -1,3 +1,13 @@
+ARG TARGETARCH
+FROM debian:trixie-slim AS base-amd64
+ENV CLOUDSDK_PYTHON=/usr/lib/google-cloud-sdk/platform/bundledpythonunix/bin/python3
+
+FROM debian:trixie-slim AS base-arm64
+RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
+        python3-dev \
+        python3-crcmod && \
+    rm -rf /var/lib/apt/lists/*
+
 FROM debian:trixie-slim AS build_image
 
 ARG CLOUD_SDK_VERSION
@@ -19,17 +29,24 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && \
     rm -rf /root/.cache/pip/ && \
     find /usr/lib/google-cloud-sdk -name '*.pyc' -delete && \
     find /usr/lib/google-cloud-sdk -name '*__pycache__*' -delete
-FROM debian:trixie-slim AS runtime_image
+
+ARG TARGETARCH
+FROM base-${TARGETARCH:-amd64} AS runtime_image
+ARG CLOUD_SDK_VERSION
+ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
+ARG TARGETARCH
 COPY --from=build_image /usr/lib/google-cloud-sdk /usr/lib/google-cloud-sdk
+RUN if [ "$TARGETARCH" = "amd64" ]; then \
+        ln -sf /usr/lib/google-cloud-sdk/platform/bundledpythonunix/bin/python3 /usr/bin/python3; \
+    fi && \
+    ln -sf /usr/bin/python3 /usr/bin/python
 
 ENV PATH=$PATH:/usr/lib/google-cloud-sdk/bin
 # Create a non-root user
 RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
-RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch && \
-    apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
-        python3-dev \
-        python3-crcmod; fi;
+RUN if [ "$TARGETARCH" = "amd64" ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch; fi;
+
 RUN gcloud --version && \
     gsutil version -l && \
     bq version && \
@@ -39,10 +56,11 @@ RUN gcloud --version && \
     gcloud config set metrics/environment docker_image_stable && \
     rm -rf /root/.cache/pip/ && \
     find /usr/lib/google-cloud-sdk -name '*.pyc' -delete && \
-    find /usr/lib/google-cloud-sdk -name '*__pycache__*' -exec rm -r {} \+
+    find /usr/lib/google-cloud-sdk -name '*__pycache__*' -exec rm -r {} +
 VOLUME ["/root/.config"]
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
 # Set the entrypoint to the preprocessing script
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
