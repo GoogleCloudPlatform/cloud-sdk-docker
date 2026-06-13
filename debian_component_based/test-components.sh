@@ -1,5 +1,7 @@
 #!/bin/bash
 
+SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+
 echo "Checking gsutil version" 
 gsutil version
 
@@ -28,5 +30,4 @@ echo "Checking kubectl version"
 kubectl version
 
 echo "Checking the emulators"
-./test-all-emulators.sh
-
+"$SCRIPT_DIR/test-dcb-emulators.sh"
