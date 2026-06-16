@@ -10,7 +10,7 @@ options:
   logging: GCS_ONLY
   machineType: 'E2_HIGHCPU_32'
   env:
-  - DOCKER_CLI_EXPERIMENTAL=enabled
+    - DOCKER_CLI_EXPERIMENTAL=enabled
 logsBucket: 'gs://cloud-sdk-docker-build-logs'
 steps:
 - name: 'tonistiigi/binfmt:qemu-v6.2.0'
@@ -40,9 +40,8 @@ steps:
   waitFor: ['multi_arch_step2']
 {SCANNINGSTEPS}
 {BUILDSTEPS}
-{MULTIARCH_BUILDSTEPS}
 # END OF PROD BUILDING STEPS
-{MULTIARCH_PUSHSTEPS}
+{MULTIARCH_BUILDSTEPS}
 - name: 'gcr.io/cloud-builders/docker'
   id: dockersecret
   entrypoint: 'bash'
@@ -273,7 +272,7 @@ for i in MULTI_ARCH:
 
     multi_arch_build_step = """- name: 'gcr.io/cloud-builders/docker'
   id: multi_arch_{image_name}
-  args: ['buildx', 'build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '--platform', 'linux/arm64,linux/amd64', {tags}, '{image_directory}']
+  args: ['buildx', 'build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '--platform', 'linux/arm64,linux/amd64', {tags}, '{image_directory}', '--push']
   waitFor: ['multi_arch_step3']"""
     output_build_step = multi_arch_build_step.format(
         image_name=i,
@@ -282,24 +281,6 @@ for i in MULTI_ARCH:
     if len(multi_arch_build_steps) > 0:
         multi_arch_build_steps+='\n'
     multi_arch_build_steps+=output_build_step
-
-multi_arch_push_steps=''
-for i in MULTI_ARCH:
-    image_directory = '{}/'.format(i)
-    if i == 'default':
-        image_directory = '.'
-
-    multi_arch_push_step = """- name: 'gcr.io/cloud-builders/docker'
-  id: push_multi_arch_{image_name}
-  args: ['buildx', 'build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '--platform', 'linux/arm64,linux/amd64', {tags}, '{image_directory}', '--push']
-  waitFor: ['multi_arch_{image_name}']"""
-    output_push_step = multi_arch_push_step.format(
-        image_name=i,
-        tags=', '.join(['\'-t\', {}'.format(t) for t in multi_arch_tags[i]]),
-        image_directory=image_directory)
-    if len(multi_arch_push_steps) > 0:
-        multi_arch_push_steps+='\n'
-    multi_arch_push_steps+=output_push_step
 
 docker_push_steps=''
 for i in IMAGES:
@@ -327,7 +308,6 @@ print(MAIN_TEMPLATE.format(
     SCANNINGSTEPS=scanning_steps,
     BUILDSTEPS=build_steps,
     MULTIARCH_BUILDSTEPS=multi_arch_build_steps,
-    MULTIARCH_PUSHSTEPS=multi_arch_push_steps,
     DOCKER_PUSHSTEPS=docker_push_steps,
     GCR_IO_TAGS_SORTED=all_gcr_io_tags_for_images
     ))
