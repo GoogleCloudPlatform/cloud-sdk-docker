@@ -5,7 +5,7 @@ if 'is_hotfix' in sys.argv:
   print('# IT IS A HOTFIX')
   IS_HOTFIX = True
 
-MAIN_TEMPLATE="""# PROD BUILDING STEPS
+MAIN_TEMPLATE = """# PROD BUILDING STEPS
 options:
   logging: GCS_ONLY
   machineType: 'E2_HIGHCPU_32'
@@ -266,21 +266,21 @@ for i in IMAGES:
 
 multi_arch_build_steps=''
 for i in MULTI_ARCH:
-    image_directory = '{}/'.format(i)
-    if i == 'default':
-        image_directory = '.'
+  image_directory = '{}/'.format(i)
+  if i == 'default':
+    image_directory = '.'
 
-    multi_arch_build_step = """- name: 'gcr.io/cloud-builders/docker'
+  multi_arch_build_step = """- name: 'gcr.io/cloud-builders/docker'
   id: multi_arch_{image_name}
   args: ['buildx', 'build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '--platform', 'linux/arm64,linux/amd64', {tags}, '{image_directory}', '--push']
   waitFor: ['multi_arch_step3']"""
-    output_build_step = multi_arch_build_step.format(
+  output_build_step = multi_arch_build_step.format(
         image_name=i,
         tags=', '.join(['\'-t\', {}'.format(t) for t in multi_arch_tags[i]]),
         image_directory=image_directory)
-    if len(multi_arch_build_steps) > 0:
-        multi_arch_build_steps+='\n'
-    multi_arch_build_steps+=output_build_step
+  if len(multi_arch_build_steps) > 0:
+    multi_arch_build_steps+='\n'
+  multi_arch_build_steps+=output_build_step
 
 docker_push_steps=''
 for i in IMAGES:
