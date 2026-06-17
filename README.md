@@ -96,6 +96,6 @@ using the `us.gcr.io`, `eu.gcr.io`, and `asia.gcr.io` repositories.
 
 ### Cloud CLI Release Tracking
 
-You can also follow the Cloud CLI Release schedule here
+You can also follow the Cloud CLI Release schedule here:
 
 -   [https://groups.google.com/forum/#!forum/google-cloud-sdk-announce](https://groups.google.com/forum/#!forum/google-cloud-sdk-announce)
