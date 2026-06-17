@@ -78,13 +78,13 @@ using the `us.gcr.io`, `eu.gcr.io`, and `asia.gcr.io` repositories.
     by running the following command:
 
     ```none
-    docker pull gcr.io/google.com/cloudsdktool/google-cloud-cli:566.0.0-stable
+    docker pull gcr.io/google.com/cloudsdktool/google-cloud-cli:573.0.0-stable
     ```
 
 2.  Verify the installation by running:
 
     ```none
-    docker run --rm gcr.io/google.com/cloudsdktool/google-cloud-cli:566.0.0-stable gcloud version
+    docker run --rm gcr.io/google.com/cloudsdktool/google-cloud-cli:573.0.0-stable gcloud version
     ```
 
     If you have used the floating `:stable` tag (which always point to the
