@@ -34,6 +34,7 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
 # These components are not available on ARM right now.
 RUN if [ `uname -m` = 'x86_64' ]; then echo -n " nomos anthos-auth cloud-spanner-emulator spanner-migration-tool" >> /tmp/additional_components; fi && \
     /google-cloud-sdk/install.sh --bash-completion=false --path-update=true --usage-reporting=false --additional-components `cat /tmp/additional_components` && \
+    python3 --version && \
     rm -rf /google-cloud-sdk/.install/.backup
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config", "/root/.kube"]

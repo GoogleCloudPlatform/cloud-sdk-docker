@@ -38,7 +38,8 @@ RUN if [ `uname -m` = 'x86_64' ]; then apt-get install -y google-cloud-cli-spann
 RUN gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment docker_image_latest && \
-    gcloud --version && \
+    gcloud info && \
+    python3 --version && \
     kubectl version --client
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config", "/root/.kube"]

@@ -30,6 +30,7 @@ RUN ARCH=`cat /tmp/arch` && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment docker_image_emulator && \
     gcloud components install beta `cat /tmp/additional_components` && \
+    python3 --version && \
     rm -rf /google-cloud-sdk/.install/.backup/ && \
     find /google-cloud-sdk/ -name "__pycache__" -type d  | xargs -n 1 rm -rf && \
     rm -rf /var/lib/apt/lists tmp/*

@@ -24,7 +24,8 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
     gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment docker_image_slim && \
-    gcloud --version && \
+    gcloud info && \
+    python3 --version && \
     gsutil version -l && \
     bq version && \
     gcloud-crc32c /usr/bin/gcloud

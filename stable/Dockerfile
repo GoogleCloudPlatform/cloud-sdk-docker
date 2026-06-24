@@ -30,7 +30,8 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
     apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
         python3-dev \
         python3-crcmod; fi;
-RUN gcloud --version && \
+RUN gcloud info && \
+    (if [ `uname -m` != 'x86_64' ]; then python3 --version; fi) && \
     gsutil version -l && \
     bq version && \
     gcloud-crc32c /usr/lib/google-cloud-sdk/bin/gcloud && \
