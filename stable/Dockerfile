@@ -30,14 +30,14 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
     apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
         python3-dev \
         python3-crcmod; fi;
-RUN gcloud info && \
+RUN gcloud config set core/disable_usage_reporting true && \
+    gcloud config set component_manager/disable_update_check true && \
+    gcloud config set metrics/environment docker_image_stable && \
+    gcloud info && \
     (if [ `uname -m` != 'x86_64' ]; then python3 --version; fi) && \
     gsutil version -l && \
     bq version && \
     gcloud-crc32c /usr/lib/google-cloud-sdk/bin/gcloud && \
-    gcloud config set core/disable_usage_reporting false && \
-    gcloud config set component_manager/disable_update_check true && \
-    gcloud config set metrics/environment docker_image_stable && \
     rm -rf /root/.cache/pip/ && \
     find /usr/lib/google-cloud-sdk -name '*.pyc' -delete && \
     find /usr/lib/google-cloud-sdk -name '*__pycache__*' -exec rm -r {} \+
