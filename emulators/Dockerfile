@@ -17,7 +17,7 @@ RUN ARCH=`cat /tmp/arch` && \
     mkdir -p /usr/share/man/man1/ && \
     apt-get update && \
     apt-get -qqy upgrade && \
-    apt-get -y install \
+    apt-get -y install --no-install-recommends \
         curl \
         python3 \
         python3-crcmod \
