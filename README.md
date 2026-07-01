@@ -17,11 +17,16 @@ your local machine.
 
 ## Docker image options
 
-There are six Google Cloud CLI Docker images, and all will install the `gcloud`,
-and `bq` command-line tools. We recommend that you install the `:stable` image
-for a minimal environment. You can also use the stable image as the base image
-for your own deployments which gives you the flexibility of installing only the
-components and packages that you need in your image:
+There are six Google Cloud CLI Docker images, and all will install the `gcloud`
+and `bq` command-line tools. These images are built with
+`--no-install-recommends` to keep them minimal. Users should not rely on
+recommended or transient dependencies (such as `make`) being present. If your
+workflow requires additional tools, you should install them explicitly.
+
+We recommend that you install the `:stable` image for a minimal environment. You
+can also use the stable image as the base image for your own deployments which
+gives you the flexibility of installing only the components and packages that
+you need in your image:
 
 *   `:stable`, `:VERSION-stable`: Provides a gcloud installation with `bq`
     components. The image is built upon the latest Debian (`trixie-slim`) base
@@ -50,12 +55,12 @@ install one of the following options:
     supports both `linux/amd` and `linux/arm` platforms. To install specific
     gcloud versions, use the `:VERSION` tag.
 
-*   `:slim`, `:VERSION-slim`: Similar to stable but includes the additional
-    third party packages like `curl`, `python3-crcmod`, `apt-transport-https`,
-    `lsb-release`, `openssh-client`, `git`, `make`, and `gnupg`. This image is
-    built upon the latest Debian (`trixie-slim`) base image. This image supports
-    both `linux/amd` and `linux/arm` platforms. To install specific gcloud
-    versions, use the `:VERSION-slim` tag.
+*   `:slim`, `:VERSION-slim`: Similar to stable but includes additional packages
+    like `curl`, `gcc`, `python3-dev`, `python3-pip`, `apt-transport-https`,
+    `lsb-release`, `openssh-client`, `git`, and `gnupg`. This image is built
+    upon the latest Debian (`trixie-slim`) base image. This image supports both
+    `linux/amd` and `linux/arm` platforms. To install specific gcloud versions,
+    use the `:VERSION-slim` tag.
 
 *   `:debian_component_based`, `:VERSION-debian_component_based`: Similar to
     stable, with additional components pre-installed. The image is built upon
@@ -94,8 +99,12 @@ using the `us.gcr.io`, `eu.gcr.io`, and `asia.gcr.io` repositories.
     docker run --rm gcr.io/google.com/cloudsdktool/google-cloud-cli:stable gcloud version
     ```
 
-### Cloud CLI Release Tracking
+For detailed instructions on authenticating, installing additional components,
+troubleshooting, and migrating to the `:stable` image, see the
+[User Guide](docs/user_guide.md) and [Migration Guide](docs/migration_guide.md).
+
+## Cloud CLI Release Tracking
 
 You can also follow the Cloud CLI Release schedule here:
 
--   [https://groups.google.com/forum/#!forum/google-cloud-sdk-announce](https://groups.google.com/forum/#!forum/google-cloud-sdk-announce)
+-   [https://groups.google.com/g/google-cloud-sdk-announce](https://groups.google.com/g/google-cloud-sdk-announce)
