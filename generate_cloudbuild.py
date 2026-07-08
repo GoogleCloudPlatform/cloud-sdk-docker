@@ -36,8 +36,8 @@ steps:
   - '--bootstrap'
   waitFor: ['multi_arch_step2']
 {SCANNINGSTEPS}
-{BUILDSTEPS}
 {MULTIARCH_BUILDSTEPS}
+{TAG_AMD64_STEPS}
 {DOCKER_LOGIN_STEP}
 {DOCKER_PUSHSTEPS}
 {IMAGES_SECTION}
@@ -285,26 +285,42 @@ def generate(is_hotfix=False, is_test=False):
       scanning_steps += '\n'
     scanning_steps += output_scanning_step
 
-  build_steps = ''
+  tag_amd64_steps = ''
   for i in IMAGES:
     image_directory = '{}/'.format(i)
     if i == 'default':
       image_directory = '.'
 
-    build_step = """- name: 'gcr.io/cloud-builders/docker'
-  id: {image_name}
-  args: ['build', {target_flag}'--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', {tags}, '{image_directory}']
-  waitFor: ['-']"""
-    target_flag = "'--target', 'prod', " if i == 'alpine' else ''
-    output_build_step = build_step.format(
-        image_name=i,
-        target_flag=target_flag,
-        tags=', '.join(["'-t', {}".format(t) for t in tags[i]]),
-        image_directory=image_directory,
-    )
-    if len(build_steps) > 0:
-      build_steps += '\n'
-    build_steps += output_build_step
+    if not is_test:
+      primary_tag = multi_arch_tags[i][0].strip("'")
+      tag_cmds = ' && '.join([
+          'docker tag {} {}'.format(primary_tag, t.strip("'")) for t in tags[i]
+      ])
+      step_template = """- name: 'gcr.io/cloud-builders/docker'
+  id: tag_amd64_{image_name}
+  entrypoint: 'bash'
+  args: ['-c', 'docker pull {primary_tag} && {tag_cmds}']
+  waitFor: ['multi_arch_{image_name}']"""
+      output_step = step_template.format(
+          image_name=i,
+          primary_tag=primary_tag,
+          tag_cmds=tag_cmds,
+      )
+    else:
+      target_flag = "'--target', 'prod', " if i == 'alpine' else ''
+      step_template = """- name: 'gcr.io/cloud-builders/docker'
+  id: tag_amd64_{image_name}
+  args: ['buildx', 'build', {target_flag}'--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '--platform', 'linux/amd64', '--load', {tags}, '{image_directory}']
+  waitFor: ['multi_arch_{image_name}']"""
+      output_step = step_template.format(
+          image_name=i,
+          target_flag=target_flag,
+          tags=', '.join(["'-t', {}".format(t) for t in tags[i]]),
+          image_directory=image_directory,
+      )
+    if len(tag_amd64_steps) > 0:
+      tag_amd64_steps += '\n'
+    tag_amd64_steps += output_step
 
   multi_arch_build_steps = ''
   push_flag = ", '--push'" if not is_test else ''
@@ -313,12 +329,14 @@ def generate(is_hotfix=False, is_test=False):
     if i == 'default':
       image_directory = '.'
 
+    target_flag = "'--target', 'prod', " if i == 'alpine' else ''
     multi_arch_build_step = """- name: 'gcr.io/cloud-builders/docker'
   id: multi_arch_{image_name}
-  args: ['buildx', 'build', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '--platform', 'linux/arm64,linux/amd64', {tags}, '{image_directory}'{push_flag}]
+  args: ['buildx', 'build', {target_flag}'--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '--platform', 'linux/arm64,linux/amd64', {tags}, '{image_directory}'{push_flag}]
   waitFor: ['multi_arch_step3']"""
     output_build_step = multi_arch_build_step.format(
         image_name=i,
+        target_flag=target_flag,
         tags=', '.join(["'-t', {}".format(t) for t in multi_arch_tags[i]]),
         image_directory=image_directory,
         push_flag=push_flag,
@@ -337,7 +355,7 @@ def generate(is_hotfix=False, is_test=False):
         if tag.startswith("'google/cloud-sdk"):
           if len(docker_push_steps) > 0:
             docker_push_steps += '\n'
-          docker_push_steps += push_step.format(tag=tag, build_step=i)
+          docker_push_steps += push_step.format(tag=tag, build_step='tag_amd64_' + i)
 
   docker_login_step = ''
   if not is_test:
@@ -374,8 +392,8 @@ def generate(is_hotfix=False, is_test=False):
 
   return MAIN_TEMPLATE.format(
       SCANNINGSTEPS=scanning_steps,
-      BUILDSTEPS=build_steps,
       MULTIARCH_BUILDSTEPS=multi_arch_build_steps,
+      TAG_AMD64_STEPS=tag_amd64_steps,
       DOCKER_LOGIN_STEP=docker_login_step,
       DOCKER_PUSHSTEPS=docker_push_steps,
       IMAGES_SECTION=images_section,
