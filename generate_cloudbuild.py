@@ -69,10 +69,10 @@ LABEL_FOR_IMAGE={
     }
 
 
-def generate(is_hotfix=False, is_test=False):
+def generate(is_test=False):
   def MakeScanningTags(label):
     t = []
-    maybe_hypen = '-' if label != 'latest' else ''
+    maybe_hyphen = '-' if label != 'latest' else ''
     for gcr_prefix, gcr_suffix in SCANNING_PREFIXES:
       t.append(
           "'{gcrprefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:{label}'"
@@ -84,26 +84,25 @@ def generate(is_hotfix=False, is_test=False):
               label=label,
           )
       )
-      if not is_hotfix:
-        t.append(
-            "'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:$TAG_NAME{maybe_hypen}{label}'"
-            .format(
-                gcr_prefix=gcr_prefix,
-                gcrio_project=GCRIO_PROJECT,
-                gcrio_suffix=gcr_suffix,
-                rebrand_name=REBRAND_NAME,
-                maybe_hypen=maybe_hypen,
-                label=label,
-            )
-        )
       t.append(
-          "'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:$TAG_NAME{maybe_hypen}{label}-$_DATE'"
+          "'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:$TAG_NAME{maybe_hyphen}{label}'"
           .format(
               gcr_prefix=gcr_prefix,
               gcrio_project=GCRIO_PROJECT,
               gcrio_suffix=gcr_suffix,
               rebrand_name=REBRAND_NAME,
-              maybe_hypen=maybe_hypen,
+              maybe_hyphen=maybe_hyphen,
+              label=label,
+          )
+      )
+      t.append(
+          "'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:$TAG_NAME{maybe_hyphen}{label}-$_DATE'"
+          .format(
+              gcr_prefix=gcr_prefix,
+              gcrio_project=GCRIO_PROJECT,
+              gcrio_suffix=gcr_suffix,
+              rebrand_name=REBRAND_NAME,
+              maybe_hyphen=maybe_hyphen,
               label=label,
           )
       )
@@ -112,7 +111,7 @@ def generate(is_hotfix=False, is_test=False):
   def MakeGcrTags(
       label_without_tag,
       label_with_tag,
-      maybe_hypen,
+      maybe_hyphen,
       include_old_name=True,
       include_rebrand_name=True,
   ):
@@ -129,26 +128,25 @@ def generate(is_hotfix=False, is_test=False):
                 label=label_without_tag,
             )
         )
-        if not is_hotfix:
-          t.append(
-              "'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{old_name}:$TAG_NAME{maybe_hypen}{label}'"
-              .format(
-                  gcr_prefix=gcr_prefix,
-                  gcrio_project=GCRIO_PROJECT,
-                  old_name=OLD_NAME,
-                  gcrio_suffix=gcr_suffix,
-                  maybe_hypen=maybe_hypen,
-                  label=label_with_tag,
-              )
-          )
         t.append(
-            "'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{old_name}:$TAG_NAME{maybe_hypen}{label}-$_DATE'"
+            "'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{old_name}:$TAG_NAME{maybe_hyphen}{label}'"
             .format(
                 gcr_prefix=gcr_prefix,
                 gcrio_project=GCRIO_PROJECT,
                 old_name=OLD_NAME,
                 gcrio_suffix=gcr_suffix,
-                maybe_hypen=maybe_hypen,
+                maybe_hyphen=maybe_hyphen,
+                label=label_with_tag,
+            )
+        )
+        t.append(
+            "'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{old_name}:$TAG_NAME{maybe_hyphen}{label}-$_DATE'"
+            .format(
+                gcr_prefix=gcr_prefix,
+                gcrio_project=GCRIO_PROJECT,
+                old_name=OLD_NAME,
+                gcrio_suffix=gcr_suffix,
+                maybe_hyphen=maybe_hyphen,
                 label=label_with_tag,
             )
         )
@@ -163,26 +161,25 @@ def generate(is_hotfix=False, is_test=False):
                 label=label_without_tag,
             )
         )
-        if not is_hotfix:
-          t.append(
-              "'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:$TAG_NAME{maybe_hypen}{label}'"
-              .format(
-                  gcr_prefix=gcr_prefix,
-                  gcrio_project=GCRIO_PROJECT,
-                  rebrand_name=REBRAND_NAME,
-                  gcrio_suffix=gcr_suffix,
-                  maybe_hypen=maybe_hypen,
-                  label=label_with_tag,
-              )
-          )
         t.append(
-            "'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:$TAG_NAME{maybe_hypen}{label}-$_DATE'"
+            "'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:$TAG_NAME{maybe_hyphen}{label}'"
             .format(
                 gcr_prefix=gcr_prefix,
                 gcrio_project=GCRIO_PROJECT,
                 rebrand_name=REBRAND_NAME,
                 gcrio_suffix=gcr_suffix,
-                maybe_hypen=maybe_hypen,
+                maybe_hyphen=maybe_hyphen,
+                label=label_with_tag,
+            )
+        )
+        t.append(
+            "'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:$TAG_NAME{maybe_hyphen}{label}-$_DATE'"
+            .format(
+                gcr_prefix=gcr_prefix,
+                gcrio_project=GCRIO_PROJECT,
+                rebrand_name=REBRAND_NAME,
+                gcrio_suffix=gcr_suffix,
+                maybe_hyphen=maybe_hyphen,
                 label=label_with_tag,
             )
         )
@@ -198,10 +195,10 @@ def generate(is_hotfix=False, is_test=False):
     label_name = LABEL_FOR_IMAGE[i]
     label_without_tag = label_name
     label_with_tag = label_name
-    maybe_hypen = '-'
+    maybe_hyphen = '-'
     if i == 'default':
       label_without_tag = 'latest'
-      maybe_hypen = ''
+      maybe_hyphen = ''
 
     # Make dockerhub tags for i
     tags[i].append(
@@ -211,30 +208,19 @@ def generate(is_hotfix=False, is_test=False):
             label=label_without_tag,
         )
     )
-    if is_hotfix:
-      tags[i].append(
-          "'{dockerhub_prefix}/{old_name}:$TAG_NAME{maybe_hypen}{label}-$_DATE'"
-          .format(
-              dockerhub_prefix=DOCKERHUB_PREFIX,
-              old_name=OLD_NAME,
-              maybe_hypen=maybe_hypen,
-              label=label_with_tag,
-          )
-      )
-    else:
-      tags[i].append(
-          "'{dockerhub_prefix}/{old_name}:$TAG_NAME{maybe_hypen}{label}'"
-          .format(
-              dockerhub_prefix=DOCKERHUB_PREFIX,
-              old_name=OLD_NAME,
-              maybe_hypen=maybe_hypen,
-              label=label_with_tag,
-          )
-      )
+    tags[i].append(
+        "'{dockerhub_prefix}/{old_name}:$TAG_NAME{maybe_hyphen}{label}'"
+        .format(
+            dockerhub_prefix=DOCKERHUB_PREFIX,
+            old_name=OLD_NAME,
+            maybe_hyphen=maybe_hyphen,
+            label=label_with_tag,
+        )
+    )
     # Make gcr tags for i
     if i not in MULTI_ARCH:
       tags[i].extend(
-          MakeGcrTags(label_without_tag, label_with_tag, maybe_hypen)
+          MakeGcrTags(label_without_tag, label_with_tag, maybe_hyphen)
       )
     else:
       # old gcr tags go into tags
@@ -242,7 +228,7 @@ def generate(is_hotfix=False, is_test=False):
           MakeGcrTags(
               label_without_tag,
               label_with_tag,
-              maybe_hypen,
+              maybe_hyphen,
               include_rebrand_name=False,
           )
       )
@@ -251,7 +237,7 @@ def generate(is_hotfix=False, is_test=False):
           MakeGcrTags(
               label_without_tag,
               label_with_tag,
-              maybe_hypen,
+              maybe_hyphen,
               include_old_name=False,
           )
       )
@@ -408,10 +394,6 @@ def main():
         workspace_dir,
         'third_party/gcloud_cli/external/cloud_sdk_docker/cloudbuild.yaml',
     )
-    hotfix_yaml_file = os.path.join(
-        workspace_dir,
-        'third_party/gcloud_cli/external/cloud_sdk_docker/cloudbuild-hotfix.yaml',
-    )
     test_yaml_file = os.path.join(
         workspace_dir,
         'third_party/gcloud_cli/external/cloud_sdk_docker/cloudbuild_test.yaml',
@@ -419,29 +401,20 @@ def main():
 
     # Generate cloudbuild.yaml
     with open(yaml_file, 'w') as f:
-      f.write(generate(is_hotfix=False, is_test=False) + '\n')
-
-    # Generate cloudbuild-hotfix.yaml
-    with open(hotfix_yaml_file, 'w') as f:
-      f.write(
-          '# IT IS A HOTFIX\n' + generate(is_hotfix=True, is_test=False) + '\n'
-      )
+      f.write(generate(is_test=False) + '\n')
 
     # Generate cloudbuild_test.yaml
     with open(test_yaml_file, 'w') as f:
       f.write(
-          '# IT IS A TEST\n' + generate(is_hotfix=False, is_test=True) + '\n'
+          '# IT IS A TEST\n' + generate(is_test=True) + '\n'
       )
 
     print('Successfully updated all cloudbuild yaml files.')
   else:
-    is_hotfix = 'is_hotfix' in sys.argv
     is_test = 'is_test' in sys.argv
-    if is_hotfix:
-      print('# IT IS A HOTFIX')
-    elif is_test:
+    if is_test:
       print('# IT IS A TEST')
-    print(generate(is_hotfix=is_hotfix, is_test=is_test))
+    print(generate(is_test=is_test))
 
 
 if __name__ == '__main__':
