@@ -37,7 +37,7 @@ steps:
   waitFor: ['multi_arch_step2']
 {SCANNINGSTEPS}
 {MULTIARCH_BUILDSTEPS}
-{TAG_AMD64_STEPS}
+{TAG_AMD64_STEPS}{EMULATOR_TEST_STEPS}
 {DOCKER_LOGIN_STEP}
 {DOCKER_PUSHSTEPS}
 {IMAGES_SECTION}
@@ -376,15 +376,36 @@ def generate(is_test=False):
         CiQA9btlfpg/kWmwXQvrNXtkVpu2tDdD2VOi1FYd3mmjCUGaK4YSNwC8sn1MepjracHAg8VAQEWm
         s26BTGccqD1NTS83DGFdY9moRGhSPm4WJKCg2tTQKYeTfdqUjjM="""
 
+  emulator_test_steps = ''
+  if is_test:
+    emulator_test_steps = """
+- name: 'google/cloud-sdk:emulators'
+  id: test_emulators
+  entrypoint: 'bash'
+  args: ['./emulators/test-all-emulators.sh']
+  waitFor: ['tag_amd64_emulators']
+- name: 'google/cloud-sdk:latest'
+  id: test_latest
+  entrypoint: 'bash'
+  args: ['./test-all-emulators-latest.sh']
+  waitFor: ['tag_amd64_default']
+- name: 'google/cloud-sdk:debian_component_based'
+  id: test_debian_component_based
+  entrypoint: 'bash'
+  args: ['-c', 'cd debian_component_based && ./test-dcb-emulators.sh']
+  waitFor: ['tag_amd64_debian_component_based']"""
+
   return MAIN_TEMPLATE.format(
       SCANNINGSTEPS=scanning_steps,
       MULTIARCH_BUILDSTEPS=multi_arch_build_steps,
       TAG_AMD64_STEPS=tag_amd64_steps,
+      EMULATOR_TEST_STEPS=emulator_test_steps,
       DOCKER_LOGIN_STEP=docker_login_step,
       DOCKER_PUSHSTEPS=docker_push_steps,
       IMAGES_SECTION=images_section,
       SECRETS_SECTION=secrets_section,
   )
+
 
 
 def main():
