@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Checking gsutil version" 
+echo "Checking gsutil version"
 gsutil version
 
 echo "Checking kpt version"
@@ -28,5 +28,4 @@ echo "Checking kubectl version"
 kubectl version
 
 echo "Checking the emulators"
-./test-all-emulators.sh
-
+./test-dcb-emulators.sh
