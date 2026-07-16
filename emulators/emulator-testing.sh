@@ -1,20 +1,24 @@
 #!/bin/bash
 
-apt-get update && apt-get install -y lsof
+EMULATOR_NAME="$1"
+echo "=== Testing emulator: ${EMULATOR_NAME} ==="
 
 # Start the server in the background
-gcloud beta emulators $1 start --host-port=0.0.0.0:8085 --project=blah &
+gcloud beta emulators ${EMULATOR_NAME} start --host-port=0.0.0.0:8085 --project=blah &
+EMULATOR_PID=$!
 
-# Wait a few seconds for the server to start
-sleep 10
+# Poll for up to 30 seconds for the port to open
+for i in {1..30}; do
+  if (echo > /dev/tcp/127.0.0.1/8085) 2>/dev/null; then
+    echo "Server for ${EMULATOR_NAME} started successfully (exiting with code 0)"
+    kill $EMULATOR_PID 2>/dev/null || kill -9 $EMULATOR_PID 2>/dev/null
+    sleep 2
+    exit 0
+  fi
+  sleep 1
+done
 
-# Check if the server is listening on the port
-if lsof -i :8085 > /dev/null; then
-  echo "Server started successfully (exiting with code 0)"
-  kill -9 $(lsof -t -i :8085)
-  exit 0
-else
-  echo "Server failed to start"
-  exit 1
-fi
-
+echo "Server for ${EMULATOR_NAME} failed to start within 30 seconds"
+kill $EMULATOR_PID 2>/dev/null || kill -9 $EMULATOR_PID 2>/dev/null
+sleep 2
+exit 1

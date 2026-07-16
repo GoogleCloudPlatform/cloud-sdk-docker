@@ -1,43 +1,33 @@
-
 #!/bin/bash
 
-./emulator-testing.sh pubsub
-if [ $? -ne 0 ]; then 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    echo "Pub/sub emulator failed to execute."
-    exit 1  
-
-fi
-
-./emulator-testing.sh datastore
-if [ $? -ne 0 ]; then 
-
-    echo "Datastore emulator failed to execute."
-    exit 1  
-
-fi
-
-./emulator-testing.sh firestore
+"${SCRIPT_DIR}/emulator-testing.sh" pubsub
 if [ $? -ne 0 ]; then
+    echo "Pub/sub emulator failed to execute."
+    exit 1
+fi
 
+"${SCRIPT_DIR}/emulator-testing.sh" datastore
+if [ $? -ne 0 ]; then
+    echo "Datastore emulator failed to execute."
+    exit 1
+fi
+
+"${SCRIPT_DIR}/emulator-testing.sh" firestore
+if [ $? -ne 0 ]; then
     echo "Firestore emulator failed to execute."
     exit 1
-
 fi
 
-./emulator-testing.sh spanner
-if [ $? -ne 0 ]; then 
-
-    echo "Spanner emulator failed to execute."
-    exit 1  
-
-fi
-
-./emulator-testing.sh bigtable
+"${SCRIPT_DIR}/emulator-testing.sh" spanner
 if [ $? -ne 0 ]; then
+    echo "Spanner emulator failed to execute."
+    exit 1
+fi
 
+"${SCRIPT_DIR}/emulator-testing.sh" bigtable
+if [ $? -ne 0 ]; then
     echo "Bigtable emulator failed to execute."
     exit 1
-
 fi
-
