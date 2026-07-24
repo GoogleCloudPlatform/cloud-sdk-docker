@@ -28,5 +28,6 @@ RUN /google-cloud-sdk/install.sh --bash-completion=false --path-update=true --us
 	python3 --version && \
 	rm -rf /google-cloud-sdk/.install/.backup
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
+RUN gcloud auth configure-docker --quiet --include-artifact-registry
 VOLUME ["/root/.config", "/root/.kube"]
 RUN gcloud config set metrics/environment docker_image_debian_component_based
