@@ -14,7 +14,6 @@ RUN cat /tmp/additional_components
 RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch; fi;
 
 RUN ARCH=`cat /tmp/arch` && \
-    mkdir -p /usr/share/man/man1/ && \
     apt-get update && \
     apt-get -qqy upgrade && \
     apt-get -y install --no-install-recommends \
