@@ -30,7 +30,6 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy --no-ins
         google-cloud-cli-bigtable-emulator=${CLOUD_SDK_VERSION}-0 \
         google-cloud-cli-firestore-emulator=${CLOUD_SDK_VERSION}-0 \
         google-cloud-cli-cbt=${CLOUD_SDK_VERSION}-0 \
-        google-cloud-cli-kpt=${CLOUD_SDK_VERSION}-0 \
         google-cloud-cli-local-extract=${CLOUD_SDK_VERSION}-0 \
         google-cloud-cli-gke-gcloud-auth-plugin=${CLOUD_SDK_VERSION}-0 \
         kubectl

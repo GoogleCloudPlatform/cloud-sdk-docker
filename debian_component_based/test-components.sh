@@ -3,9 +3,6 @@
 echo "Checking gsutil version"
 gsutil version
 
-echo "Checking kpt version"
-kpt version
-
 echo "Checking local-extract version"
 local-extract --version
 

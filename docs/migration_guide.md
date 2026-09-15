@@ -33,7 +33,7 @@ Run the following `docker run` command to make the `:stable` image match the
 
 ```none
 docker run -e APT_PACKAGES='curl python3-crcmod lsb-release openssh-client git make gnupg' \
--e COMPONENTS='google-cloud-cli-datastore-emulator google-cloud-cli-pubsub-emulator google-cloud-cli-bigtable-emulator google-cloud-cli-firestore-emulator google-cloud-cli-spanner-emulator google-cloud-cli-cbt google-cloud-cli-kpt google-cloud-cli-local-extract google-cloud-cli-gke-gcloud-auth-plugin kubectl' \
+-e COMPONENTS='google-cloud-cli-datastore-emulator google-cloud-cli-pubsub-emulator google-cloud-cli-bigtable-emulator google-cloud-cli-firestore-emulator google-cloud-cli-spanner-emulator google-cloud-cli-cbt google-cloud-cli-local-extract google-cloud-cli-gke-gcloud-auth-plugin kubectl' \
 gcr.io/google.com/cloudsdktool/google-cloud-cli:stable gcloud version
 ```
 
@@ -126,7 +126,6 @@ To convert the `:stable` image into the `:latest` image, do the following:
           google-cloud-cli-firestore-emulator=${CLOUD_SDK_VERSION}-0 \
           google-cloud-cli-spanner-emulator=${CLOUD_SDK_VERSION}-0 \
           google-cloud-cli-cbt=${CLOUD_SDK_VERSION}-0 \
-          google-cloud-cli-kpt=${CLOUD_SDK_VERSION}-0 \
           google-cloud-cli-local-extract=${CLOUD_SDK_VERSION}-0 \
           google-cloud-cli-gke-gcloud-auth-plugin=${CLOUD_SDK_VERSION}-0 \
           kubectl

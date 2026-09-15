@@ -113,11 +113,11 @@ additional components during runtime:
 *   `gcloud` components by using the `COMPONENTS` environment variable.
 *   apt-packages by using the `APT_PACKAGES` environment variable.
 
-For example, if you want to install the `cbt` and `kpt` components at runtime,
-you can run the following command:
+For example, if you want to install the `cbt` and `local-extract` components at
+runtime, you can run the following command:
 
 ```none
-docker run -e COMPONENTS='google-cloud-cli-cbt google-cloud-cli-kpt' \
+docker run -e COMPONENTS='google-cloud-cli-cbt google-cloud-cli-local-extract' \
 gcr.io/google.com/cloudsdktool/google-cloud-cli:stable gcloud version
 ```
 
