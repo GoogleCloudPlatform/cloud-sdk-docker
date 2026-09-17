@@ -4,7 +4,7 @@ ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH=/google-cloud-sdk/bin:$PATH
 RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
-RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy --no-install-recommends \
+RUN apt-get update -qqy && apt-get dist-upgrade -qqy && apt-get install -qqy --no-install-recommends \
         curl \
         gcc \
         python3-dev \
@@ -15,7 +15,8 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy --no-ins
         openssh-client \
         git \
         gnupg \
-        openjdk-21-jre-headless
+        openjdk-21-jre-headless && \
+    rm -rf /var/lib/apt/lists/*
 RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch; fi;
 RUN ARCH=`cat /tmp/arch` && curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
     tar xzf google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \

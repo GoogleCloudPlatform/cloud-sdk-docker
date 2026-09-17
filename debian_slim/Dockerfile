@@ -4,7 +4,7 @@ ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
 ARG INSTALL_COMPONENTS
-RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy --no-install-recommends \
+RUN apt-get update -qqy && apt-get dist-upgrade -qqy && apt-get install -qqy --no-install-recommends \
         curl \
         gcc \
         python3-dev \
@@ -27,6 +27,7 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy --no-ins
     python3 --version && \
     gsutil version -l && \
     bq version && \
-    gcloud-crc32c /usr/bin/gcloud
+    gcloud-crc32c /usr/bin/gcloud && \
+    rm -rf /var/lib/apt/lists/*
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config"]

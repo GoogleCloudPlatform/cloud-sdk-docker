@@ -4,7 +4,7 @@ ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
 
-RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy --no-install-recommends \
+RUN apt-get update -qqy && apt-get dist-upgrade -qqy && apt-get install -qqy --no-install-recommends \
         curl \
         python3-dev \
         python3-crcmod \
@@ -32,8 +32,9 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy --no-ins
         google-cloud-cli-cbt=${CLOUD_SDK_VERSION}-0 \
         google-cloud-cli-local-extract=${CLOUD_SDK_VERSION}-0 \
         google-cloud-cli-gke-gcloud-auth-plugin=${CLOUD_SDK_VERSION}-0 \
-        kubectl
-RUN if [ `uname -m` = 'x86_64' ]; then apt-get install -y --no-install-recommends google-cloud-cli-spanner-emulator=${CLOUD_SDK_VERSION}-0; fi;
+        kubectl && \
+    if [ `uname -m` = 'x86_64' ]; then apt-get install -y --no-install-recommends google-cloud-cli-spanner-emulator=${CLOUD_SDK_VERSION}-0; fi && \
+    rm -rf /var/lib/apt/lists/*
 RUN gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment docker_image_latest && \

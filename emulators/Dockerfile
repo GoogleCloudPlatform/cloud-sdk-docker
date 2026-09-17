@@ -15,7 +15,7 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
 
 RUN ARCH=`cat /tmp/arch` && \
     apt-get update && \
-    apt-get -qqy upgrade && \
+    apt-get dist-upgrade -qqy && \
     apt-get -y install --no-install-recommends \
         curl \
         python3 \
@@ -32,4 +32,4 @@ RUN ARCH=`cat /tmp/arch` && \
     python3 --version && \
     rm -rf /google-cloud-sdk/.install/.backup/ && \
     find /google-cloud-sdk/ -name "__pycache__" -type d  | xargs -n 1 rm -rf && \
-    rm -rf /var/lib/apt/lists tmp/*
+    rm -rf /var/lib/apt/lists/* tmp/*

@@ -4,7 +4,7 @@ ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ARG INSTALL_COMPONENTS
 
-RUN apt-get update -qqy && apt-get -qqy upgrade && \
+RUN apt-get update -qqy && apt-get dist-upgrade -qqy && \
     apt-get install -qqy \
         curl \
         ca-certificates \
@@ -18,7 +18,8 @@ RUN apt-get update -qqy && apt-get -qqy upgrade && \
     apt-get install -y --no-install-recommends google-cloud-cli=${CLOUD_SDK_VERSION}-0 $INSTALL_COMPONENTS &&\
     rm -rf /root/.cache/pip/ && \
     find /usr/lib/google-cloud-sdk -name '*.pyc' -delete && \
-    find /usr/lib/google-cloud-sdk -name '*__pycache__*' -delete
+    find /usr/lib/google-cloud-sdk -name '*__pycache__*' -delete && \
+    rm -rf /var/lib/apt/lists/*
 FROM debian:trixie-slim AS runtime_image
 COPY --from=build_image /usr/lib/google-cloud-sdk /usr/lib/google-cloud-sdk
 
@@ -26,10 +27,12 @@ ENV PATH=$PATH:/usr/lib/google-cloud-sdk/bin
 # Create a non-root user
 RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
-RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch && \
-    apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy \
+RUN apt-get update -qqy && apt-get dist-upgrade -qqy && \
+    if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch && \
+    apt-get install -qqy --no-install-recommends \
         python3-dev \
-        python3-crcmod; fi;
+        python3-crcmod; fi && \
+    rm -rf /var/lib/apt/lists/*
 RUN gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment docker_image_stable && \
