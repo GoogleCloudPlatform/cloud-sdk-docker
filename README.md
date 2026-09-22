@@ -15,7 +15,7 @@ or Alpine image. The Google Cloud CLI Docker Images enable the usage of gcloud
 as well as its bundled components without having to manually install gcloud in
 your local machine.
 
-## Package retention policy
+## ⚠️ Package retention policy ⚠️
 
 All Google Cloud CLI Docker image repositories enforce automated retention
 policies:
