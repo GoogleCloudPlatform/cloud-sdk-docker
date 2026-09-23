@@ -15,7 +15,7 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
         git \
         gnupg \
     && \
-    pip3 install --no-cache-dir crcmod pyOpenSSL==26.0.0 grpcio==1.83.0 && \
+    pip3 install --no-cache-dir crcmod pyOpenSSL==26.0.0 grpcio==1.84.0 && \
     if [ -z "$CLOUD_SDK_VERSION" ]; then \
         SDK_URL="https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-${ARCH}.tar.gz"; \
         SDK_TAR="google-cloud-cli-linux-${ARCH}.tar.gz"; \
