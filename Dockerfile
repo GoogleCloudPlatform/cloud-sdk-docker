@@ -42,4 +42,5 @@ RUN gcloud config set core/disable_usage_reporting true && \
     python3 --version && \
     kubectl version --client
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
+RUN gcloud auth configure-docker --quiet --include-artifact-registry
 VOLUME ["/root/.config", "/root/.kube"]
