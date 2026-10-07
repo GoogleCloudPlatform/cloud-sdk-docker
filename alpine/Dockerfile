@@ -1,11 +1,14 @@
 ARG FINAL_STAGE=prod
-FROM python:3.14-alpine3.23 AS prod
+FROM alpine:3.23 AS prod
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH=/google-cloud-sdk/bin:$PATH
-ENV CLOUDSDK_PYTHON_SITEPACKAGES=1
 RUN addgroup -g 1000 -S cloudsdk && \
     adduser -u 1000 -S cloudsdk -G cloudsdk
+# The image ships the musl bundled Python (bundled-python3-alpine component,
+# installed to platform/bundledpythonunixmusl) instead of a system Python.
+# A system python3 is only installed temporarily to bootstrap
+# `gcloud components install` and is removed in the same layer.
 RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch; fi; \
     ARCH=`cat /tmp/arch` && apk --no-cache upgrade && apk --no-cache add \
         curl \
@@ -15,7 +18,7 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
         git \
         gnupg \
     && \
-    pip3 install --no-cache-dir crcmod pyOpenSSL==26.0.0 grpcio==1.84.0 && \
+    apk --no-cache add --virtual .bootstrap-python python3 && \
     if [ -z "$CLOUD_SDK_VERSION" ]; then \
         SDK_URL="https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-${ARCH}.tar.gz"; \
         SDK_TAR="google-cloud-cli-linux-${ARCH}.tar.gz"; \
@@ -27,11 +30,14 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
     tar xzf "${SDK_TAR}" && \
     rm "${SDK_TAR}" && \
     rm -rf /google-cloud-sdk/platform/bundledpythonunix && \
+    PYTHONDONTWRITEBYTECODE=1 CLOUDSDK_PYTHON=python3 gcloud components install bundled-python3-alpine --quiet --no-compile-python && \
+    apk del .bootstrap-python && \
+    ! command -v python3 && \
     gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment docker_image_alpine && \
     gcloud info && \
-    python3 --version && \
+    /google-cloud-sdk/platform/bundledpythonunixmusl/bin/python3 --version && \
     gsutil version -l && \
     bq version && \
     gcloud-crc32c /google-cloud-sdk/bin/gcloud

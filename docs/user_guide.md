@@ -153,6 +153,11 @@ For example, to add `kubectl` and `app-engine-java` components:
 For Alpine based images, you must install dependencies of additional components
 manually.
 
+Alpine-based images run gcloud with a bundled Python located at
+`/google-cloud-sdk/platform/bundledpythonunixmusl/bin/python3` and do not
+include a system `python3`. If your workflow requires a system Python, install
+it with `apk add python3`.
+
 ## Troubleshooting
 
 ### Failed to fetch <image-tag> error
