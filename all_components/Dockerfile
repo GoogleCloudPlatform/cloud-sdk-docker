@@ -17,7 +17,7 @@ RUN apt-get update -qqy && apt-get dist-upgrade -qqy && apt-get install -qqy --n
         git \
         make \
         gnupg \
-        openjdk-21-jre-headless && \
+        openjdk-25-jre-headless && \
     rm -rf /var/lib/apt/lists/*
 RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch; fi; \
     ARCH=`cat /tmp/arch` && \

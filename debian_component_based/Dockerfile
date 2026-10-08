@@ -15,7 +15,7 @@ RUN apt-get update -qqy && apt-get dist-upgrade -qqy && apt-get install -qqy --n
         openssh-client \
         git \
         gnupg \
-        openjdk-21-jre-headless && \
+        openjdk-25-jre-headless && \
     rm -rf /var/lib/apt/lists/*
 RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch; fi;
 RUN ARCH=`cat /tmp/arch` && curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
