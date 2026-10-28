@@ -5,11 +5,9 @@ RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
 ARG INSTALL_COMPONENTS
 RUN apt-get update -qqy && apt-get dist-upgrade -qqy && apt-get install -qqy --no-install-recommends \
+        ca-certificates \
         curl \
-        gcc \
-        python3-dev \
-        python3-crcmod \
-        python3-pip \
+        media-types \
         apt-transport-https \
         lsb-release \
         openssh-client \
@@ -24,8 +22,11 @@ RUN apt-get update -qqy && apt-get dist-upgrade -qqy && apt-get install -qqy --n
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment docker_image_slim && \
     gcloud info && \
-    python3 --version && \
-    gsutil version -l && \
+    GCLOUD_PYTHON="$(gcloud info --format='value(basic.python_location)')" && \
+    echo "gcloud uses Python at $GCLOUD_PYTHON" && \
+    test "$GCLOUD_PYTHON" = /usr/lib/google-cloud-sdk/platform/bundledpythonunix/bin/python3 && \
+    ! command -v python3 && \
+    gsutil version -l | grep -q "compiled crcmod: True" && \
     bq version && \
     gcloud-crc32c /usr/bin/gcloud && \
     rm -rf /var/lib/apt/lists/*

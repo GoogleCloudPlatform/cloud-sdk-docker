@@ -6,11 +6,9 @@ ENV PATH=/google-cloud-sdk/bin:$PATH
 RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
 RUN apt-get update -qqy && apt-get dist-upgrade -qqy && apt-get install -qqy --no-install-recommends \
+        ca-certificates \
         curl \
-        gcc \
-        python3-dev \
-        python3-pip \
-        python3-crcmod \
+        media-types \
         apt-transport-https \
         lsb-release \
         openssh-client \
@@ -33,7 +31,11 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
     rm "${SDK_TAR}" && \
     COMPONENTS="$(/google-cloud-sdk/bin/gcloud components list --format='value(id)' --filter='is_hidden=false AND state.name!="Not Available"')" && \
     /google-cloud-sdk/install.sh --bash-completion=false --path-update=true --usage-reporting=false --additional-components ${COMPONENTS} && \
-    python3 --version && \
+    GCLOUD_PYTHON="$(gcloud info --format='value(basic.python_location)')" && \
+    echo "gcloud uses Python at $GCLOUD_PYTHON" && \
+    test "$GCLOUD_PYTHON" = /google-cloud-sdk/platform/bundledpythonunix/bin/python3 && \
+    ! command -v python3 && \
+    gsutil version -l | grep -q "compiled crcmod: True" && \
     rm -rf /google-cloud-sdk/.install/.backup
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config", "/root/.kube"]

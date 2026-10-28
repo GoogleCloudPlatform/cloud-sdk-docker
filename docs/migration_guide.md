@@ -32,7 +32,7 @@ Run the following `docker run` command to make the `:stable` image match the
 `:latest` image at runtime:
 
 ```none
-docker run -e APT_PACKAGES='curl python3-crcmod lsb-release openssh-client git make gnupg' \
+docker run -e APT_PACKAGES='curl lsb-release openssh-client git make gnupg' \
 -e COMPONENTS='google-cloud-cli-datastore-emulator google-cloud-cli-pubsub-emulator google-cloud-cli-bigtable-emulator google-cloud-cli-firestore-emulator google-cloud-cli-spanner-emulator google-cloud-cli-cbt google-cloud-cli-local-extract google-cloud-cli-gke-gcloud-auth-plugin kubectl' \
 gcr.io/google.com/cloudsdktool/google-cloud-cli:stable gcloud version
 ```
@@ -47,7 +47,7 @@ You can run the following command to make the `:stable` image match the
 `:emulators` image at runtime:
 
 ```none
-docker run -e APT_PACKAGES='curl python3-crcmod lsb-release gnupg bash' \
+docker run -e APT_PACKAGES='curl lsb-release gnupg bash' \
 -e COMPONENTS='google-cloud-cli-datastore-emulator google-cloud-cli-pubsub-emulator google-cloud-cli-bigtable-emulator google-cloud-cli-firestore-emulator google-cloud-cli-spanner-emulator' \
 gcr.io/google.com/cloudsdktool/google-cloud-cli:stable gcloud version
 ```
@@ -58,7 +58,7 @@ You can make the `:stable` image match the `:slim` image at runtime by running
 the following `docker run` command:
 
 ```none
-docker run -e APT_PACKAGES='curl gcc python3-crcmod python3-pip lsb-release openssh-client git gnupg' \
+docker run -e APT_PACKAGES='curl lsb-release openssh-client git gnupg' \
 gcr.io/google.com/cloudsdktool/google-cloud-cli:stable gcloud version
 ```
 
@@ -109,7 +109,6 @@ To convert the `:stable` image into the `:latest` image, do the following:
 
     RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy --no-install-recommends \
           curl \
-          python3-crcmod \
           lsb-release \
           openssh-client \
           git \
@@ -148,7 +147,6 @@ To convert the `:stable` image into the `:emulators` image, do the following:
 
     RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy --no-install-recommends \
           curl \
-          python3-crcmod \
           lsb-release \
           gnupg \
           bash && \
@@ -185,10 +183,6 @@ To convert the `:stable` image into the `:slim` image, do the following:
 
     RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy --no-install-recommends \
           curl \
-          gcc \
-          python3-dev \
-          python3-crcmod \
-          python3-pip \
           lsb-release \
           openssh-client \
           git \

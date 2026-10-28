@@ -65,11 +65,10 @@ install one of the following options:
     gcloud versions, use the `:VERSION` tag.
 
 *   `:slim`, `:VERSION-slim`: Similar to stable but includes additional packages
-    like `curl`, `gcc`, `python3-dev`, `python3-pip`, `apt-transport-https`,
-    `lsb-release`, `openssh-client`, `git`, and `gnupg`. This image is built
-    upon the latest Debian (`trixie-slim`) base image. This image supports both
-    `linux/amd` and `linux/arm` platforms. To install specific gcloud versions,
-    use the `:VERSION-slim` tag.
+    like `curl`, `apt-transport-https`, `lsb-release`, `openssh-client`, `git`,
+    and `gnupg`. This image is built upon the latest Debian (`trixie-slim`) base
+    image. This image supports both `linux/amd` and `linux/arm` platforms. To
+    install specific gcloud versions, use the `:VERSION-slim` tag.
 
 *   `:debian_component_based`, `:VERSION-debian_component_based`: Similar to
     stable, with additional components pre-installed. The image is built upon

@@ -5,15 +5,13 @@ RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
 
 RUN apt-get update -qqy && apt-get dist-upgrade -qqy && apt-get install -qqy --no-install-recommends \
+        ca-certificates \
         curl \
-        python3-dev \
-        python3-crcmod \
+        media-types \
         apt-transport-https \
         lsb-release \
         openssh-client \
         git \
-	gcc \
-	python3-pip \
         gnupg && \
     export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
     echo "deb [signed-by=/etc/apt/keyrings/google-cloud-cli.gpg] https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" \
@@ -39,7 +37,11 @@ RUN gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment docker_image_latest && \
     gcloud info && \
-    python3 --version && \
+    GCLOUD_PYTHON="$(gcloud info --format='value(basic.python_location)')" && \
+    echo "gcloud uses Python at $GCLOUD_PYTHON" && \
+    test "$GCLOUD_PYTHON" = /usr/lib/google-cloud-sdk/platform/bundledpythonunix/bin/python3 && \
+    ! command -v python3 && \
+    gsutil version -l | grep -q "compiled crcmod: True" && \
     kubectl version --client
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
 VOLUME ["/root/.config", "/root/.kube"]

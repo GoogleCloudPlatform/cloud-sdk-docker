@@ -153,10 +153,14 @@ For example, to add `kubectl` and `app-engine-java` components:
 For Alpine based images, you must install dependencies of additional components
 manually.
 
-Alpine-based images run gcloud with a bundled Python located at
-`/google-cloud-sdk/platform/bundledpythonunixmusl/bin/python3` and do not
-include a system `python3`. If your workflow requires a system Python, install
-it with `apk add python3`.
+All images run gcloud with a bundled Python and do not include a system
+`python3`. The bundled Python is located at
+`/google-cloud-sdk/platform/bundledpythonunixmusl/bin/python3` in Alpine-based
+images, `/usr/lib/google-cloud-sdk/platform/bundledpythonunix/bin/python3` in
+deb-based images (`:stable`, `:latest`, `:slim`) and
+`/google-cloud-sdk/platform/bundledpythonunix/bin/python3` in the others. If
+your workflow requires a system Python, install it with `apk add python3`
+(Alpine) or `apt-get install python3` (Debian).
 
 ## Troubleshooting
 

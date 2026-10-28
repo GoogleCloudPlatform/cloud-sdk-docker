@@ -28,17 +28,17 @@ ENV PATH=$PATH:/usr/lib/google-cloud-sdk/bin
 RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
 RUN apt-get update -qqy && apt-get dist-upgrade -qqy && \
-    if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -n "arm" > /tmp/arch && \
-    apt-get install -qqy --no-install-recommends \
-        python3-dev \
-        python3-crcmod; fi && \
+    apt-get install -qqy --no-install-recommends media-types && \
     rm -rf /var/lib/apt/lists/*
 RUN gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment docker_image_stable && \
     gcloud info && \
-    (if [ `uname -m` != 'x86_64' ]; then python3 --version; fi) && \
-    gsutil version -l && \
+    GCLOUD_PYTHON="$(gcloud info --format='value(basic.python_location)')" && \
+    echo "gcloud uses Python at $GCLOUD_PYTHON" && \
+    test "$GCLOUD_PYTHON" = /usr/lib/google-cloud-sdk/platform/bundledpythonunix/bin/python3 && \
+    ! command -v python3 && \
+    gsutil version -l | grep -q "compiled crcmod: True" && \
     bq version && \
     gcloud-crc32c /usr/lib/google-cloud-sdk/bin/gcloud && \
     rm -rf /root/.cache/pip/ && \

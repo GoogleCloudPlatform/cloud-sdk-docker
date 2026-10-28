@@ -17,9 +17,9 @@ RUN ARCH=`cat /tmp/arch` && \
     apt-get update && \
     apt-get dist-upgrade -qqy && \
     apt-get -y install --no-install-recommends \
+        ca-certificates \
         curl \
-        python3 \
-        python3-crcmod \
+        media-types \
         bash \
         openjdk-25-jre-headless && \
     curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
@@ -29,7 +29,11 @@ RUN ARCH=`cat /tmp/arch` && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment docker_image_emulator && \
     gcloud components install beta `cat /tmp/additional_components` && \
-    python3 --version && \
+    GCLOUD_PYTHON="$(gcloud info --format='value(basic.python_location)')" && \
+    echo "gcloud uses Python at $GCLOUD_PYTHON" && \
+    test "$GCLOUD_PYTHON" = /google-cloud-sdk/platform/bundledpythonunix/bin/python3 && \
+    ! command -v python3 && \
+    gsutil version -l | grep -q "compiled crcmod: True" && \
     rm -rf /google-cloud-sdk/.install/.backup/ && \
     find /google-cloud-sdk/ -name "__pycache__" -type d  | xargs -n 1 rm -rf && \
     rm -rf /var/lib/apt/lists/* tmp/*
