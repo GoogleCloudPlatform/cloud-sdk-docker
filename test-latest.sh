@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 echo "Checking gsutil version"
 gsutil version
@@ -22,7 +23,7 @@ echo "Checking crc checksum for gcloud"
 gcloud-crc32c /usr/bin/gcloud
 
 echo "Checking kubectl version"
-kubectl version
+kubectl version --client
 
 echo "Checking the emulators"
 ./test-all-emulators-latest.sh

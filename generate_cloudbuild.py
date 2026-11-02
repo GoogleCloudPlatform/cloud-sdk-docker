@@ -387,12 +387,12 @@ def generate(is_test=False):
 - name: 'google/cloud-sdk:latest'
   id: test_latest
   entrypoint: 'bash'
-  args: ['./test-all-emulators-latest.sh']
+  args: ['./test-latest.sh']
   waitFor: ['tag_amd64_default']
 - name: 'google/cloud-sdk:debian_component_based'
   id: test_debian_component_based
   entrypoint: 'bash'
-  args: ['-c', 'cd debian_component_based && ./test-dcb-emulators.sh']
+  args: ['-c', 'cd debian_component_based && ./test-components.sh']
   waitFor: ['tag_amd64_debian_component_based']"""
 
   return MAIN_TEMPLATE.format(
