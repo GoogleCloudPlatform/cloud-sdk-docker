@@ -84,9 +84,9 @@ By default, the stable images (`:stable` and `:VERSION-stable`) have no
 components installed other than `bq` and `gsutil`. To install additional
 components for the stable image, do one of the following:
 
-*   **Building your own image based upon the `:stable` image Dockerfile**:
-    Install packages that are not directly available through `apt-get` (e.g.,
-    Docker engine).
+*   **Building your own image based upon the `:stable` image Dockerfile**: Bake
+    additional components into an image that you host, so they aren't installed
+    each time a container starts.
 *   **Installing additional packages or components at runtime**: Customize your
     image without hosting it.
 
@@ -95,15 +95,23 @@ components for the stable image, do one of the following:
 To build your own image with additional components from `:stable`, you can clone
 this repository and use the `docker build` command to build the `:stable` Docker
 image from the Dockerfile with the `INSTALL_COMPONENTS` argument. For example,
-to add `datastore-emulator` components:
+to add the `cbt` component:
 
 ```none
 # clone the GitHub docker directory
 $ git clone https://github.com/GoogleCloudPlatform/cloud-sdk-docker.git
 $ docker build --build-arg CLOUD_SDK_VERSION=<release_version> \
-   --build-arg INSTALL_COMPONENTS="google-cloud-cli-datastore-emulator=<release_version>-0" \
-   -t my-cloud-sdk-docker:stable .
+   --build-arg INSTALL_COMPONENTS="google-cloud-cli-cbt=<release_version>-0" \
+   -t my-cloud-sdk-docker:stable ./stable
 ```
+
+Note: The `:stable` multi-stage `Dockerfile` copies only
+`/usr/lib/google-cloud-sdk` from the build stage into the runtime image.
+Components that depend on additional OS-level packages (such as a Java runtime
+for `google-cloud-cli-datastore-emulator` or `google-cloud-cli-pubsub-emulator`)
+should instead be installed at runtime via `COMPONENTS` or in a custom
+`Dockerfile` built
+`FROM gcr.io/google.com/cloudsdktool/google-cloud-cli:stable`.
 
 #### Installing additional packages or components at runtime
 
@@ -140,7 +148,7 @@ For example, to add `kubectl` and `app-engine-java` components:
 
     ```dockerfile
     FROM gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine
-    RUN apk --update add gcompat openjdk8-jre
+    RUN apk --update add openjdk8-jre
     RUN gcloud components install app-engine-java kubectl
     ```
 
@@ -164,12 +172,13 @@ your workflow requires a system Python, install it with `apk add python3`
 
 ## Troubleshooting
 
-### Failed to fetch <image-tag> error
+### Failed to fetch `<image-tag>` error
 
 If you get a `failed to fetch <image-tag>` error while trying to pull an image,
 you are most likely trying to fetch an image tag that has been deprecated and
-removed. Check the [Docker image options](#docker-image-options) for supported
-tags.
+removed. Check the
+[Docker image options](https://cloud.google.com/sdk/docs/downloads-docker#docker_image_options)
+for supported tags.
 
 ### Vulnerabilities in the images
 

@@ -16,7 +16,6 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
         libc6-compat \
         openssh-client \
         git \
-        gnupg \
     && \
     apk --no-cache add --virtual .bootstrap-python python3 && \
     if [ -z "$CLOUD_SDK_VERSION" ]; then \
@@ -40,7 +39,7 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
     GCLOUD_PYTHON="$(gcloud info --format='value(basic.python_location)')" && \
     echo "gcloud uses Python at $GCLOUD_PYTHON" && \
     test "$GCLOUD_PYTHON" = /google-cloud-sdk/platform/bundledpythonunixmusl/bin/python3 && \
-    gsutil version -l && \
+    gsutil version -l | grep -q "compiled crcmod: True" && \
     bq version && \
     gcloud-crc32c /google-cloud-sdk/bin/gcloud
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh

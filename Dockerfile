@@ -8,13 +8,11 @@ RUN apt-get update -qqy && apt-get dist-upgrade -qqy && apt-get install -qqy --n
         ca-certificates \
         curl \
         media-types \
-        apt-transport-https \
         lsb-release \
         openssh-client \
         git \
         gnupg && \
-    export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
-    echo "deb [signed-by=/etc/apt/keyrings/google-cloud-cli.gpg] https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" \
+    echo "deb [signed-by=/etc/apt/keyrings/google-cloud-cli.gpg] https://packages.cloud.google.com/apt cloud-sdk main" \
         > /etc/apt/sources.list.d/google-cloud-sdk.list && \
     curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg  | gpg --dearmor -o /etc/apt/keyrings/google-cloud-cli.gpg && \
     apt-get update && \

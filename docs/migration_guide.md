@@ -32,14 +32,10 @@ Run the following `docker run` command to make the `:stable` image match the
 `:latest` image at runtime:
 
 ```none
-docker run -e APT_PACKAGES='curl lsb-release openssh-client git make gnupg' \
+docker run -e APT_PACKAGES='curl lsb-release openssh-client git gnupg' \
 -e COMPONENTS='google-cloud-cli-datastore-emulator google-cloud-cli-pubsub-emulator google-cloud-cli-bigtable-emulator google-cloud-cli-firestore-emulator google-cloud-cli-spanner-emulator google-cloud-cli-cbt google-cloud-cli-local-extract google-cloud-cli-gke-gcloud-auth-plugin kubectl' \
 gcr.io/google.com/cloudsdktool/google-cloud-cli:stable gcloud version
 ```
-
-Note: If you need a Docker engine installed in your Docker image, you can extend
-your `:stable` image by using it in a Dockerfile. For steps, see
-[Extending the `:stable` base image by building your own Dockerfile](#extending-the-stable-base-image-by-building-your-own-dockerfile).
 
 #### Customize to the `:emulators` Image
 
@@ -47,7 +43,7 @@ You can run the following command to make the `:stable` image match the
 `:emulators` image at runtime:
 
 ```none
-docker run -e APT_PACKAGES='curl lsb-release gnupg bash' \
+docker run -e APT_PACKAGES='curl' \
 -e COMPONENTS='google-cloud-cli-datastore-emulator google-cloud-cli-pubsub-emulator google-cloud-cli-bigtable-emulator google-cloud-cli-firestore-emulator google-cloud-cli-spanner-emulator' \
 gcr.io/google.com/cloudsdktool/google-cloud-cli:stable gcloud version
 ```
@@ -61,10 +57,6 @@ the following `docker run` command:
 docker run -e APT_PACKAGES='curl lsb-release openssh-client git gnupg' \
 gcr.io/google.com/cloudsdktool/google-cloud-cli:stable gcloud version
 ```
-
-Note: If you need a docker engine installed in your Docker image, you can build
-your image from the pre-existing Dockerfiles. For steps, see
-[Extending the `:stable` base image by building your own Dockerfile](#extending-the-stable-base-image-by-building-your-own-dockerfile).
 
 #### Extending the `:stable` image with build configuration
 
@@ -101,23 +93,16 @@ To convert the `:stable` image into the `:latest` image, do the following:
     components and packages:
 
     ```dockerfile
-    FROM docker:27.1.1 as static-docker-source
-
     FROM gcr.io/google.com/cloudsdktool/google-cloud-cli:stable
-    COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
-    COPY --from=static-docker-source /usr/local/libexec/docker/cli-plugins/docker-buildx /usr/local/libexec/docker/cli-plugins/docker-buildx
 
     RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy --no-install-recommends \
           curl \
-          lsb-release \
+          ca-certificates \
           openssh-client \
           git \
-          make \
           gnupg && \
-       export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
        export CLOUD_SDK_VERSION=$(gcloud version | grep "Google Cloud SDK" | grep -oE '[^ ]+$') && \
-       echo "deb https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" > /etc/apt/sources.list.d/google-cloud-sdk.list && \
-       curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
+       echo "deb [signed-by=/etc/apt/keyrings/google-cloud-cli.gpg] https://packages.cloud.google.com/apt cloud-sdk main" > /etc/apt/sources.list.d/google-cloud-sdk.list && \
        apt-get update && \
        apt-get install -y --no-install-recommends google-cloud-cli-datastore-emulator=${CLOUD_SDK_VERSION}-0 \
           google-cloud-cli-pubsub-emulator=${CLOUD_SDK_VERSION}-0 \
@@ -147,13 +132,9 @@ To convert the `:stable` image into the `:emulators` image, do the following:
 
     RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy --no-install-recommends \
           curl \
-          lsb-release \
-          gnupg \
-          bash && \
-       export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
+          ca-certificates && \
        export CLOUD_SDK_VERSION=$(gcloud version | grep "Google Cloud SDK" | grep -oE '[^ ]+$') && \
-       echo "deb https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" > /etc/apt/sources.list.d/google-cloud-sdk.list && \
-       curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
+       echo "deb [signed-by=/etc/apt/keyrings/google-cloud-cli.gpg] https://packages.cloud.google.com/apt cloud-sdk main" > /etc/apt/sources.list.d/google-cloud-sdk.list && \
        apt-get update && \
        apt-get install -y --no-install-recommends google-cloud-cli-datastore-emulator=${CLOUD_SDK_VERSION}-0 \
           google-cloud-cli-pubsub-emulator=${CLOUD_SDK_VERSION}-0 \
@@ -175,11 +156,7 @@ To convert the `:stable` image into the `:slim` image, do the following:
 1.  Create a Dockerfile using `:stable` as base image:
 
     ```dockerfile
-    FROM docker:27.1.1 as static-docker-source
-
     FROM gcr.io/google.com/cloudsdktool/google-cloud-cli:stable
-    COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
-    COPY --from=static-docker-source /usr/local/libexec/docker/cli-plugins/docker-buildx /usr/local/libexec/docker/cli-plugins/docker-buildx
 
     RUN apt-get update -qqy && apt-get -qqy upgrade && apt-get install -qqy --no-install-recommends \
           curl \
