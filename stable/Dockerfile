@@ -4,16 +4,14 @@ ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ARG INSTALL_COMPONENTS
 
-RUN apt-get update -qqy && apt-get dist-upgrade -qqy && \
-    apt-get install -qqy \
+RUN apt-get update -qqy && \
+    apt-get install -qqy --no-install-recommends \
         curl \
         ca-certificates \
-        lsb-release \
         gnupg && \
-    export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
-    echo "deb [signed-by=/etc/apt/keyrings/google-cloud-cli.gpg] https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" \
+    echo "deb [signed-by=/etc/apt/keyrings/google-cloud-cli.gpg] https://packages.cloud.google.com/apt cloud-sdk main" \
         > /etc/apt/sources.list.d/google-cloud-sdk.list && \
-    curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg  | gpg --dearmor -o /etc/apt/keyrings/google-cloud-cli.gpg && \
+    curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /etc/apt/keyrings/google-cloud-cli.gpg && \
     apt-get update && \
     apt-get install -y --no-install-recommends google-cloud-cli=${CLOUD_SDK_VERSION}-0 $INSTALL_COMPONENTS &&\
     rm -rf /root/.cache/pip/ && \
@@ -21,7 +19,10 @@ RUN apt-get update -qqy && apt-get dist-upgrade -qqy && \
     find /usr/lib/google-cloud-sdk -name '*__pycache__*' -delete && \
     rm -rf /var/lib/apt/lists/*
 FROM debian:trixie-slim AS runtime_image
+ARG CLOUD_SDK_VERSION
+ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 COPY --from=build_image /usr/lib/google-cloud-sdk /usr/lib/google-cloud-sdk
+COPY --from=build_image /etc/apt/keyrings/google-cloud-cli.gpg /etc/apt/keyrings/google-cloud-cli.gpg
 
 ENV PATH=$PATH:/usr/lib/google-cloud-sdk/bin
 # Create a non-root user

@@ -9,18 +9,21 @@ if [ ! -z "$APT_PACKAGES" ]; then
 fi
 
 if [ ! -z "$COMPONENTS" ]; then
-      components=$(echo $COMPONENTS | tr " " "\n")
-      apt-get update && apt-get install -qqy \
-                curl \
-                lsb-release \
-                gnupg
-      export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
-      echo "deb [signed-by=/etc/apt/keyrings/google-cloud-cli.gpg] https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" \
+      version="${CLOUD_SDK_VERSION:-$(cat /usr/lib/google-cloud-sdk/VERSION 2>/dev/null || true)}"
+      apt-get update && apt-get install -qqy --no-install-recommends ca-certificates
+      echo "deb [signed-by=/etc/apt/keyrings/google-cloud-cli.gpg] https://packages.cloud.google.com/apt cloud-sdk main" \
           > /etc/apt/sources.list.d/google-cloud-sdk.list
-      curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg  | gpg --dearmor -o /etc/apt/keyrings/google-cloud-cli.gpg
+
+      components="$COMPONENTS"
+      if [ ! -z "$version" ]; then
+            printf 'Package: google-cloud-cli*\nPin: version %s-0\nPin-Priority: 1001\n\nPackage: kubectl\nPin: version 1:%s-0\nPin-Priority: 1001\n' \
+                "$version" "$version" > /etc/apt/preferences.d/google-cloud-cli
+            components="google-cloud-cli=${version}-0 ${components}"
+      fi
 
       echo $components
-      apt-get update && apt-get install -qqy $components
+      apt-get update
+      apt-get install -qqy --no-install-recommends $components
 fi
 
 # Execute the main command
