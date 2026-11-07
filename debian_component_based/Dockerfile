@@ -29,5 +29,6 @@ RUN ADDITIONAL_COMPONENTS="app-engine-java app-engine-python alpha beta pubsub-e
 	gsutil version -l | grep -q "compiled crcmod: True" && \
 	rm -rf /google-cloud-sdk/.install/.backup
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
+RUN gcloud auth configure-docker --quiet --include-artifact-registry
 VOLUME ["/root/.config", "/root/.kube"]
 RUN gcloud config set metrics/environment docker_image_debian_component_based
