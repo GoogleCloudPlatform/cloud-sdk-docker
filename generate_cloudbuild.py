@@ -69,7 +69,22 @@ LABEL_FOR_IMAGE={
     }
 
 
-def generate(is_test=False):
+def generate(is_test=False, is_rebuild=False):
+  """Returns a Cloud Build config.
+
+  Args:
+    is_test: When true, builds the images locally for testing without pushing.
+    is_rebuild: When true, the config rebuilds an already released version: it
+      pushes only the floating and dated tags to Artifact Registry. The version
+      tags stay on the release image, and Docker Hub is skipped.
+
+  Raises:
+    ValueError: Both is_test and is_rebuild are true.
+  """
+  if is_test and is_rebuild:
+    raise ValueError('is_test and is_rebuild are mutually exclusive.')
+  include_version_tags = not is_rebuild
+
   def MakeScanningTags(label):
     t = []
     maybe_hyphen = '-' if label != 'latest' else ''
@@ -84,17 +99,18 @@ def generate(is_test=False):
               label=label,
           )
       )
-      t.append(
-          "'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:$TAG_NAME{maybe_hyphen}{label}'"
-          .format(
-              gcr_prefix=gcr_prefix,
-              gcrio_project=GCRIO_PROJECT,
-              gcrio_suffix=gcr_suffix,
-              rebrand_name=REBRAND_NAME,
-              maybe_hyphen=maybe_hyphen,
-              label=label,
-          )
-      )
+      if include_version_tags:
+        t.append(
+            "'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:$TAG_NAME{maybe_hyphen}{label}'"
+            .format(
+                gcr_prefix=gcr_prefix,
+                gcrio_project=GCRIO_PROJECT,
+                gcrio_suffix=gcr_suffix,
+                rebrand_name=REBRAND_NAME,
+                maybe_hyphen=maybe_hyphen,
+                label=label,
+            )
+        )
       t.append(
           "'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:$TAG_NAME{maybe_hyphen}{label}-$_DATE'"
           .format(
@@ -128,17 +144,18 @@ def generate(is_test=False):
                 label=label_without_tag,
             )
         )
-        t.append(
-            "'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{old_name}:$TAG_NAME{maybe_hyphen}{label}'"
-            .format(
-                gcr_prefix=gcr_prefix,
-                gcrio_project=GCRIO_PROJECT,
-                old_name=OLD_NAME,
-                gcrio_suffix=gcr_suffix,
-                maybe_hyphen=maybe_hyphen,
-                label=label_with_tag,
-            )
-        )
+        if include_version_tags:
+          t.append(
+              "'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{old_name}:$TAG_NAME{maybe_hyphen}{label}'"
+              .format(
+                  gcr_prefix=gcr_prefix,
+                  gcrio_project=GCRIO_PROJECT,
+                  old_name=OLD_NAME,
+                  gcrio_suffix=gcr_suffix,
+                  maybe_hyphen=maybe_hyphen,
+                  label=label_with_tag,
+              )
+          )
         t.append(
             "'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{old_name}:$TAG_NAME{maybe_hyphen}{label}-$_DATE'"
             .format(
@@ -161,17 +178,18 @@ def generate(is_test=False):
                 label=label_without_tag,
             )
         )
-        t.append(
-            "'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:$TAG_NAME{maybe_hyphen}{label}'"
-            .format(
-                gcr_prefix=gcr_prefix,
-                gcrio_project=GCRIO_PROJECT,
-                rebrand_name=REBRAND_NAME,
-                gcrio_suffix=gcr_suffix,
-                maybe_hyphen=maybe_hyphen,
-                label=label_with_tag,
-            )
-        )
+        if include_version_tags:
+          t.append(
+              "'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:$TAG_NAME{maybe_hyphen}{label}'"
+              .format(
+                  gcr_prefix=gcr_prefix,
+                  gcrio_project=GCRIO_PROJECT,
+                  rebrand_name=REBRAND_NAME,
+                  gcrio_suffix=gcr_suffix,
+                  maybe_hyphen=maybe_hyphen,
+                  label=label_with_tag,
+              )
+          )
         t.append(
             "'{gcr_prefix}/{gcrio_project}/{gcrio_suffix}/{rebrand_name}:$TAG_NAME{maybe_hyphen}{label}-$_DATE'"
             .format(
@@ -200,23 +218,24 @@ def generate(is_test=False):
       label_without_tag = 'latest'
       maybe_hyphen = ''
 
-    # Make dockerhub tags for i
-    tags[i].append(
-        "'{dockerhub_prefix}/{old_name}:{label}'".format(
-            dockerhub_prefix=DOCKERHUB_PREFIX,
-            old_name=OLD_NAME,
-            label=label_without_tag,
-        )
-    )
-    tags[i].append(
-        "'{dockerhub_prefix}/{old_name}:$TAG_NAME{maybe_hyphen}{label}'"
-        .format(
-            dockerhub_prefix=DOCKERHUB_PREFIX,
-            old_name=OLD_NAME,
-            maybe_hyphen=maybe_hyphen,
-            label=label_with_tag,
-        )
-    )
+    # Make dockerhub tags for i. Rebuilds don't go to Docker Hub.
+    if not is_rebuild:
+      tags[i].append(
+          "'{dockerhub_prefix}/{old_name}:{label}'".format(
+              dockerhub_prefix=DOCKERHUB_PREFIX,
+              old_name=OLD_NAME,
+              label=label_without_tag,
+          )
+      )
+      tags[i].append(
+          "'{dockerhub_prefix}/{old_name}:$TAG_NAME{maybe_hyphen}{label}'"
+          .format(
+              dockerhub_prefix=DOCKERHUB_PREFIX,
+              old_name=OLD_NAME,
+              maybe_hyphen=maybe_hyphen,
+              label=label_with_tag,
+          )
+      )
     # Make gcr tags for i
     if i not in MULTI_ARCH:
       tags[i].extend(
@@ -344,7 +363,7 @@ def generate(is_test=False):
           docker_push_steps += push_step.format(tag=tag, build_step='tag_amd64_' + i)
 
   docker_login_step = ''
-  if not is_test:
+  if not is_test and not is_rebuild:
     docker_login_step = """- name: 'gcr.io/cloud-builders/docker'
   id: dockersecret
   entrypoint: 'bash'
@@ -368,7 +387,7 @@ def generate(is_test=False):
     images_section = 'images:\n' + all_gcr_io_tags_for_images
 
   secrets_section = ''
-  if not is_test:
+  if not is_test and not is_rebuild:
     secrets_section = """secrets:
 - kmsKeyName: projects/google.com:cloudsdktool/locations/global/keyRings/docker/cryptoKeys/dockerhub-password
   secretEnv:
@@ -407,7 +426,6 @@ def generate(is_test=False):
   )
 
 
-
 def main():
   workspace_dir = os.environ.get('BUILD_WORKSPACE_DIRECTORY')
   if workspace_dir:
@@ -419,10 +437,18 @@ def main():
         workspace_dir,
         'third_party/gcloud_cli/external/cloud_sdk_docker/cloudbuild_test.yaml',
     )
+    rebuild_yaml_file = os.path.join(
+        workspace_dir,
+        'third_party/gcloud_cli/external/cloud_sdk_docker/cloudbuild_rebuild.yaml',
+    )
 
     # Generate cloudbuild.yaml
     with open(yaml_file, 'w') as f:
       f.write(generate(is_test=False) + '\n')
+
+    # Generate cloudbuild_rebuild.yaml
+    with open(rebuild_yaml_file, 'w') as f:
+      f.write(generate(is_rebuild=True) + '\n')
 
     # Generate cloudbuild_test.yaml
     with open(test_yaml_file, 'w') as f:
@@ -435,7 +461,7 @@ def main():
     is_test = 'is_test' in sys.argv
     if is_test:
       print('# IT IS A TEST')
-    print(generate(is_test=is_test))
+    print(generate(is_test=is_test, is_rebuild='is_rebuild' in sys.argv))
 
 
 if __name__ == '__main__':
