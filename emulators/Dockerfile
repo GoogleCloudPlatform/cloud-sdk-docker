@@ -1,5 +1,4 @@
-# debian12 is used instead of alpine because the cloud bigtable emulator requires glibc.
-FROM debian:trixie-slim
+FROM us-docker.pkg.dev/gke-release/gcr.io/debian-base:trixie-v1.0.1-gke.0
 
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
@@ -18,9 +17,11 @@ RUN ADDITIONAL_COMPONENTS="cloud-datastore-emulator cloud-firestore-emulator pub
     apt-get update && \
     apt-get dist-upgrade -qqy && \
     apt-get -y install --no-install-recommends \
+        bash \
         ca-certificates \
         curl \
         media-types \
+        tzdata \
         openjdk-25-jre-headless && \
     curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \
     tar xzf google-cloud-cli-${CLOUD_SDK_VERSION}-linux-${ARCH}.tar.gz && \

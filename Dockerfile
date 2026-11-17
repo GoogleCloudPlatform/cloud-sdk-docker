@@ -1,13 +1,15 @@
-FROM debian:trixie-slim
+FROM us-docker.pkg.dev/gke-release/gcr.io/debian-base:trixie-v1.0.1-gke.0
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
 
 RUN apt-get update -qqy && apt-get dist-upgrade -qqy && apt-get install -qqy --no-install-recommends \
+        bash \
         ca-certificates \
         curl \
         media-types \
+        tzdata \
         lsb-release \
         openssh-client \
         git \

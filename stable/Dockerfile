@@ -1,4 +1,4 @@
-FROM debian:trixie-slim AS build_image
+FROM us-docker.pkg.dev/gke-release/gcr.io/debian-base:trixie-v1.0.1-gke.0 AS build_image
 
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
@@ -18,7 +18,7 @@ RUN apt-get update -qqy && \
     find /usr/lib/google-cloud-sdk -name '*.pyc' -delete && \
     find /usr/lib/google-cloud-sdk -name '*__pycache__*' -delete && \
     rm -rf /var/lib/apt/lists/*
-FROM debian:trixie-slim AS runtime_image
+FROM us-docker.pkg.dev/gke-release/gcr.io/debian-base:trixie-v1.0.1-gke.0 AS runtime_image
 ARG CLOUD_SDK_VERSION
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 COPY --from=build_image /usr/lib/google-cloud-sdk /usr/lib/google-cloud-sdk
@@ -29,7 +29,7 @@ ENV PATH=$PATH:/usr/lib/google-cloud-sdk/bin
 RUN groupadd -r -g 1000 cloudsdk && \
     useradd -r -u 1000 -m -s /bin/bash -g cloudsdk cloudsdk
 RUN apt-get update -qqy && apt-get dist-upgrade -qqy && \
-    apt-get install -qqy --no-install-recommends media-types && \
+    apt-get install -qqy --no-install-recommends bash media-types tzdata && \
     rm -rf /var/lib/apt/lists/*
 RUN gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
