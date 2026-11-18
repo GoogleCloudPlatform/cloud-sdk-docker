@@ -412,7 +412,12 @@ def generate(is_test=False, is_rebuild=False):
   id: test_debian_component_based
   entrypoint: 'bash'
   args: ['-c', 'cd debian_component_based && ./test-components.sh']
-  waitFor: ['tag_amd64_debian_component_based']"""
+  waitFor: ['tag_amd64_debian_component_based']
+- name: 'google/cloud-sdk:alpine'
+  id: test_alpine_gocloud
+  entrypoint: 'bash'
+  args: ['./test-gocloud.sh']
+  waitFor: ['tag_amd64_alpine']"""
 
   return MAIN_TEMPLATE.format(
       SCANNINGSTEPS=scanning_steps,
