@@ -28,25 +28,25 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
     tar xzf "${SDK_TAR}" && \
     rm "${SDK_TAR}" && \
     COMPONENTS="$(/google-cloud-sdk/bin/gcloud components list --format='value(id)' --filter='is_hidden=false AND state.name!="Not Available"')" && \
-    # gcloud-go is hidden (so not listed above) and Linux x86_64 only; install it
-    # explicitly so it is covered by vulnerability scanning.
-    if [ "$ARCH" = 'x86_64' ]; then COMPONENTS="${COMPONENTS} gcloud-go"; fi && \
+    # The filter above skips hidden gcloud-go, which this image includes for
+    # vulnerability scanning.
+    COMPONENTS="${COMPONENTS} gcloud-go" && \
     /google-cloud-sdk/install.sh --bash-completion=false --path-update=true --usage-reporting=false --additional-components ${COMPONENTS} && \
     GCLOUD_PYTHON="$(gcloud info --format='value(basic.python_location)')" && \
     echo "gcloud uses Python at $GCLOUD_PYTHON" && \
     test "$GCLOUD_PYTHON" = /google-cloud-sdk/platform/bundledpythonunix/bin/python3 && \
     ! command -v python3 && \
-    # Smoke test that gcloud routes through gocloud (python parser/runner is the
-    # only supported mode). The env vars are deliberately inline rather than ENV
-    # so the image default stays pure Python. Requires CLOUD_SDK_VERSION >= 592.0.0.
-    if [ "$ARCH" = 'x86_64' ]; then \
-        GOCLOUD_CHECK="$(CLOUDSDK_USE_GOCLOUD=1 GOCLOUD_PARSER=python GOCLOUD_RUNNER=python \
-            gcloud meta test --check-from-gocloud 2>&1)"; \
-        case "$GOCLOUD_CHECK" in \
-            *"CLOUDSDK_FROM_GOCLOUD: 1"*) ;; \
-            *) echo "gcloud did not route through gocloud: $GOCLOUD_CHECK"; false ;; \
-        esac; \
+    # gocloud supports only the python parser and runner. Keep these env vars
+    # inline rather than in ENV so the image defaults to Python. This check
+    # requires CLOUD_SDK_VERSION >= 594.0.0.
+    if ! GOCLOUD_CHECK="$(CLOUDSDK_USE_GOCLOUD=1 GOCLOUD_PARSER=python GOCLOUD_RUNNER=python \
+        gcloud meta test --check-from-gocloud 2>&1)"; then \
+        echo "$GOCLOUD_CHECK"; false; \
     fi && \
+    case "$GOCLOUD_CHECK" in \
+        *"CLOUDSDK_FROM_GOCLOUD: 1"*) ;; \
+        *) echo "gcloud did not route through gocloud: $GOCLOUD_CHECK"; false ;; \
+    esac && \
     gsutil version -l | grep -q "compiled crcmod: True" && \
     rm -rf /google-cloud-sdk/.install/.backup
 RUN git config --system credential.'https://source.developers.google.com'.helper gcloud.sh
