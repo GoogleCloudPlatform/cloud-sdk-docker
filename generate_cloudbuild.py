@@ -42,6 +42,8 @@ steps:
 {DOCKER_PUSHSTEPS}
 {IMAGES_SECTION}
 {SECRETS_SECTION}
+substitutions:
+  _ALPINE_REGISTRY: 'docker.io/library'
 timeout: 7200s"""
 
 GCRIO_PROJECT='google.com/cloudsdktool'
@@ -313,13 +315,19 @@ def generate(is_test=False, is_rebuild=False):
       )
     else:
       target_flag = "'--target', 'prod', " if i == 'alpine' else ''
+      alpine_registry_flag = (
+          "'--build-arg', 'ALPINE_REGISTRY=$_ALPINE_REGISTRY', "
+          if i == 'alpine'
+          else ''
+      )
       step_template = """- name: 'gcr.io/cloud-builders/docker'
   id: tag_amd64_{image_name}
-  args: ['buildx', 'build', {target_flag}'--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '--platform', 'linux/amd64', '--load', {tags}, '{image_directory}']
+  args: ['buildx', 'build', {target_flag}'--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', {alpine_registry_flag}'--platform', 'linux/amd64', '--load', {tags}, '{image_directory}']
   waitFor: ['multi_arch_{image_name}']"""
       output_step = step_template.format(
           image_name=i,
           target_flag=target_flag,
+          alpine_registry_flag=alpine_registry_flag,
           tags=', '.join(["'-t', {}".format(t) for t in tags[i]]),
           image_directory=image_directory,
       )
@@ -335,13 +343,19 @@ def generate(is_test=False, is_rebuild=False):
       image_directory = '.'
 
     target_flag = "'--target', 'prod', " if i == 'alpine' else ''
+    alpine_registry_flag = (
+        "'--build-arg', 'ALPINE_REGISTRY=$_ALPINE_REGISTRY', "
+        if i == 'alpine'
+        else ''
+    )
     multi_arch_build_step = """- name: 'gcr.io/cloud-builders/docker'
   id: multi_arch_{image_name}
-  args: ['buildx', 'build', {target_flag}'--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '--platform', 'linux/arm64,linux/amd64', {tags}, '{image_directory}'{push_flag}]
+  args: ['buildx', 'build', {target_flag}'--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', {alpine_registry_flag}'--platform', 'linux/arm64,linux/amd64', {tags}, '{image_directory}'{push_flag}]
   waitFor: ['multi_arch_step3']"""
     output_build_step = multi_arch_build_step.format(
         image_name=i,
         target_flag=target_flag,
+        alpine_registry_flag=alpine_registry_flag,
         tags=', '.join(["'-t', {}".format(t) for t in multi_arch_tags[i]]),
         image_directory=image_directory,
         push_flag=push_flag,

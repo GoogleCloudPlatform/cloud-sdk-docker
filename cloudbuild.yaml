@@ -45,7 +45,7 @@ steps:
   waitFor: ['multi_arch_step3']
 - name: 'gcr.io/cloud-builders/docker'
   id: multi_arch_alpine
-  args: ['buildx', 'build', '--target', 'prod', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '--platform', 'linux/arm64,linux/amd64', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:alpine', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:$TAG_NAME-alpine', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:$TAG_NAME-alpine-$_DATE', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:alpine', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:$TAG_NAME-alpine', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:$TAG_NAME-alpine-$_DATE', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:alpine', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:$TAG_NAME-alpine', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:$TAG_NAME-alpine-$_DATE', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:alpine', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:$TAG_NAME-alpine', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:$TAG_NAME-alpine-$_DATE', 'alpine/', '--push']
+  args: ['buildx', 'build', '--target', 'prod', '--build-arg', 'CLOUD_SDK_VERSION=$_CLI_VERSION', '--build-arg', 'ALPINE_REGISTRY=$_ALPINE_REGISTRY', '--platform', 'linux/arm64,linux/amd64', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:alpine', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:$TAG_NAME-alpine', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/gcr.io/google-cloud-cli:$TAG_NAME-alpine-$_DATE', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:alpine', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:$TAG_NAME-alpine', '-t', 'us-docker.pkg.dev/google.com/cloudsdktool/us.gcr.io/google-cloud-cli:$TAG_NAME-alpine-$_DATE', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:alpine', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:$TAG_NAME-alpine', '-t', 'europe-docker.pkg.dev/google.com/cloudsdktool/eu.gcr.io/google-cloud-cli:$TAG_NAME-alpine-$_DATE', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:alpine', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:$TAG_NAME-alpine', '-t', 'asia-docker.pkg.dev/google.com/cloudsdktool/asia.gcr.io/google-cloud-cli:$TAG_NAME-alpine-$_DATE', 'alpine/', '--push']
   waitFor: ['multi_arch_step3']
 - name: 'gcr.io/cloud-builders/docker'
   id: multi_arch_emulators
@@ -212,4 +212,6 @@ secrets:
     PASSWORD: |
         CiQA9btlfpg/kWmwXQvrNXtkVpu2tDdD2VOi1FYd3mmjCUGaK4YSNwC8sn1MepjracHAg8VAQEWm
         s26BTGccqD1NTS83DGFdY9moRGhSPm4WJKCg2tTQKYeTfdqUjjM=
+substitutions:
+  _ALPINE_REGISTRY: 'docker.io/library'
 timeout: 7200s
