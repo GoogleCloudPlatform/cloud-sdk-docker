@@ -299,7 +299,11 @@ def generate(is_test=False, is_rebuild=False):
       image_directory = '.'
 
     if not is_test:
-      primary_tag = multi_arch_tags[i][0].strip("'")
+      # Pull the dated tag, not the floating tag, so concurrent builds cannot
+      # swap the image mid-run.
+      primary_tag = next(
+          t for t in multi_arch_tags[i] if t.endswith("-$_DATE'")
+      ).strip("'")
       tag_cmds = ' && '.join([
           'docker tag {} {}'.format(primary_tag, t.strip("'")) for t in tags[i]
       ])
